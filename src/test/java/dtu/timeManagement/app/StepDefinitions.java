@@ -14,7 +14,6 @@ public class StepDefinitions {
 	public StepDefinitions(TimeManagementApp timeManagementApp) {
 		this.timeManagementApp = timeManagementApp;
 	}
-
 	@When("I do nothing")
 	public void i_do_nothing() {
 	    timeManagementApp.sendMessage();
