@@ -10,27 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UserSteps {
     private final TimeManagementApp timeManagementApp;
     private User user;
+    private ErrorMessageHolder errorMessageHolder;
 
-    public UserSteps(TimeManagementApp timeManagementApp) {
+    public UserSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder) {
         this.timeManagementApp = timeManagementApp;
+        this.errorMessageHolder = errorMessageHolder;
     }
 
-    /*@Given("there is a user with the name {string} and the initials {string}")
-    public void there_is_a_user_with_the_name_and_the_initials(String name, String initials) {
-
-
-    }
-
-    @When("the user is added to the system")
-    public void the_user_is_added_to_the_system() {
-
-    }
-
-    @Then("there is a user in the system with the initials {string} with the name {string}")
-    public void there_is_a_user_in_the_system_with_the_initials_with_the_name(String initials, String name) {
-
-
-    }*/
 
     @Given("there is a user with the initials {string}")
     public void thereIsAUserWithTheInitials(String initials) {
@@ -39,12 +25,21 @@ public class UserSteps {
 
     @When("the user is added to the system")
     public void theUserIsAddedToTheSystem() {
-        timeManagementApp.addUser(user);
+        try {
+            timeManagementApp.addUser(user);
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Then("there is a user in the system with the initials {string}")
     public void thereIsAUserInTheSystemWithTheInitials(String initials) {
         User returnUser = timeManagementApp.getUser(initials);
         assertEquals(returnUser.getInitial(), initials);
+    }
+
+    @Then("the error message {string} is given")
+    public void the_error_message_is_given(String errorMessage) throws OperationNotAllowedException {
+        assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
     }
 }

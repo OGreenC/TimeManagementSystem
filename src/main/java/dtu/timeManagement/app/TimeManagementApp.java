@@ -10,8 +10,12 @@ public class TimeManagementApp {
         projects.add(new Project());
     }
 
-    public void addUser(User user) {
+    public void addUser(User user) throws OperationNotAllowedException {
+        if (getUser(user.getInitial())!=null) {
+            throw new OperationNotAllowedException("The user with the given initials is already in the system");
+        }
         users.add(user);
+
     }
 
     public ArrayList<User> getUsers() {
