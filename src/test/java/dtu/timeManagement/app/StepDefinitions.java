@@ -1,4 +1,4 @@
-package dtu.calculator;
+package dtu.timeManagement.app;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

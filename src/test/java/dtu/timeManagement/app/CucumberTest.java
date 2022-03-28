@@ -1,4 +1,4 @@
-package dtu.calculator;
+package dtu.timeManagement.app;
 
 
 import org.junit.runner.RunWith;
