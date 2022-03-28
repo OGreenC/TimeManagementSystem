@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 public class ProjectSteps {
     TimeManagementApp timeManagementApp;
     String year;
+    Project project;
+
     public ProjectSteps(TimeManagementApp timeManagementApp) {
         this.timeManagementApp = timeManagementApp;
     }
@@ -31,13 +33,13 @@ public class ProjectSteps {
     @Then("there is a project with ID {string}")
     public void there_is_a_project_with_id(String id) {
         //get the project id from timemanagementapp
-        Project project = timeManagementApp.getProject(id);
-        assertTrue(id.equals(project.getID()));
+        this.project = timeManagementApp.getProject(id);
+        assertEquals(id, project.getID());
     }
 
     @Then("there are no activities in the project")
     public void there_are_no_activities_in_the_project() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        assertEquals(project.getActivities().size(), 0);
+
     }
 }

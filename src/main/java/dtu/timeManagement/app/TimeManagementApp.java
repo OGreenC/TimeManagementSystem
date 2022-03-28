@@ -33,6 +33,6 @@ public class TimeManagementApp {
     }
 
     public Project getProject(String ID) {
-        return projects.stream().filter(p -> p.getID() == ID).findAny().orElse(null);
+        return projects.stream().filter(p -> p.getID().equals(ID)).findAny().orElse(null);
     }
 }
