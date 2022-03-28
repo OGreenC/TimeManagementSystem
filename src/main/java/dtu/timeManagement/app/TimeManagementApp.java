@@ -5,8 +5,12 @@ import java.util.ArrayList;
 public class TimeManagementApp {
     private final ArrayList<User> users = new ArrayList<>();
 
-    public void addUser(User user) {
+    public void addUser(User user) throws OperationNotAllowedException {
+        if (getUser(user.getInitial())!=null) {
+            throw new OperationNotAllowedException("The user with the given initials is already in the system");
+        }
         users.add(user);
+
     }
 
     public ArrayList<User> getUsers() {
