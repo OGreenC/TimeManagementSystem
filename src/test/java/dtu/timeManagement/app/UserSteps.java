@@ -1,5 +1,6 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

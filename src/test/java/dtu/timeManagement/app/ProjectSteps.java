@@ -27,7 +27,7 @@ public class ProjectSteps {
 
     @When("a project is created")
     public void a_project_is_created() {
-        timeManagementApp.createProject();
+        timeManagementApp.createProject(new Project());
     }
 
     @Then("there is a project with ID {string}")
@@ -40,6 +40,32 @@ public class ProjectSteps {
     @Then("there are no activities in the project")
     public void there_are_no_activities_in_the_project() {
         assertEquals(project.getActivities().size(), 0);
-
     }
+
+    @Given("a project is registered in the system")
+    public void a_project_is_registered_in_the_system() {
+        this.project = new Project();
+        timeManagementApp.createProject(project);
+    }
+    @When("the project is renamed to {string}")
+    public void the_project_is_renamed_to(String name) {
+        project.setName(name);
+    }
+    @Then("the project has the name {string}")
+    public void the_project_has_the_name(String name) {
+        assertEquals(name, project.getName());
+    }
+
+    @When("the startDate is set to year {int} month {int} date {int}")
+    public void the_start_date_is_set_to_year_month_date(int y, int mo, int d) {
+        project.setStartDate(y, mo, d);
+    }
+    @Then("the startDate is year {int} month {int} date {int}")
+    public void the_start_date_is_year_month_date(int y, int mo, int d) {
+        assertEquals(project.getStartDate().get(Calendar.YEAR),y);
+        assertEquals(project.getStartDate().get(Calendar.MONTH),mo);
+        assertEquals(project.getStartDate().get(Calendar.DATE),d);
+    }
+
+
 }

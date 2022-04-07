@@ -1,13 +1,15 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+
 import java.util.ArrayList;
 
 public class TimeManagementApp {
     private final ArrayList<User> users = new ArrayList<>();
     private ArrayList<Project> projects = new ArrayList<>();
 
-    public void createProject() {
-        projects.add(new Project());
+    public void createProject(Project p) {
+        projects.add(p);
     }
 
     public void addUser(User user) throws OperationNotAllowedException {

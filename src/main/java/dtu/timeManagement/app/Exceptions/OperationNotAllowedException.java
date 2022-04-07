@@ -1,4 +1,4 @@
-package dtu.timeManagement.app;
+package dtu.timeManagement.app.Exceptions;
 
 public class OperationNotAllowedException extends Exception {
 
