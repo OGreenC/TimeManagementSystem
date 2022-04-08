@@ -18,7 +18,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Load MainScene.fxml
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/dtu/timeManagement/app/presentationLayer/MainScene.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/dtu/timeManagement/app/fxml/MainScene.fxml"));
 		Scene scene = new Scene(loader.load());
 		
 		// Set and show scene on primaryStage
