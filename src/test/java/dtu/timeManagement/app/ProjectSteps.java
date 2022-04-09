@@ -48,8 +48,6 @@ public class ProjectSteps {
         assertEquals(project.getActivities().size(), 0);
     }
 
-
-
     @When("the project is renamed to {string}")
     public void the_project_is_renamed_to(String name) {
         project.setName(name);
@@ -89,10 +87,6 @@ public class ProjectSteps {
     @And("the project has activities")
     public void theProjectHasActivities() {
         assertTrue(project.getActivities().size() > 0);
-    }
-
-    @And("the activities does not exist")
-    public void theActivitiesDoesNotExist() {
     }
 
 
