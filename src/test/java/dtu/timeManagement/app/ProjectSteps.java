@@ -1,37 +1,44 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ProjectSteps {
     TimeManagementApp timeManagementApp;
     String year;
     Project project;
+    private final ErrorMessageHolder errorMessageHolder;
 
-    public ProjectSteps(TimeManagementApp timeManagementApp) {
+    public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder) {
         this.timeManagementApp = timeManagementApp;
+        this.errorMessageHolder = errorMessageHolder;
     }
     @Given("the year is {string}")
     public void the_date_is(String year) {
         this.year = year;
     }
 
-    @When("a project is created")
-    public void a_project_is_created() {
-        timeManagementApp.createProject(new Project());
+    @And("no projects have been created")
+    public void no_projects_have_been_created() {
+        assertEquals(Project.resetSerial(),1);
+    }
+
+    @Given("a project is registered in the system")
+    public void a_project_is_registered_in_the_system() {
+        this.project = new Project();
+        timeManagementApp.createProject(project);
     }
 
     @Then("there is a project with ID {string}")
     public void there_is_a_project_with_id(String id) {
-        //get the project id from timemanagementapp
+        // Get the project by id from TimeManagementApp
         this.project = timeManagementApp.getProject(id);
         assertEquals(id, project.getID());
     }
@@ -41,11 +48,8 @@ public class ProjectSteps {
         assertEquals(project.getActivities().size(), 0);
     }
 
-    @Given("a project is registered in the system")
-    public void a_project_is_registered_in_the_system() {
-        this.project = new Project();
-        timeManagementApp.createProject(project);
-    }
+
+
     @When("the project is renamed to {string}")
     public void the_project_is_renamed_to(String name) {
         project.setName(name);
@@ -67,4 +71,33 @@ public class ProjectSteps {
     }
 
 
+    @When("the project is deleted")
+    public void the_project_is_deleted() {
+        try {
+            assertTrue(timeManagementApp.deleteProject(this.project));
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the project does not exist")
+    public void the_project_does_not_exist() {
+        assertNull(timeManagementApp.getProject(this.project.getID()));
+    }
+
+
+    @And("the project has activities")
+    public void theProjectHasActivities() {
+        assertTrue(project.getActivities().size() > 0);
+    }
+
+    @And("the activities does not exist")
+    public void theActivitiesDoesNotExist() {
+    }
+
+
+    @And("an activity is registered to the project")
+    public void anActivityIsRegisteredToTheProject() {
+        timeManagementApp.createActivity(this.project);
+    }
 }

@@ -2,19 +2,20 @@ package dtu.timeManagement.app;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 public class Project {
     private static int nextSerial = 1;
 
-    private String projectID;
+    private final String projectID;
     private String name;
     private Calendar calendar = Calendar.getInstance();
 
-    private final ArrayList<Activity> activities = new ArrayList<>();
+    private final List<Activity> activities = new ArrayList<>();
 
     public Project() {
         this.projectID = generateID();
+        System.out.println(this.projectID);
     }
 
     public String generateID() {
@@ -23,8 +24,6 @@ public class Project {
         nextSerial++;
         return year + serial;
     }
-
-
 
     public void setName(String name) {
         this.name = name;
@@ -37,7 +36,7 @@ public class Project {
         return projectID;
     }
 
-    public ArrayList<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 
@@ -48,5 +47,14 @@ public class Project {
     public void setStartDate(int y, int mo, int d) {
         System.out.println(y + " " + mo + " " + " " + d);
         this.calendar.set(y, mo, d);
+    }
+
+    public static int resetSerial() {
+        nextSerial = 1;
+        return nextSerial;
+    }
+
+    public void createActivity() {
+        this.activities.add(new Activity());
     }
 }

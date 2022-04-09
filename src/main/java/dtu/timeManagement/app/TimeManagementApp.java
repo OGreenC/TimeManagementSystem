@@ -13,7 +13,7 @@ public class TimeManagementApp {
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
-        if (getUser(user.getInitial())!=null) {
+        if (getUser(user.getInitial()) != null) {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
         }
         users.add(user);
@@ -36,5 +36,17 @@ public class TimeManagementApp {
 
     public Project getProject(String ID) {
         return projects.stream().filter(p -> p.getID().equals(ID)).findAny().orElse(null);
+    }
+
+
+    public boolean deleteProject(Project p) throws OperationNotAllowedException {
+        if (this.projects.remove(p)) {
+            return true;
+        }
+        throw new OperationNotAllowedException("Project does not exists");
+    }
+
+    public void createActivity(Project project) {
+        project.createActivity();
     }
 }
