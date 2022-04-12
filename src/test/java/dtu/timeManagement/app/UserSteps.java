@@ -10,24 +10,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserSteps {
     private final TimeManagementApp timeManagementApp;
-    private User user;
-    private ErrorMessageHolder errorMessageHolder;
+    private UserHelper userHelper;
+    private final ErrorMessageHolder errorMessageHolder;
 
-    public UserSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder) {
+    public UserSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ErrorMessageHolder errorMessageHolder) {
         this.timeManagementApp = timeManagementApp;
+        this.userHelper = userHelper;
         this.errorMessageHolder = errorMessageHolder;
     }
 
 
     @Given("there is a user with the initials {string}")
     public void thereIsAUserWithTheInitials(String initials) {
-        this.user = new User(initials);
+        userHelper.setUser(new User(initials));
     }
 
     @When("the user is added to the system")
     public void theUserIsAddedToTheSystem() {
         try {
-            timeManagementApp.addUser(user);
+            timeManagementApp.addUser(userHelper.getUser());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -35,12 +36,11 @@ public class UserSteps {
 
     @Then("there is a user in the system with the initials {string}")
     public void thereIsAUserInTheSystemWithTheInitials(String initials) {
-        User returnUser = timeManagementApp.getUser(initials);
-        assertEquals(returnUser.getInitial(), initials);
+        assertEquals(timeManagementApp.getUser(initials).getInitial(), initials);
     }
 
     @Then("the error message {string} is given")
-    public void the_error_message_is_given(String errorMessage) throws OperationNotAllowedException {
+    public void the_error_message_is_given(String errorMessage) {
         assertEquals(errorMessage, this.errorMessageHolder.getErrorMessage());
     }
 }

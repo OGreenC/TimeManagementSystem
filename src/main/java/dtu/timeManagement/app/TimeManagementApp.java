@@ -43,10 +43,14 @@ public class TimeManagementApp {
         if (this.projects.remove(p)) {
             return true;
         }
-        throw new OperationNotAllowedException("Project does not exists");
+        throw new OperationNotAllowedException("Project does not exist");
     }
 
     public void createActivity(Project project) {
         project.createActivity();
+    }
+
+    public void deleteAllProjects() {
+        this.projects.clear();
     }
 }

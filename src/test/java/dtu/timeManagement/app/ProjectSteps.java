@@ -15,11 +15,15 @@ public class ProjectSteps {
     String year;
     Project project;
     private final ErrorMessageHolder errorMessageHolder;
+    private UserHelper userHelper;
 
-    public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder) {
+
+    public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder, UserHelper userHelper) {
         this.timeManagementApp = timeManagementApp;
         this.errorMessageHolder = errorMessageHolder;
+        this.userHelper = userHelper;
     }
+
     @Given("the year is {string}")
     public void the_date_is(String year) {
         this.year = year;
@@ -27,7 +31,9 @@ public class ProjectSteps {
 
     @And("no projects have been created")
     public void no_projects_have_been_created() {
-        assertEquals(Project.resetSerial(),1);
+        timeManagementApp.deleteAllProjects();
+        assertEquals(timeManagementApp.getProjects().size(), 0);
+        assertEquals(Project.resetSerial(), 1);
     }
 
     @Given("a project is registered in the system")
@@ -52,6 +58,7 @@ public class ProjectSteps {
     public void the_project_is_renamed_to(String name) {
         project.setName(name);
     }
+
     @Then("the project has the name {string}")
     public void the_project_has_the_name(String name) {
         assertEquals(name, project.getName());
@@ -61,11 +68,12 @@ public class ProjectSteps {
     public void the_start_date_is_set_to_year_month_date(int y, int mo, int d) {
         project.setStartDate(y, mo, d);
     }
+
     @Then("the startDate is year {int} month {int} date {int}")
     public void the_start_date_is_year_month_date(int y, int mo, int d) {
-        assertEquals(project.getStartDate().get(Calendar.YEAR),y);
-        assertEquals(project.getStartDate().get(Calendar.MONTH),mo);
-        assertEquals(project.getStartDate().get(Calendar.DATE),d);
+        assertEquals(project.getStartDate().get(Calendar.YEAR), y);
+        assertEquals(project.getStartDate().get(Calendar.MONTH), mo);
+        assertEquals(project.getStartDate().get(Calendar.DATE), d);
     }
 
 
@@ -93,5 +101,40 @@ public class ProjectSteps {
     @And("an activity is registered to the project")
     public void anActivityIsRegisteredToTheProject() {
         timeManagementApp.createActivity(this.project);
+    }
+
+    @And("the project does not have a project leader assigned")
+    public void theProjectDoesNotHaveAProjectLeaderAssigned() {
+        assertNull(this.project.getProjectLeader());
+    }
+
+
+    @When("the project leader {string} is assigned to the project")
+    public void the_project_leader_is_assigned_to_the_project(String projectLeaderInitials) {
+        assertEquals(this.userHelper.getUser().getInitial(), projectLeaderInitials);
+        try {
+            this.project.setProjectLeader(userHelper.getUser());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the project has the project leader {string} assigned")
+    public void the_project_has_the_project_leader_assigned(String projectLeaderInitials) {
+        assertEquals(this.project.getProjectLeader().getInitial(), projectLeaderInitials);
+    }
+
+    @When("the project leader is removed from the project")
+    public void the_project_leader_is_removed_from_the_project() {
+        try {
+            this.project.removeProjectLeader();
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the project has no project leader")
+    public void the_project_has_no_project_leader() {
+        assertNull(this.project.getProjectLeader());
     }
 }

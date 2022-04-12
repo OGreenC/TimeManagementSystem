@@ -11,7 +11,7 @@ Scenario: Delete a non-existing project
     Given a project is registered in the system
     When the project is deleted
     And the project is deleted
-    Then the error message "Project does not exists" is given
+    Then the error message "Project does not exist" is given
 
 
 
