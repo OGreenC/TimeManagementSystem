@@ -11,22 +11,15 @@ import java.util.Calendar;
 import static org.junit.Assert.*;
 
 public class ProjectSteps {
-    TimeManagementApp timeManagementApp;
-    String year;
-    Project project;
+    private final TimeManagementApp timeManagementApp;
+    private Project project;
     private final ErrorMessageHolder errorMessageHolder;
-    private UserHelper userHelper;
-
+    private final UserHelper userHelper;
 
     public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder, UserHelper userHelper) {
         this.timeManagementApp = timeManagementApp;
         this.errorMessageHolder = errorMessageHolder;
         this.userHelper = userHelper;
-    }
-
-    @Given("the year is {string}")
-    public void the_date_is(String year) {
-        this.year = year;
     }
 
     @And("no projects have been created")
@@ -38,8 +31,7 @@ public class ProjectSteps {
 
     @Given("a project is registered in the system")
     public void a_project_is_registered_in_the_system() {
-        this.project = new Project();
-        timeManagementApp.createProject(project);
+        this.project = timeManagementApp.createProject();
     }
 
     @Then("there is a project with ID {string}")
@@ -136,5 +128,9 @@ public class ProjectSteps {
     @Then("the project has no project leader")
     public void the_project_has_no_project_leader() {
         assertNull(this.project.getProjectLeader());
+    }
+
+    @When("{int} year has passed")
+    public void yearHasPassed(int arg0) {
     }
 }

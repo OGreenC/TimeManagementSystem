@@ -1,13 +1,13 @@
 Feature: Delete Project
-    Description: Delete a project
-    Actor: User
+  Description: Delete a project
+  Actor: User
 
-Scenario: Successfully delete a project
+  Scenario: Successfully delete a project
     Given a project is registered in the system
     When the project is deleted
     Then the project does not exist
 
-Scenario: Delete a non-existing project
+  Scenario: Delete a non-existing project
     Given a project is registered in the system
     When the project is deleted
     And the project is deleted

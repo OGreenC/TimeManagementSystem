@@ -7,9 +7,16 @@ import java.util.ArrayList;
 public class TimeManagementApp {
     private final ArrayList<User> users = new ArrayList<>();
     private ArrayList<Project> projects = new ArrayList<>();
+    private DateServer dateServer = new DateServer();
 
-    public void createProject(Project p) {
+    /**
+     *
+     * @return the created project
+     */
+    public Project createProject() {
+        Project p = new Project(dateServer.getDate());
         projects.add(p);
+        return p;
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
@@ -28,7 +35,6 @@ public class TimeManagementApp {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
 
     }
-
 
     public ArrayList<Project> getProjects() {
         return projects;
@@ -53,4 +59,9 @@ public class TimeManagementApp {
     public void deleteAllProjects() {
         this.projects.clear();
     }
+
+    public void setDateServer(DateServer dateServer) {
+        this.dateServer = dateServer;
+    }
+
 }

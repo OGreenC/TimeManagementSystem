@@ -12,17 +12,19 @@ public class Project {
     private final String projectID;
     private String name;
     private Calendar calendar = Calendar.getInstance();
+    private Calendar dateOfCreation;
 
     private final List<Activity> activities = new ArrayList<>();
     private User projectLeader;
 
-    public Project() {
+    public Project(Calendar date) {
+        this.dateOfCreation = date;
         this.projectID = generateID();
-        System.out.println(this.projectID);
+        System.out.println(projectID);
     }
 
     public String generateID() {
-        int year = Calendar.getInstance().get(Calendar.YEAR) % 100;
+        int year = dateOfCreation.get(Calendar.YEAR) % 100;
         String serial = String.format("%04d", nextSerial);
         nextSerial++;
         return year + serial;

@@ -1,25 +1,25 @@
 Feature: Edit Project Properties
-    Description: Edit project properties
-    Actor: User
+  Description: Edit project properties
+  Actor: User
 
-Scenario: Successfully set project name
+  Scenario: Successfully set project name
     Given a project is registered in the system
     When the project is renamed to "niceProject"
     Then the project has the name "niceProject"
 
-Scenario: Successfully set startDate
+  Scenario: Successfully set startDate
     Given a project is registered in the system
     When the startDate is set to year 2022 month 4 date 20
     Then the startDate is year 2022 month 4 date 20
 
-Scenario: Successfully add project leader to project
+  Scenario: Successfully add project leader to project
     Given a project is registered in the system
     And there is a user with the initials "hubu"
     And the project does not have a project leader assigned
     When the project leader "hubu" is assigned to the project
     Then the project has the project leader "hubu" assigned
 
-Scenario: Unsuccessfully assigning another project leader
+  Scenario: Unsuccessfully assigning another project leader
     Given a project is registered in the system
     And there is a user with the initials "hubu"
     And the project does not have a project leader assigned
@@ -27,7 +27,7 @@ Scenario: Unsuccessfully assigning another project leader
     And the project leader "hubu" is assigned to the project
     Then the error message "Only one project leader can be assigned per project" is given
 
-Scenario: Successfully remove project leader
+  Scenario: Successfully remove project leader
     Given a project is registered in the system
     And there is a user with the initials "hubu"
     And the project does not have a project leader assigned
@@ -36,7 +36,7 @@ Scenario: Successfully remove project leader
     When the project leader is removed from the project
     Then the project has no project leader
 
-Scenario: Remove a non-existing project leader from project
+  Scenario: Remove a non-existing project leader from project
     Given a project is registered in the system
     And there is a user with the initials "hubu"
     And the project does not have a project leader assigned
