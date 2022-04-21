@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="put_your_project_name_here" />
+        <module name="time-management-system" />
       </profile>
     </annotationProcessing>
   </component>
