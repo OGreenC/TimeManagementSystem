@@ -15,12 +15,12 @@ public class Project {
     private Calendar dateOfCreation;
 
     private final List<Activity> activities = new ArrayList<>();
+    private ArrayList<User> employees = new ArrayList<User>();
     private User projectLeader;
 
     public Project(Calendar date) {
         this.dateOfCreation = date;
         this.projectID = generateID();
-        System.out.println(projectID);
     }
 
     public String generateID() {
@@ -53,6 +53,16 @@ public class Project {
     public void setStartDate(int y, int mo, int d) {
         System.out.println(y + " " + mo + " " + " " + d);
         this.calendar.set(y, mo, d);
+    }
+
+    // Assigns employee to project
+    public void assignEmployee(User employee) {
+        employees.add(employee);
+    }
+
+    // Searches for given employee in project
+    public boolean searchEmployee(User searchEmployee) {
+        return employees.stream().findAny().equals(searchEmployee);
     }
 
     public static int resetSerial() {

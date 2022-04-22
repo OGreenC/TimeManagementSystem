@@ -24,7 +24,6 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
         }
         users.add(user);
-
     }
 
     public ArrayList<User> getUsers() {
@@ -33,7 +32,24 @@ public class TimeManagementApp {
 
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
+    }
 
+    public void removeUser(String initials){
+        for (int i = 0; i < users.size(); i++) {
+            if (initials.equals(users.get(i))) {
+                users.remove(i);
+            }
+        }
+    }
+
+    // Add given employee to given project
+    public void assignEmployeeToProject(String initials, String ID) {
+        getProject(ID).assignEmployee(getUser(initials));
+    }
+
+    // Check if given employee is in given project, returns boolean value
+    public boolean searchProjectForEmployee(String initials, Project project) {
+        return project.searchEmployee(getUser(initials));
     }
 
     public ArrayList<Project> getProjects() {
@@ -43,7 +59,6 @@ public class TimeManagementApp {
     public Project getProject(String ID) {
         return projects.stream().filter(p -> p.getID().equals(ID)).findAny().orElse(null);
     }
-
 
     public boolean deleteProject(Project p) throws OperationNotAllowedException {
         if (this.projects.remove(p)) {
