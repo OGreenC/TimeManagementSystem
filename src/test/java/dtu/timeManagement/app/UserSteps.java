@@ -60,7 +60,7 @@ public class UserSteps {
         }
     }
 
-    @Then("the project with ID {string} has the user with initials {string} assigned")
+    @Then("the project with ID {string} has the user with the initials {string} assigned")
     public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
         if (projectHelper.getProject().getID().equals(ID)) {
             assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
@@ -68,6 +68,21 @@ public class UserSteps {
     }
 
     /**
+     * Remove user from project
+     */
+    @When("the user with initials {string} is removed from the project with ID {string}")
+    public void the_user_with_initials_is_removed_from_the_project_with_id(String initials, String ID) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            timeManagementApp.removeEmployeeFromProject(initials, projectHelper.getProject());
+        }
+    }
+
+    @Then("the project with ID {string} does not have the user with initials {string} assigned")
+    public void the_project_with_id_does_not_have_the_user_with_initials_assigned(String initials, String ID) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            assertNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
+        }
+    }
 
     /**
      * Delete user from the system

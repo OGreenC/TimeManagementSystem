@@ -52,6 +52,11 @@ public class TimeManagementApp {
         return project.searchEmployee(getUser(initials));
     }
 
+    // Remove given employee from given project
+    public void removeEmployeeFromProject(String initials, Project project) {
+        project.removeEmployee(getUser(initials));
+    }
+
     public ArrayList<Project> getProjects() {
         return projects;
     }

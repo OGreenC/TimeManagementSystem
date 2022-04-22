@@ -70,6 +70,10 @@ public class Project {
         return null;
     }
 
+    public void removeEmployee(User employee) {
+        employees.remove(employee);
+    }
+
     public static int resetSerial() {
         nextSerial = 1;
         return nextSerial;
