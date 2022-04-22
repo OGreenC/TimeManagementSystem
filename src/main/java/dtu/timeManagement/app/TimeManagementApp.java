@@ -48,7 +48,7 @@ public class TimeManagementApp {
     }
 
     // Check if given employee is in given project, returns boolean value
-    public boolean searchProjectForEmployee(String initials, Project project) {
+    public User searchProjectForEmployee(String initials, Project project) {
         return project.searchEmployee(getUser(initials));
     }
 

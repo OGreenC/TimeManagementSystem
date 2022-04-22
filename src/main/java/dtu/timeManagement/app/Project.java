@@ -61,13 +61,13 @@ public class Project {
     }
 
     // Searches for given employee in project
-    public boolean searchEmployee(User searchEmployee) {
+    public User searchEmployee(User searchEmployee) {
         for (User e : employees) {
             if (e.equals(searchEmployee)) {
-                return true;
+                return e;
             }
         }
-        return false;
+        return null;
     }
 
     public static int resetSerial() {

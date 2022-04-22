@@ -63,9 +63,11 @@ public class UserSteps {
     @Then("the project with ID {string} has the user with initials {string} assigned")
     public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
         if (projectHelper.getProject().getID().equals(ID)) {
-            assertTrue(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
+            assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
         }
     }
+
+    /**
 
     /**
      * Delete user from the system
