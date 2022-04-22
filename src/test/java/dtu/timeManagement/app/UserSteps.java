@@ -55,8 +55,13 @@ public class UserSteps {
 
     @When("the user with initials {string} is assigned to the project with ID {string}")
     public void the_user_with_initials_is_assigned_to_the_project_with_id(String initials, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
+        try {
+            if (timeManagementApp.getProject(ID) == null) {
+                throw new OperationNotAllowedException("Project does not exist");
+            }
             timeManagementApp.assignEmployeeToProject(initials, projectHelper.getProject());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
         }
     }
 
@@ -65,6 +70,14 @@ public class UserSteps {
         if (projectHelper.getProject().getID().equals(ID)) {
             assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
         }
+    }
+
+    /**
+     * Assign user to non-existing project
+     */
+    @Given("a project with ID {string} is not in the system")
+    public void a_project_with_id_is_not_in_the_system(String ID) {
+        assertNull(timeManagementApp.getProject(ID));
     }
 
     /**

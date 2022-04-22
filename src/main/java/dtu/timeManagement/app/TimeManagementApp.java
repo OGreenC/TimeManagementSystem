@@ -42,7 +42,10 @@ public class TimeManagementApp {
     }
 
     // Add given employee to given project
-    public void assignEmployeeToProject(String initials, Project project) {
+    public void assignEmployeeToProject(String initials, Project project) throws OperationNotAllowedException {
+        if (project == null) {
+            throw new OperationNotAllowedException("Project does not exist");
+        }
         project.assignEmployee(getUser(initials));
     }
 

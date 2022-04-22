@@ -21,6 +21,12 @@ Feature: Add Employee
     When the user with initials "ABC" is assigned to the project with ID "220001"
     Then the project with ID "220001" has the user with the initials "ABC" assigned
 
+  Scenario: Assign user to non-existing project
+    Given there is a user with the initials "ABC"
+    And a project with ID "220001" is not in the system
+    When the user with initials "ABC" is assigned to the project with ID "220001"
+    Then the error message "Project does not exist" is given
+
   Scenario: Remove a user from a project
     Given there is a user with the initials "ABC"
     And the year is "2022"
