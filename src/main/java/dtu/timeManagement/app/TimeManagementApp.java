@@ -43,8 +43,8 @@ public class TimeManagementApp {
     }
 
     // Add given employee to given project
-    public void assignEmployeeToProject(String initials, String ID) {
-        getProject(ID).assignEmployee(getUser(initials));
+    public void assignEmployeeToProject(String initials, Project project) {
+        project.assignEmployee(getUser(initials));
     }
 
     // Check if given employee is in given project, returns boolean value

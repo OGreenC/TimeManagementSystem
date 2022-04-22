@@ -19,7 +19,17 @@ Feature: Add Employee
     And there is a project with ID "220001"
     And there are no activities in the project
     When the user with initials "ABC" is assigned to the project with ID "220001"
-    Then the the project with ID "220001" has the user with initials "ABC" assigned
+    Then the project with ID "220001" has the user with initials "ABC" assigned
+
+  #Scenario: Remove a user from a project
+   # Given there is a user with the initials "ABC"
+    #And the year is "2022"
+    #And no projects have been created
+    #And a project is registered in the system
+    #And there is a project with ID "220001"
+    #And there are no activities in the project
+    #When the user with initials "ABC" is removed from the project with ID "220001"
+    #Then the project with ID "220001" has the user with initials "ABC" assigned
 
   #Scenario: Remove a user from the system
   # Given there is a user with the initials "ABC"

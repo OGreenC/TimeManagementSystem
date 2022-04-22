@@ -15,7 +15,7 @@ public class Project {
     private Calendar dateOfCreation;
 
     private final List<Activity> activities = new ArrayList<>();
-    private ArrayList<User> employees = new ArrayList<User>();
+    private final ArrayList<User> employees = new ArrayList<User>();
     private User projectLeader;
 
     public Project(Calendar date) {
@@ -62,7 +62,12 @@ public class Project {
 
     // Searches for given employee in project
     public boolean searchEmployee(User searchEmployee) {
-        return employees.stream().findAny().equals(searchEmployee);
+        for (User e : employees) {
+            if (e.equals(searchEmployee)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static int resetSerial() {

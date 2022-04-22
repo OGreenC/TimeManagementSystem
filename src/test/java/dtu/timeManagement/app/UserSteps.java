@@ -21,8 +21,9 @@ public class UserSteps {
     }
 
     @Given("there is a user with the initials {string}")
-    public void thereIsAUserWithTheInitials(String initials) {
+    public void thereIsAUserWithTheInitials(String initials) throws OperationNotAllowedException {
         userHelper.setUser(new User(initials));
+        timeManagementApp.addUser(userHelper.getUser());
     }
 
     @When("the user is added to the system")
@@ -54,11 +55,13 @@ public class UserSteps {
 
     @When("the user with initials {string} is assigned to the project with ID {string}")
     public void the_user_with_initials_is_assigned_to_the_project_with_id(String initials, String ID) {
-        timeManagementApp.assignEmployeeToProject(initials, ID);
+        if (projectHelper.getProject().getID().equals(ID)) {
+            timeManagementApp.assignEmployeeToProject(initials, projectHelper.getProject());
+        }
     }
 
-    @Then("the the project with ID {string} has the user with initials {string} assigned")
-    public void the_project_with_id_has_the_user_with_initials_assigned(String initials, String ID) {
+    @Then("the project with ID {string} has the user with initials {string} assigned")
+    public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
         if (projectHelper.getProject().getID().equals(ID)) {
             assertTrue(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
         }
