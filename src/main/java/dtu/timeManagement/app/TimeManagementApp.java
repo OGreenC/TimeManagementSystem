@@ -10,7 +10,6 @@ public class TimeManagementApp {
     private DateServer dateServer = new DateServer();
 
     /**
-     *
      * @return the created project
      */
     public Project createProject() {
@@ -26,15 +25,15 @@ public class TimeManagementApp {
         users.add(user);
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
-    }
+//    public ArrayList<User> getUsers() {
+//        return users;
+//    }
 
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
     }
 
-    public void removeUser(String initials){
+    public void removeUser(String initials) {
         for (int i = 0; i < users.size(); i++) {
             if (initials.equals(users.get(i))) {
                 users.remove(i);
@@ -84,4 +83,7 @@ public class TimeManagementApp {
         this.dateServer = dateServer;
     }
 
+    public void setProjectLeader(Project project, User user) throws OperationNotAllowedException {
+        project.setProjectLeader(user);
+    }
 }

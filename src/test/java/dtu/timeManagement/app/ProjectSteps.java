@@ -106,7 +106,7 @@ public class ProjectSteps {
     public void the_project_leader_is_assigned_to_the_project(String projectLeaderInitials) {
         assertEquals(this.userHelper.getUser().getInitial(), projectLeaderInitials);
         try {
-            this.projectHelper.getProject().setProjectLeader(userHelper.getUser());
+            timeManagementApp.setProjectLeader(this.projectHelper.getProject(), userHelper.getUser());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
