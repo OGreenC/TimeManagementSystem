@@ -1,9 +1,7 @@
 package dtu.timeManagement.app;
 
-import java.util.LinkedList;
-
 public class User {
-    private String initial;
+    private final String initial;
 
     public User(String initial) {
         this.initial = initial;
@@ -13,7 +11,4 @@ public class User {
         return initial;
     }
 
-    public void setInitial(String initial) {
-        this.initial = initial;
-    }
 }
