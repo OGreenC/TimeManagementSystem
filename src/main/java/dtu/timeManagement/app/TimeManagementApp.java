@@ -25,38 +25,8 @@ public class TimeManagementApp {
         users.add(user);
     }
 
-//    public ArrayList<User> getUsers() {
-//        return users;
-//    }
-
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
-    }
-
-    public void removeUser(String initials) {
-        for (int i = 0; i < users.size(); i++) {
-            if (initials.equals(users.get(i))) {
-                users.remove(i);
-            }
-        }
-    }
-
-    // Add given employee to given project
-    public void assignEmployeeToProject(String initials, Project project) throws OperationNotAllowedException {
-        if (project == null) {
-            throw new OperationNotAllowedException("Project does not exist");
-        }
-        project.assignEmployee(getUser(initials));
-    }
-
-    // Check if given employee is in given project, returns boolean value
-    public User searchProjectForEmployee(String initials, Project project) {
-        return project.searchEmployee(getUser(initials));
-    }
-
-    // Remove given employee from given project
-    public void removeEmployeeFromProject(String initials, Project project) {
-        project.removeEmployee(getUser(initials));
     }
 
     public ArrayList<Project> getProjects() {

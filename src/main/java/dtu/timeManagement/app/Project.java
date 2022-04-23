@@ -15,7 +15,6 @@ public class Project {
     private Calendar dateOfCreation;
 
     private final List<Activity> activities = new ArrayList<>();
-    private final ArrayList<User> employees = new ArrayList<User>();
     private User projectLeader;
 
     public Project(Calendar date) {
@@ -53,25 +52,6 @@ public class Project {
     public void setStartDate(int y, int mo, int d) {
         System.out.println(y + " " + mo + " " + " " + d);
         this.calendar.set(y, mo, d);
-    }
-
-    // Assigns employee to project
-    public void assignEmployee(User employee) {
-        employees.add(employee);
-    }
-
-    // Searches for given employee in project
-    public User searchEmployee(User searchEmployee) {
-        for (User e : employees) {
-            if (e.equals(searchEmployee)) {
-                return e;
-            }
-        }
-        return null;
-    }
-
-    public void removeEmployee(User employee) {
-        employees.remove(employee);
     }
 
     public static int resetSerial() {
