@@ -107,21 +107,21 @@ public class UserSteps {
 //    }
 
     /**
-     * Remove user from project
+     * Remove user from an activity
      */
-//    @When("the user with initials {string} is removed from the project with ID {string}")
-//    public void the_user_with_initials_is_removed_from_the_project_with_id(String initials, String ID) {
-//        if (projectHelper.getProject().getID().equals(ID)) {
-//            timeManagementApp.removeEmployeeFromProject(initials, projectHelper.getProject());
-//        }
-//    }
-//
-//    @Then("the project with ID {string} does not have the user with initials {string} assigned")
-//    public void the_project_with_id_does_not_have_the_user_with_initials_assigned(String initials, String ID) {
-//        if (projectHelper.getProject().getID().equals(ID)) {
-//            assertNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
-//        }
-//    }
+    @When("the user with initials {string} is removed from the activity named {string} in the project with ID {string}")
+    public void the_user_with_initials_is_removed_from_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            projectHelper.getProject().getActivity(activityName).removeUser(timeManagementApp.getUser(initials));
+        }
+    }
+
+    @Then("the activity named {string} in the project with ID {string} does not have the user with initials {string} assigned")
+    public void the_activity_named_in_the_project_with_id_does_not_have_the_user_with_initials_assigned(String activityName, String ID, String initials) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            assertFalse(projectHelper.getProject().getActivity(activityName).isAssigned(timeManagementApp.getUser(initials)));
+        }
+    }
 
     /**
      * Delete user from the system
