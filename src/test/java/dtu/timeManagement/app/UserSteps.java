@@ -57,8 +57,15 @@ public class UserSteps {
 
     @When("the user with initials {string} is assigned to the activity named {string} in the project with ID {string}")
     public void the_user_with_initials_is_assigned_to_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            projectHelper.getProject().getActivity(activityName).assignUser(timeManagementApp.getUser(initials));
+        try {
+            if (projectHelper.getProject().getID().equals(ID)) {
+                if (projectHelper.getProject().getActivity(activityName) == null) {
+                    throw new OperationNotAllowedException("Activity does not exist");
+                }
+                projectHelper.getProject().getActivity(activityName).assignUser(timeManagementApp.getUser(initials));
+            }
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
         }
     }
 
@@ -69,42 +76,15 @@ public class UserSteps {
         }
     }
 
-//    @Given("a project is registered in the system with ID {string}")
-//    public void a_project_is_registered_in_the_system_with_id(String ID) {
-//        assertEquals(projectHelper.getProject().getID(), ID);
-//    }
-//    @Given("there is a project with ID {string} with an activity named {string}")
-//    public void there_is_a_project_with_id_with_an_activity_named(String string, String string2) {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
-//
-//    @When("the user with initials {string} is assigned to the project with ID {string}")
-//    public void the_user_with_initials_is_assigned_to_the_project_with_id(String initials, String ID) {
-//        try {
-//            if (timeManagementApp.getProject(ID) == null) {
-//                throw new OperationNotAllowedException("Project does not exist");
-//            }
-//            timeManagementApp.assignEmployeeToProject(initials, projectHelper.getProject());
-//        } catch (OperationNotAllowedException e) {
-//            errorMessageHolder.setErrorMessage(e.getMessage());
-//        }
-//    }
-//
-//    @Then("the project with ID {string} has the user with the initials {string} assigned")
-//    public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
-//        if (projectHelper.getProject().getID().equals(ID)) {
-//            assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
-//        }
-//    }
-
     /**
-     * Assign user to non-existing project
+     * Assign user to non-existing activity
      */
-//    @Given("a project with ID {string} is not in the system")
-//    public void a_project_with_id_is_not_in_the_system(String ID) {
-//        assertNull(timeManagementApp.getProject(ID));
-//    }
+    @Given("an activity with the name {string} is not in the project with ID {string}")
+    public void an_activity_with_the_name_is_not_in_the_project_with_id(String activityName, String ID) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            assertNull(projectHelper.getProject().getActivity(activityName));
+        }
+    }
 
     /**
      * Remove user from an activity
