@@ -12,15 +12,14 @@ public class Activity {
     private Calendar startTime;
     private Calendar endTime;
 
-    public Activity() {
-        this.activityName = "";
-    }
-
+    /**
+     * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
+     */
     public Activity(String activityName) {
         this.activityName = activityName;
     }
 
-    public void addUserToActivity(User user) {
+    public void assignUser(User user) {
         users.add(user);
     }
 
@@ -29,8 +28,7 @@ public class Activity {
     }
 
     public void removeUser(User user) {
-        int index = users.indexOf(user);
-        users.remove(index);
+        users.remove(user);
     }
 
     public void setExpectedHours(int expectedHours) {

@@ -46,85 +46,111 @@ public class UserSteps {
     }
 
     /**
-     * Assign user to project
+     * Assign user to activity
      */
-    @Given("a project is registered in the system with ID {string}")
-    public void a_project_is_registered_in_the_system_with_id(String ID) {
-        assertEquals(projectHelper.getProject().getID(), ID);
-    }
-
-    @When("the user with initials {string} is assigned to the project with ID {string}")
-    public void the_user_with_initials_is_assigned_to_the_project_with_id(String initials, String ID) {
-        try {
-            if (timeManagementApp.getProject(ID) == null) {
-                throw new OperationNotAllowedException("Project does not exist");
-            }
-            timeManagementApp.assignEmployeeToProject(initials, projectHelper.getProject());
-        } catch (OperationNotAllowedException e) {
-            errorMessageHolder.setErrorMessage(e.getMessage());
-        }
-    }
-
-    @Then("the project with ID {string} has the user with the initials {string} assigned")
-    public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
+    @Given("an activity with the name {string} is added to the project with ID {string}")
+    public void an_activity_with_the_name_is_added_to_the_project_with_id(String activityName, String ID) {
         if (projectHelper.getProject().getID().equals(ID)) {
-            assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
+            projectHelper.getProject().createActivity(activityName);
         }
     }
+
+    @When("the user with initials {string} is assigned to the activity named {string} in the project with ID {string}")
+    public void the_user_with_initials_is_assigned_to_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            projectHelper.getProject().getActivity(activityName).assignUser(timeManagementApp.getUser(initials));
+        }
+    }
+
+    @Then("the activity named {string} in the project with ID {string} has the user with initials {string} assigned")
+    public void the_activity_named_in_the_project_with_id_has_the_user_with_initials_assigned(String activityName, String ID, String initials) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            assertTrue(projectHelper.getProject().getActivity(activityName).isAssigned(timeManagementApp.getUser(initials)));
+        }
+    }
+
+//    @Given("a project is registered in the system with ID {string}")
+//    public void a_project_is_registered_in_the_system_with_id(String ID) {
+//        assertEquals(projectHelper.getProject().getID(), ID);
+//    }
+//    @Given("there is a project with ID {string} with an activity named {string}")
+//    public void there_is_a_project_with_id_with_an_activity_named(String string, String string2) {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//    @When("the user with initials {string} is assigned to the project with ID {string}")
+//    public void the_user_with_initials_is_assigned_to_the_project_with_id(String initials, String ID) {
+//        try {
+//            if (timeManagementApp.getProject(ID) == null) {
+//                throw new OperationNotAllowedException("Project does not exist");
+//            }
+//            timeManagementApp.assignEmployeeToProject(initials, projectHelper.getProject());
+//        } catch (OperationNotAllowedException e) {
+//            errorMessageHolder.setErrorMessage(e.getMessage());
+//        }
+//    }
+//
+//    @Then("the project with ID {string} has the user with the initials {string} assigned")
+//    public void the_project_with_id_has_the_user_with_initials_assigned(String ID, String initials) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            assertNotNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
+//        }
+//    }
 
     /**
      * Assign user to non-existing project
      */
-    @Given("a project with ID {string} is not in the system")
-    public void a_project_with_id_is_not_in_the_system(String ID) {
-        assertNull(timeManagementApp.getProject(ID));
-    }
+//    @Given("a project with ID {string} is not in the system")
+//    public void a_project_with_id_is_not_in_the_system(String ID) {
+//        assertNull(timeManagementApp.getProject(ID));
+//    }
 
     /**
      * Remove user from project
      */
-    @When("the user with initials {string} is removed from the project with ID {string}")
-    public void the_user_with_initials_is_removed_from_the_project_with_id(String initials, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            timeManagementApp.removeEmployeeFromProject(initials, projectHelper.getProject());
-        }
-    }
-
-    @Then("the project with ID {string} does not have the user with initials {string} assigned")
-    public void the_project_with_id_does_not_have_the_user_with_initials_assigned(String initials, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            assertNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
-        }
-    }
+//    @When("the user with initials {string} is removed from the project with ID {string}")
+//    public void the_user_with_initials_is_removed_from_the_project_with_id(String initials, String ID) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            timeManagementApp.removeEmployeeFromProject(initials, projectHelper.getProject());
+//        }
+//    }
+//
+//    @Then("the project with ID {string} does not have the user with initials {string} assigned")
+//    public void the_project_with_id_does_not_have_the_user_with_initials_assigned(String initials, String ID) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            assertNull(timeManagementApp.searchProjectForEmployee(initials, projectHelper.getProject()));
+//        }
+//    }
 
     /**
      * Delete user from the system
      */
-    @When("the user with initials {string} is removed from the system")
-    public void the_user_with_initials_is_removed_from_the_system(String initials) {
-        timeManagementApp.removeUser(initials);
-    }
-
-    @Then("there is no user with the initials {string} in the system")
-    public void there_is_no_user_with_the_initials_in_the_system(String initials) {
-        assertNull(timeManagementApp.getUser(initials));
-    }
-
-    @Then("no project has a project leader with the initials {string}")
-    public void no_project_has_a_project_leader_with_the_initials(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("no project has the user with the initials {string} assigned to it")
-    public void no_project_has_the_user_with_the_initials_assigned_to_it(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("no time should be assigned to the user with the initials {string}")
-    public void no_time_should_be_assigned_to_the_user_with_the_initials(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
-    }
+//    @When("the user with initials {string} is removed from the system")
+//    public void the_user_with_initials_is_removed_from_the_system(String initials) {
+//        timeManagementApp.removeUser(initials);
+//    }
+//
+//    @Then("there is no user with the initials {string} in the system")
+//    public void there_is_no_user_with_the_initials_in_the_system(String initials) {
+//        assertNull(timeManagementApp.getUser(initials));
+//    }
+//
+//    @Then("no project has a project leader with the initials {string}")
+//    public void no_project_has_a_project_leader_with_the_initials(String string) {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//    @Then("no project has the user with the initials {string} assigned to it")
+//    public void no_project_has_the_user_with_the_initials_assigned_to_it(String string) {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
+//
+//    @Then("no time should be assigned to the user with the initials {string}")
+//    public void no_time_should_be_assigned_to_the_user_with_the_initials(String string) {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+//    }
 }

@@ -79,8 +79,12 @@ public class Project {
         return nextSerial;
     }
 
-    public void createActivity() {
-        this.activities.add(new Activity());
+    public void createActivity(String activityName) {
+        this.activities.add(new Activity(activityName));
+    }
+
+    public Activity getActivity(String activityName) {
+        return activities.stream().filter(a -> a.getActivityName().equals(activityName)).findAny().orElse(null);
     }
 
     public void setProjectLeader(User projectLeader) throws OperationNotAllowedException {

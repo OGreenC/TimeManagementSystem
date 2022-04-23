@@ -90,12 +90,6 @@ public class ProjectSteps {
         assertTrue(projectHelper.getProject().getActivities().size() > 0);
     }
 
-
-    @And("an activity is registered to the project")
-    public void anActivityIsRegisteredToTheProject() {
-        timeManagementApp.createActivity(this.projectHelper.getProject());
-    }
-
     @And("the project does not have a project leader assigned")
     public void theProjectDoesNotHaveAProjectLeaderAssigned() {
         assertNull(this.projectHelper.getProject().getProjectLeader());

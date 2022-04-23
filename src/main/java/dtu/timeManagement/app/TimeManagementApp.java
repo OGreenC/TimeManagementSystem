@@ -74,10 +74,6 @@ public class TimeManagementApp {
         throw new OperationNotAllowedException("Project does not exist");
     }
 
-    public void createActivity(Project project) {
-        project.createActivity();
-    }
-
     public void deleteAllProjects() {
         this.projects.clear();
     }
