@@ -11,12 +11,14 @@ public class UserSteps {
     private final TimeManagementApp timeManagementApp;
     private UserHelper userHelper;
     private ProjectHelper projectHelper;
+    private ActivityHelper activityHelper;
     private final ErrorMessageHolder errorMessageHolder;
 
-    public UserSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder) {
+    public UserSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ProjectHelper projectHelper, ActivityHelper activityHelper, ErrorMessageHolder errorMessageHolder) {
         this.timeManagementApp = timeManagementApp;
         this.userHelper = userHelper;
         this.projectHelper = projectHelper;
+        this.activityHelper = activityHelper;
         this.errorMessageHolder = errorMessageHolder;
     }
 
@@ -48,60 +50,55 @@ public class UserSteps {
     /**
      * Assign user to activity
      */
-    @Given("an activity with the name {string} is added to the project with ID {string}")
-    public void an_activity_with_the_name_is_added_to_the_project_with_id(String activityName, String ID) {
+    @Given("an activity with serial {string} is added to the project with ID {string}")
+    public void an_activity_with_serial_is_added_to_the_project_with_id(String serialNumber, String ID) {
         if (projectHelper.getProject().getID().equals(ID)) {
-            projectHelper.getProject().createActivity(activityName);
+            projectHelper.getProject().createActivity();
+            activityHelper.setActivity(projectHelper.getProject().getActivity(serialNumber));
+            assertNotNull(activityHelper.getActivity());
         }
     }
 
-    @When("the user with initials {string} is assigned to the activity named {string} in the project with ID {string}")
-    public void the_user_with_initials_is_assigned_to_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
-        try {
-            if (projectHelper.getProject().getID().equals(ID)) {
-                if (projectHelper.getProject().getActivity(activityName) == null) {
-                    throw new OperationNotAllowedException("Activity does not exist");
-                }
-                projectHelper.getProject().getActivity(activityName).assignUser(timeManagementApp.getUser(initials));
+    @When("the user with initials {string} is assigned to the activity")
+    public void the_user_with_initials_is_assigned_to_the_activity(String initials) {
+        activityHelper.getActivity().assignUser(timeManagementApp.getUser(initials));
+    }
+
+    @Then("the activity with serial {string} in the project with ID {string} has the user with initials {string} assigned")
+    public void the_activity_with_serial_in_the_project_with_id_has_the_user_with_initials_assigned(String serialNumber, String ID, String initials) {
+        if (projectHelper.getProject().getID().equals(ID)) {
+            if (activityHelper.getActivity().getSerialNumber().equals(serialNumber)) {
+                assertTrue(activityHelper.getActivity().isAssigned(timeManagementApp.getUser(initials)));
             }
-        } catch (OperationNotAllowedException e) {
-            errorMessageHolder.setErrorMessage(e.getMessage());
-        }
-    }
-
-    @Then("the activity named {string} in the project with ID {string} has the user with initials {string} assigned")
-    public void the_activity_named_in_the_project_with_id_has_the_user_with_initials_assigned(String activityName, String ID, String initials) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            assertTrue(projectHelper.getProject().getActivity(activityName).isAssigned(timeManagementApp.getUser(initials)));
         }
     }
 
     /**
      * Assign user to non-existing activity
      */
-    @Given("an activity with the name {string} is not in the project with ID {string}")
-    public void an_activity_with_the_name_is_not_in_the_project_with_id(String activityName, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            assertNull(projectHelper.getProject().getActivity(activityName));
-        }
-    }
+//    @Given("an activity with the name {string} is not in the project with ID {string}")
+//    public void an_activity_with_the_name_is_not_in_the_project_with_id(String activityName, String ID) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            assertNull(projectHelper.getProject().getActivity(activityName));
+//        }
+//    }
 
     /**
      * Remove user from an activity
      */
-    @When("the user with initials {string} is removed from the activity named {string} in the project with ID {string}")
-    public void the_user_with_initials_is_removed_from_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            projectHelper.getProject().getActivity(activityName).removeUser(timeManagementApp.getUser(initials));
-        }
-    }
-
-    @Then("the activity named {string} in the project with ID {string} does not have the user with initials {string} assigned")
-    public void the_activity_named_in_the_project_with_id_does_not_have_the_user_with_initials_assigned(String activityName, String ID, String initials) {
-        if (projectHelper.getProject().getID().equals(ID)) {
-            assertFalse(projectHelper.getProject().getActivity(activityName).isAssigned(timeManagementApp.getUser(initials)));
-        }
-    }
+//    @When("the user with initials {string} is removed from the activity named {string} in the project with ID {string}")
+//    public void the_user_with_initials_is_removed_from_the_activity_named_in_the_project_with_id(String initials, String activityName, String ID) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            projectHelper.getProject().getActivity(activityName).removeUser(timeManagementApp.getUser(initials));
+//        }
+//    }
+//
+//    @Then("the activity named {string} in the project with ID {string} does not have the user with initials {string} assigned")
+//    public void the_activity_named_in_the_project_with_id_does_not_have_the_user_with_initials_assigned(String activityName, String ID, String initials) {
+//        if (projectHelper.getProject().getID().equals(ID)) {
+//            assertFalse(projectHelper.getProject().getActivity(activityName).isAssigned(timeManagementApp.getUser(initials)));
+//        }
+//    }
 
     /**
      * Delete user from the system
