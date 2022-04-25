@@ -28,10 +28,10 @@ Feature: Add Employee
 #    And no projects have been created
 #    And a project is registered in the system
 #    And there is a project with ID "220001"
-#    And an activity with the name "Activity1" is not in the project with ID "220001"
-#    When the user with initials "ABC" is assigned to the activity named "Activity1" in the project with ID "220001"
+#    And an activity with serial "0001" is not in the project with ID "220001"
+#    When the user with initials "ABC" is assigned to the activity with ID "0001" in project with ID "220001"
 #    Then the error message "Activity does not exist" is given
-#
+
 #  Scenario: Remove a user from an activity
 #    Given there is a user with the initials "ABC"
 #    And the year is "2022"

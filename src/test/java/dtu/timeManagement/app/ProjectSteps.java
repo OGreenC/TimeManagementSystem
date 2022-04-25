@@ -44,7 +44,9 @@ public class ProjectSteps {
 
     @Then("there are no activities in the project")
     public void there_are_no_activities_in_the_project() {
+        projectHelper.getProject().deleteAllActivities();
         assertEquals(projectHelper.getProject().getActivities().size(), 0);
+
     }
 
     @When("the project is renamed to {string}")

@@ -3,6 +3,11 @@ Feature: Add activity
   Actor: User
 
   Scenario: Successfully add a new activity to an existing project
-    Given there is a project
-    When the user adds the activity with the name "ActivityName" to the project
-    Then the activity with the name "ActivityName" is added to the project
+    Given there is a user with the initials "ABC"
+    And the year is "2022"
+    And no projects have been created
+    And a project is registered in the system
+    And there is a project with ID "220001"
+    And there are no activities in the project
+    When an activity is added to the project
+    Then the activity with the serial "0001" is in the project

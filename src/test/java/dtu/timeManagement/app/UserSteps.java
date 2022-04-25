@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserSteps {
@@ -54,8 +56,9 @@ public class UserSteps {
     public void an_activity_with_serial_is_added_to_the_project_with_id(String serialNumber, String ID) {
         if (projectHelper.getProject().getID().equals(ID)) {
             projectHelper.getProject().createActivity();
+            System.out.println(projectHelper.getProject().getActivities().get(0).getSerialNumber());
             activityHelper.setActivity(projectHelper.getProject().getActivity(serialNumber));
-            assertNotNull(activityHelper.getActivity());
+            assertEquals(activityHelper.getActivity().getSerialNumber(), serialNumber);
         }
     }
 

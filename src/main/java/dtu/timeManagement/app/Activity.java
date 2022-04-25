@@ -32,6 +32,10 @@ public class Activity {
         return users.contains(user);
     }
 
+    public static void resetSerial() {
+        nextSerial = 1;
+    }
+
     public void removeUser(User user) {
         users.remove(user);
     }

@@ -59,6 +59,11 @@ public class Project {
         return nextSerial;
     }
 
+    public void deleteAllActivities() {
+        this.activities.clear();
+        Activity.resetSerial();
+    }
+
     public void createActivity() {
         this.activities.add(new Activity());
     }

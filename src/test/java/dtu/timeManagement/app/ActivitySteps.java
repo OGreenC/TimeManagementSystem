@@ -8,25 +8,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ActivitySteps {
-    private final TimeManagementApp timeManagementApp;
-    private Project p;
-    public ActivitySteps(TimeManagementApp timeManagementApp) {
-        this.timeManagementApp = timeManagementApp;
-
+    private ProjectHelper projectHelper;
+    public ActivitySteps(ProjectHelper projectHelper) {
+        this.projectHelper = projectHelper;
     }
 
-    @Given("there is a project")
-    public void there_is_a_project() {
-        this.p = timeManagementApp.createProject();
+    @When("an activity is added to the project")
+    public void an_activity_is_added_to_the_project() {
+        projectHelper.getProject().createActivity();
     }
 
-    @When("the user adds the activity with the name {string} to the project")
-    public void the_user_adds_the_activity_with_the_name_to_the_project(String string) {
-        p.createActivity(string);
-    }
-
-    @Then("the activity with the name {string} is added to the project")
-    public void the_activity_with_the_name_is_added_to_the_project(String string) {
-        assertNotNull(p.getActivity(string));
+    @Then("the activity with the serial {string} is in the project")
+    public void the_activity_with_the_serial_is_in_the_project(String serialNumber) {
+        assertNotNull(projectHelper.getProject().getActivity(serialNumber));
     }
 }
