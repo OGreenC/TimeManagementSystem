@@ -68,6 +68,15 @@ public class Project {
         this.activities.add(new Activity());
     }
 
+    public void deleteActivity(String serialNumber) throws OperationNotAllowedException {
+        if (getActivity(serialNumber) == null) {
+            throw new OperationNotAllowedException("Activity does not exist");
+        }
+        else {
+            activities.remove(getActivity(serialNumber));
+        }
+    }
+
     public Activity getActivity(String serialNumber) {
         return activities.stream().filter(a -> a.getSerialNumber().equals(serialNumber)).findAny().orElse(null);
     }
