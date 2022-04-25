@@ -30,6 +30,12 @@ public class UserSteps {
         timeManagementApp.addUser(userHelper.getUser());
     }
 
+    @Given("there is a user in the system")
+    public void thereIsAUserInTheSystem() throws OperationNotAllowedException {
+        userHelper.setUser(new User("ABC"));
+        timeManagementApp.addUser(userHelper.getUser());
+    }
+
     @When("the user is added to the system")
     public void theUserIsAddedToTheSystem() {
         try {
