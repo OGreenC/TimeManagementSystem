@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+import java.util.Calendar;
+
 import static org.junit.Assert.*;
 
 public class ActivitySteps {
@@ -43,6 +45,28 @@ public class ActivitySteps {
     @Then("the activity with serial {string} is deleted")
     public void the_activity_with_serial_is_deleted(String serialNumber) {
         assertNull(projectHelper.getProject().getActivity(serialNumber));
+    }
+
+    @When("the expected hours of the activity with serial {string} is changed to {string}")
+    public void the_expected_hours_of_the_activity_with_serial_is_changed_to(String serialNumber, String hours) {
+        projectHelper.getProject().getActivity(serialNumber).setExpectedHours(Integer.parseInt(hours));
+    }
+
+    @Then("the activity with serial {string} is expected to take {string} hours")
+    public void the_activity_with_serial_is_expected_to_take_hours(String serialNumber, String hours) {
+        assertTrue(projectHelper.getProject().getActivity(serialNumber).getExpectedHours()==Integer.parseInt(hours));
+    }
+
+    @When("the activity with the serial {string} startDate is set to year {int} month {int} date {int}")
+    public void the_activity_with_the_serial_start_date_is_set_to_year_month_date(String serialNumber, int y, int mo, int d) {
+        projectHelper.getProject().getActivity(serialNumber).setStartTime(y, mo, d);
+    }
+
+    @Then("the activity with the serial {string} has the startdate year {int} month {int} date {int}")
+    public void the_activity_with_the_serial_has_the_startdate_year_month_date(String serialNumber, int y, int mo, int d) {
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getStartTime().get(Calendar.YEAR), y);
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getStartTime().get(Calendar.MONTH), mo);
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getStartTime().get(Calendar.DATE), d);
     }
 
 }

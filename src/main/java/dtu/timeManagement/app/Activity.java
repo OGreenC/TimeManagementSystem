@@ -13,7 +13,7 @@ public class Activity {
     private String activityName;
     private int expectedHours;
     private List<User> users = new ArrayList<>();
-    private Calendar startTime;
+    private Calendar startTime = Calendar.getInstance();
     private Calendar endTime;
 
     /**
@@ -44,8 +44,8 @@ public class Activity {
         this.expectedHours = expectedHours;
     }
 
-    public void setStartTime(Calendar startTime) {
-        this.startTime = startTime;
+    public void setStartTime(int y, int mo, int d) {
+        this.startTime.set(y, mo, d);
     }
 
     public void setEndTime(Calendar endTime) {
