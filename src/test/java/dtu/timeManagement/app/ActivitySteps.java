@@ -59,7 +59,18 @@ public class ActivitySteps {
 
     @When("the activity with the serial {string} startDate is set to year {int} month {int} date {int}")
     public void the_activity_with_the_serial_start_date_is_set_to_year_month_date(String serialNumber, int y, int mo, int d) {
-        projectHelper.getProject().getActivity(serialNumber).setStartTime(y, mo, d);
+        if (projectHelper.getProject().getActivity(serialNumber).getHasEndDate() == false) {
+            projectHelper.getProject().getActivity(serialNumber).setStartTime(y, mo, d);
+            projectHelper.getProject().getActivity(serialNumber).setHasStartDate(true);
+        } else {
+            Calendar tempStartDate = Calendar.getInstance();
+            tempStartDate.set(y, mo, d);
+            if (tempStartDate.before(projectHelper.getProject().getActivity(serialNumber).getEndTime())) {
+                projectHelper.getProject().getActivity(serialNumber).setStartTime(y, mo, d);
+            } else {
+                errorMessageHolder.setErrorMessage("The finish date is before the start date");
+            }
+        }
     }
 
     @Then("the activity with the serial {string} has the startdate year {int} month {int} date {int}")
@@ -69,4 +80,27 @@ public class ActivitySteps {
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getStartTime().get(Calendar.DATE), d);
     }
 
+    @When("the activity with the serial {string} finishDate is set to year {int} month {int} date {int}")
+    public void the_activity_with_the_serial_finish_date_is_set_to_year_month_date(String serialNumber, int y, int mo, int d) {
+        if(projectHelper.getProject().getActivity(serialNumber).getHasStartDate() == false) {
+            projectHelper.getProject().getActivity(serialNumber).setEndTime(y, mo, d);
+            projectHelper.getProject().getActivity(serialNumber).setHasEndDate(true);
+        } else {
+            Calendar tempFinishDate = Calendar.getInstance();
+            tempFinishDate.set(y, mo, d);
+            if(tempFinishDate.after(projectHelper.getProject().getActivity(serialNumber).getStartTime())) {
+                projectHelper.getProject().getActivity(serialNumber).setEndTime(y, mo, d);
+            } else {
+                errorMessageHolder.setErrorMessage("The finish date is before the start date");
+            }
+        }
+
+    }
+
+    @Then("the activity with the serial {string} has the finishdate year {int} month {int} date {int}")
+    public void the_activity_with_the_serial_has_the_finishdate_year_month_date(String serialNumber, int y, int mo, int d) {
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.YEAR), y);
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.MONTH), mo);
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.DATE), d);
+    }
 }

@@ -14,7 +14,9 @@ public class Activity {
     private int expectedHours;
     private List<User> users = new ArrayList<>();
     private Calendar startTime = Calendar.getInstance();
-    private Calendar endTime;
+    private Calendar endTime = Calendar.getInstance();
+    private boolean hasEndDate = false;
+    private boolean hasStartDate = false;
 
     /**
      * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
@@ -48,8 +50,16 @@ public class Activity {
         this.startTime.set(y, mo, d);
     }
 
-    public void setEndTime(Calendar endTime) {
-        this.endTime = endTime;
+    public void setEndTime(int y, int mo, int d) {
+        this.endTime.set(y, mo, d);
+    }
+
+    public void setHasStartDate(boolean b) {
+        this.hasStartDate = b;
+    }
+
+    public void setHasEndDate(boolean b) {
+        this.hasEndDate = b;
     }
 
     public int getExpectedHours() {
@@ -67,4 +77,8 @@ public class Activity {
     public String getSerialNumber() {
         return serialNumber;
     }
+
+    public boolean getHasStartDate() { return hasStartDate; }
+
+    public boolean getHasEndDate() { return  hasEndDate; }
 }
