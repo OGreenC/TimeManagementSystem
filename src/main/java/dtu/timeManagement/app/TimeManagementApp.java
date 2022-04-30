@@ -55,4 +55,24 @@ public class TimeManagementApp {
     public void setProjectLeader(Project project, User user) throws OperationNotAllowedException {
         project.setProjectLeader(user);
     }
+
+    // TODO : THE TEST FOR CREATING AN ACTIVTY SHOULD CALL THIS FUNCTION!!!
+    // Please update the test
+    public Activity createActivity(Project project) throws OperationNotAllowedException {
+        if (project == null) {
+            throw new OperationNotAllowedException("Project does not exist");
+        }
+        project.createActivity();
+
+        // IMPROVE THIS WHEN THE TEST IS CHANGED
+        return project.getActivities().get(project.getActivities().size() - 1);
+//        return project.createActivity();
+    }
+
+    public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
+        if (project == null) {
+            throw new OperationNotAllowedException("Project does not exist");
+        }
+        project.deleteActivity(activity);
+    }
 }

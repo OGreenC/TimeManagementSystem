@@ -64,8 +64,15 @@ public class Project {
         Activity.resetSerial();
     }
 
+//    public Activity createActivity() {
+//        Activity activity = new Activity();
+//        this.activities.add(activity);
+//        return activity;
+//    }
     public void createActivity() {
-        this.activities.add(new Activity());
+        Activity activity = new Activity();
+        this.activities.add(activity);
+//        return activity;
     }
 
     public void deleteActivity(String serialNumber) throws OperationNotAllowedException {
@@ -74,6 +81,16 @@ public class Project {
         }
         else {
             activities.remove(getActivity(serialNumber));
+        }
+    }
+
+    // TODO : Test using the actual objects instead... please
+    public void deleteActivity(Activity activity) throws OperationNotAllowedException {
+        if (activity == null) {
+            throw new OperationNotAllowedException("Activity does not exist");
+        }
+        else {
+            activities.remove(activity);
         }
     }
 
