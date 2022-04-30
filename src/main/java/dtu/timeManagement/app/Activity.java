@@ -62,6 +62,10 @@ public class Activity {
         this.hasEndDate = b;
     }
 
+    public void setActivityName(String name) {
+        this.activityName = name;
+    }
+
     public int getExpectedHours() {
         return expectedHours;
     }
@@ -81,4 +85,6 @@ public class Activity {
     public boolean getHasStartDate() { return hasStartDate; }
 
     public boolean getHasEndDate() { return  hasEndDate; }
+
+    public String getActivityName() { return activityName;}
 }

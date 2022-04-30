@@ -54,7 +54,7 @@ public class ActivitySteps {
 
     @Then("the activity with serial {string} is expected to take {string} hours")
     public void the_activity_with_serial_is_expected_to_take_hours(String serialNumber, String hours) {
-        assertTrue(projectHelper.getProject().getActivity(serialNumber).getExpectedHours()==Integer.parseInt(hours));
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getExpectedHours(),Integer.parseInt(hours));
     }
 
     @When("the activity with the serial {string} startDate is set to year {int} month {int} date {int}")
@@ -102,5 +102,15 @@ public class ActivitySteps {
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.YEAR), y);
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.MONTH), mo);
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getEndTime().get(Calendar.DATE), d);
+    }
+
+    @When("the activity with the serial {string} name is set to {string}")
+    public void the_activity_with_the_serial_name_is_set_to(String serialNumber, String activityName) {
+        projectHelper.getProject().getActivity(serialNumber).setActivityName(activityName);
+    }
+
+    @Then("the activity with the serial {string} has the name {string}")
+    public void the_activity_with_the_serial_has_the_name(String serialNumber, String activityName) {
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getActivityName(),activityName);
     }
 }
