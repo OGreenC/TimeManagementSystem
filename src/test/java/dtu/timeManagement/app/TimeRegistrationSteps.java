@@ -21,4 +21,9 @@ public class TimeRegistrationSteps {
         this.errorMessageHolder = errorMessageHolder;
     }
 
+    @When("the user registers {int} hours on the activity")
+    public void theUserRegistersHoursOnTheActivity(int hours) {
+
+    }
+
 }

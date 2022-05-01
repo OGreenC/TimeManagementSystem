@@ -23,5 +23,4 @@ public class TimeSteps {
         c.set(Integer.parseInt(year), c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
         dateHolder.setDate(c);
     }
-
 }
