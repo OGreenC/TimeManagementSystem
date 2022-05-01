@@ -1,6 +1,8 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,14 +10,15 @@ import java.util.List;
 
 public class Project {
     private static int nextSerial = 1;
-
     private final String projectID;
     private String name;
-    private Calendar calendar = Calendar.getInstance();
-    private Calendar dateOfCreation;
-
+    private final Calendar calendar = Calendar.getInstance();
+    private final Calendar dateOfCreation;
     private final List<Activity> activities = new ArrayList<>();
     private User projectLeader;
+
+    // Used for the UI
+    private final List<Node> activityTabs = new ArrayList<>();
 
     public Project(Calendar date) {
         this.dateOfCreation = date;
@@ -64,11 +67,12 @@ public class Project {
         Activity.resetSerial();
     }
 
-//    public Activity createActivity() {
+    //    public Activity createActivity() {
 //        Activity activity = new Activity();
 //        this.activities.add(activity);
 //        return activity;
 //    }
+
     public void createActivity() {
         Activity activity = new Activity();
         this.activities.add(activity);
@@ -78,8 +82,7 @@ public class Project {
     public void deleteActivity(String serialNumber) throws OperationNotAllowedException {
         if (getActivity(serialNumber) == null) {
             throw new OperationNotAllowedException("Activity does not exist");
-        }
-        else {
+        } else {
             activities.remove(getActivity(serialNumber));
         }
     }
@@ -88,8 +91,7 @@ public class Project {
     public void deleteActivity(Activity activity) throws OperationNotAllowedException {
         if (activity == null) {
             throw new OperationNotAllowedException("Activity does not exist");
-        }
-        else {
+        } else {
             activities.remove(activity);
         }
     }
@@ -114,5 +116,19 @@ public class Project {
             throw new OperationNotAllowedException("Project leader does not exist");
         }
         this.projectLeader = null;
+    }
+
+
+    // Methods used in UI:
+    public List<Node> getActivityTabs() {
+        return activityTabs;
+    }
+
+    public void addActivityTab(Button activityTab) {
+        activityTabs.add(activityTab);
+    }
+
+    public void removeActivityTab(Button selectedActivityTab) {
+        activityTabs.remove(selectedActivityTab);
     }
 }
