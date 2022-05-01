@@ -12,14 +12,17 @@ import static org.junit.Assert.*;
 public class ActivitySteps {
     private ProjectHelper projectHelper;
     private ErrorMessageHolder errorMessageHolder;
-    public ActivitySteps(ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder) {
+    private ActivityHelper activityHelper;
+    public ActivitySteps(ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder, ActivityHelper activityHelper) {
         this.projectHelper = projectHelper;
         this.errorMessageHolder = errorMessageHolder;
+        this.activityHelper = activityHelper;
     }
 
     @When("an activity is added to the project")
     public void an_activity_is_added_to_the_project() {
-        projectHelper.getProject().createActivity();
+        Activity a = projectHelper.getProject().createActivity();
+        activityHelper.setActivity(a);
     }
 
     @Then("the activity with the serial {string} is in the project")

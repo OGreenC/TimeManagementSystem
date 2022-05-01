@@ -19,4 +19,8 @@ public class DateServer {
                 calendar.get(Calendar.DAY_OF_MONTH));
     }
 
+    public static String getDateAsString(Calendar c) {
+        return "" + c.get(Calendar.YEAR) + c.get(Calendar.MONTH) + c.get(Calendar.DAY_OF_MONTH);
+    }
+
 }

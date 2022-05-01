@@ -73,10 +73,10 @@ public class Project {
 //        return activity;
 //    }
 
-    public void createActivity() {
+    public Activity createActivity() {
         Activity activity = new Activity();
         this.activities.add(activity);
-//        return activity;
+        return activity;
     }
 
     public void deleteActivity(String serialNumber) throws OperationNotAllowedException {
