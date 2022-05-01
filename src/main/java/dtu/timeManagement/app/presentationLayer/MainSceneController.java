@@ -1,7 +1,6 @@
 package dtu.timeManagement.app.presentationLayer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import dtu.timeManagement.app.Activity;
@@ -58,45 +57,37 @@ public class MainSceneController {
 
     // Creating a new project tab
     public void createProject() {
+        // Create project elements
         this.project = timeManagementApp.createProject();
         Button projectTab = new Button("Project " + this.project.getID());
         projectTab.setPrefSize(150, 50);
-        projects.put(projectTab, this.project);
 
+        // Add project objects to system and UI.
+        projects.put(projectTab, this.project);
         projectVBox.getChildren().add(projectTab);
 
+        // Update UI
+        showProjectActivities();
+
+        // Handle clicking on the project Tab
         projectTab.setOnMouseClicked(mouseEvent -> {
             this.selectedProjectTab = (Button) mouseEvent.getSource();
             this.project = projects.get(selectedProjectTab);
-            if (project == null) {
-                return;
-            }
-            showActivitiesForProject();
+            showProjectActivities();
 
             System.out.println("project with ID " + this.project.getID() + " was clicked");
         });
 
     }
 
-    private void showActivitiesForProject() {
-        activityVBox.getChildren().clear();
-        // TODO : There's a bug relating to replacing the activityTab's in the activityVBOX
-        // This does so we can't select an activity after we select another project.
-        // The code below is 100% responsible for this bug, I just don't want to fix it now lol
-
-        /*
-         *  We can improve this if we store the list of activities with Node as the type.
-         *  Currently, whenever we click a project, ALL the activities for this project
-         *  will be added as a Button, EACH time (BAD).
-         */
-
-        for (Activity activity : project.getActivities()) {
-            Button activityTab = new Button("Activity " + activity.getSerialNumber());
-            activityTab.setPrefSize(150, 50);
-            activityVBox.getChildren().add(activityTab);
+    /**
+     * Updates the UI for the activities in the selected
+     */
+    private void showProjectActivities() {
+        if (project == null) {
+            return;
         }
-
-
+        activityVBox.getChildren().setAll(project.getActivityTabs());
     }
 
     // Deleting a project from the system
@@ -119,10 +110,14 @@ public class MainSceneController {
     // Create a new activity in the system
     public void createActivity() {
         try {
+            // Create activity elements
             this.activity = timeManagementApp.createActivity(project);
             Button activityTab = new Button("Activity " + activity.getSerialNumber());
             activityTab.setPrefSize(150, 50);
+
+            // Add activity objects to system and UI
             activityVBox.getChildren().add(activityTab);
+            project.addActivityTab(activityTab);
             activities.put(activityTab, activity);
 
             activityTab.setOnMouseClicked(mouseEvent -> {
@@ -158,6 +153,7 @@ public class MainSceneController {
         try {
             timeManagementApp.deleteActivity(project, activity);
             activityVBox.getChildren().remove(selectedActivityTab);
+            project.removeActivityTab(selectedActivityTab);
             activities.remove(selectedActivityTab);
             selectedActivityTab = null;
             activity = null;
