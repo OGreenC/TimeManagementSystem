@@ -1,5 +1,7 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -26,7 +28,10 @@ public class Activity {
         nextSerial++;
     }
 
-    public void assignUser(User user) {
+    public void assignUser(User user) throws OperationNotAllowedException {
+        if (user == null) {
+            throw new OperationNotAllowedException("User does not exist");
+        }
         users.add(user);
     }
 
@@ -38,7 +43,10 @@ public class Activity {
         nextSerial = 1;
     }
 
-    public void removeUser(User user) {
+    public void removeUser(User user) throws OperationNotAllowedException {
+        if (user == null) {
+            throw new OperationNotAllowedException("User does not exist");
+        }
         users.remove(user);
     }
 
