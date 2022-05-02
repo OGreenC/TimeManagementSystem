@@ -15,10 +15,8 @@ public class Activity {
     private String activityName;
     private int expectedHours;
     private List<User> users = new ArrayList<>();
-    private Calendar startTime = Calendar.getInstance();
-    private Calendar endTime = Calendar.getInstance();
-    private boolean hasEndDate = false;
-    private boolean hasStartDate = false;
+    private Calendar startTime;
+    private Calendar endTime;
 
     /**
      * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
@@ -54,20 +52,26 @@ public class Activity {
         this.expectedHours = expectedHours;
     }
 
-    public void setStartTime(int y, int mo, int d) {
-        this.startTime.set(y, mo, d);
+    public void setStartTime(int y, int mo, int d) throws OperationNotAllowedException {
+        this.startTime = Calendar.getInstance();
+        Calendar tempStartTime = Calendar.getInstance();
+        tempStartTime.set(y, mo, d);
+        if (tempStartTime.before(endTime) || endTime == null) {
+            this.startTime.set(y, mo, d);
+        } else {
+            throw new OperationNotAllowedException("The finish date is before the start date");
+        }
     }
 
-    public void setEndTime(int y, int mo, int d) {
-        this.endTime.set(y, mo, d);
-    }
-
-    public void setHasStartDate(boolean b) {
-        this.hasStartDate = b;
-    }
-
-    public void setHasEndDate(boolean b) {
-        this.hasEndDate = b;
+    public void setEndTime(int y, int mo, int d) throws OperationNotAllowedException {
+        this.endTime = Calendar.getInstance();
+        Calendar tempFinishDate = Calendar.getInstance();
+        tempFinishDate.set(y, mo, d);
+        if (tempFinishDate.after(startTime) || startTime == null) {
+            this.endTime.set(y, mo, d);
+        } else {
+            throw new OperationNotAllowedException("The finish date is before the start date");
+        }
     }
 
     public void setActivityName(String name) {
@@ -89,10 +93,6 @@ public class Activity {
     public String getSerialNumber() {
         return serialNumber;
     }
-
-    public boolean getHasStartDate() { return hasStartDate; }
-
-    public boolean getHasEndDate() { return  hasEndDate; }
 
     public String getActivityName() { return activityName;}
 }
