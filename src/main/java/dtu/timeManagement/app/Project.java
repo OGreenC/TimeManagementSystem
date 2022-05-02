@@ -67,12 +67,6 @@ public class Project {
         Activity.resetSerial();
     }
 
-    //    public Activity createActivity() {
-//        Activity activity = new Activity();
-//        this.activities.add(activity);
-//        return activity;
-//    }
-
     public Activity createActivity() {
         Activity activity = new Activity();
         this.activities.add(activity);

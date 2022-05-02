@@ -2,6 +2,7 @@ package dtu.timeManagement.app.presentationLayer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import dtu.timeManagement.app.Activity;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
@@ -10,156 +11,220 @@ import dtu.timeManagement.app.TimeManagementApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 public class MainSceneController {
 
     @FXML
-    private Label testLabel;
+    private Label projectID, projectName, activitySerialNumber,
+            activityName, activityExpectedHours;
     @FXML
     private VBox projectVBox, activityVBox;
-    private final Map<Button, Project> projects = new HashMap<>();
-    private final Map<Button, Activity> activities = new HashMap<>();
+    @FXML
+    private AnchorPane projectInfoPane, activityInfoPane;
     private TimeManagementApp timeManagementApp;
-    private Project project;
-    private Button selectedProjectTab;
-    private Button selectedActivityTab;
-    private Activity activity;
+    private Project selectedProject;
+    private Button selectedProjectBtn;
+    private Button selectedActivityBtn;
+    private Activity selectedActivity;
 
     /**
      * This function is called when the controller is initialized
      */
     public void initialize() {
-        System.out.println("Initialized");
         timeManagementApp = new TimeManagementApp();
-    }
-
-    // Temporary button controls
-    public void createProjectClick() {
-        testLabel.setText("Project should now be created");
-        createProject();
-    }
-
-    public void deleteProjectClick() {
-        testLabel.setText("Project should now be deleted");
-        deleteProject();
-    }
-
-    public void createActivityClick() {
-        testLabel.setText("Activity should now be created");
-        createActivity();
-    }
-
-    public void deleteActivityClick() {
-        testLabel.setText("Activity should now be deleted");
-        deleteActivity();
-    }
-
-    // Creating a new project tab
-    public void createProject() {
-        // Create project elements
-        this.project = timeManagementApp.createProject();
-        Button projectTab = new Button("Project " + this.project.getID());
-        projectTab.setPrefSize(150, 50);
-
-        // Add project objects to system and UI.
-        projects.put(projectTab, this.project);
-        projectVBox.getChildren().add(projectTab);
-
-        // Update UI
-        showProjectActivities();
-
-        // Handle clicking on the project Tab
-        projectTab.setOnMouseClicked(mouseEvent -> {
-            this.selectedProjectTab = (Button) mouseEvent.getSource();
-            this.project = projects.get(selectedProjectTab);
-            showProjectActivities();
-
-            System.out.println("project with ID " + this.project.getID() + " was clicked");
-        });
-
+        refreshProjects();
+        activityInfoPane.setVisible(false);
     }
 
     /**
-     * Updates the UI for the activities in the selected
+     * Creation and handling of project ScrollPane
      */
-    private void showProjectActivities() {
-        if (project == null) {
-            return;
+    public void refreshProjects() {
+        projectVBox.getChildren().clear();
+        for (Project p : timeManagementApp.getProjects()) {
+            Button b = createProjectBtn(p);
+            if(p == selectedProject) {
+                setSelectedProject(b);
+                projectID.setText(p.getID());
+                projectName.setText((p.getName() != null) ? p.getName() : "...");
+            }
         }
-        activityVBox.getChildren().setAll(project.getActivityTabs());
+        projectInfoPane.setVisible(!(selectedProject == null));
+
+        //Create new Btn
+        Button createBtn = new Button("+");
+        createBtn.setId("createTab");
+        createBtn.setOnMouseClicked(mouseEvent -> { createProject(); });
+        createBtn.setPrefSize(200, 50);
+        projectVBox.getChildren().add(createBtn);
     }
 
-    // Deleting a project from the system
+    public Button createProjectBtn(Project p) {
+        Button projectBtn = new Button((p.getName() == null) ? "Project: " + p.getID() : p.getID() + " - " + p.getName());
+        projectBtn.setPrefSize(200, 50);
+        projectBtn.setId("defaultTab");
+
+        projectVBox.getChildren().add(projectBtn);
+
+        projectBtn.setOnMouseClicked(mouseEvent -> { projectClicked(mouseEvent, p); });
+        return projectBtn;
+    }
+
+    public void projectClicked(MouseEvent e, Project p) {
+        setSelectedProject((Button) e.getSource());
+        selectedProject = p;
+        refreshProjects();
+        refreshActivities(selectedProject);
+    }
+
+    public void createProject() {
+        selectedProject = timeManagementApp.createProject();
+        refreshProjects();
+        refreshActivities(selectedProject);
+    }
+
+    public void setSelectedProject(Button b) {
+        if(selectedProjectBtn != null) selectedProjectBtn.setId("defaultTab");
+        b.setId("selectedTab");
+        selectedProjectBtn = b;
+        selectedActivity = null;
+    }
+
     public void deleteProject() {
         try {
-            timeManagementApp.deleteProject(this.project);
-            projectVBox.getChildren().remove(selectedProjectTab);
-            activityVBox.getChildren().clear();
-            projects.remove(selectedProjectTab);
-            selectedActivityTab = null;
-            selectedProjectTab = null;
+            timeManagementApp.deleteProject(selectedProject);
+            selectedProject = null;
+            refreshProjects();
+            refreshActivities(null);
         } catch (OperationNotAllowedException e) {
             // TODO : Handle exception by showing some error to the user
             System.out.println("TODO : HANDLE ERROR - PROJECT HAS ALREADY BEEN DELETED");
-			throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
-        System.out.println("Deleted project with ID " + this.project.getID());
     }
 
-    // Create a new activity in the system
+
+    /**
+     * Creation and handling of activity ScrollPane
+     */
+    public void refreshActivities(Project p) {
+        activityVBox.getChildren().clear();
+        if(p != null) {
+            for (Activity a : p.getActivities()) {
+                Button b = createActivityBtn(a);
+                if(a == selectedActivity) {
+                    setSelectedActivity(b);
+                    activitySerialNumber.setText(a.getSerialNumber());
+                    activityName.setText((a.getActivityName() != null) ? a.getActivityName() : "...");
+                    activityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
+                }
+            }
+            activityInfoPane.setVisible(!(selectedActivity == null));
+
+            //Create new Btn
+            Button createBtn = new Button("+");
+            createBtn.setId("createTab");
+            createBtn.setOnMouseClicked(mouseEvent -> { createActivity(); });
+            createBtn.setPrefSize(200, 50);
+            activityVBox.getChildren().add(createBtn);
+
+        }
+    }
+    public Button createActivityBtn(Activity a) {
+        Button activityBtn = new Button((a.getActivityName() == null) ? "Activity: " + a.getSerialNumber() : a.getSerialNumber() + " - " + a.getActivityName());
+        activityBtn.setPrefSize(200, 50);
+        activityBtn.setId("defaultTab");
+
+
+        //activities.put(ActivityBtn, a);
+        activityVBox.getChildren().add(activityBtn);
+
+        activityBtn.setOnMouseClicked(mouseEvent -> { activityClicked(mouseEvent, a); });
+        return activityBtn;
+    }
+
+    public void activityClicked(MouseEvent e, Activity a) {
+        setSelectedActivity((Button) e.getSource());
+        selectedActivity = a;
+        refreshActivities(selectedProject);
+    }
+
     public void createActivity() {
         try {
-            // Create activity elements
-            this.activity = timeManagementApp.createActivity(project);
-            Button activityTab = new Button("Activity " + activity.getSerialNumber());
-            activityTab.setPrefSize(150, 50);
-
-            // Add activity objects to system and UI
-            activityVBox.getChildren().add(activityTab);
-            project.addActivityTab(activityTab);
-            activities.put(activityTab, activity);
-
-            activityTab.setOnMouseClicked(mouseEvent -> {
-                this.selectedActivityTab = (Button) mouseEvent.getSource();
-                this.activity = activities.get(selectedActivityTab);
-                if (activity == null) {
-                    return;
-                }
-                showActivityInformation();
-
-                System.out.println("Activity with serial " + this.activity.getSerialNumber() + " was clicked");
-            });
-
-        } catch (OperationNotAllowedException e) {
-            // TODO : Handle exception
-            System.out.println("TODO : HANDLE ERROR - createActivity()");
+            Activity a = timeManagementApp.createActivity(selectedProject);
+            selectedActivity = a;
+            refreshActivities(selectedProject);
+        }  catch (OperationNotAllowedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // TODO : SHOW ACTIVITY INFORMATION
-    private void showActivityInformation() {
-        System.out.println("TODO");
+    public void setSelectedActivity(Button b) {
+        if(selectedActivityBtn != null) selectedActivityBtn.setId("defaultTab");
+        b.setId("selectedTab");
+        selectedActivityBtn = b;
     }
 
-    // Deleting an activity from the system
     public void deleteActivity() {
-        if (selectedActivityTab == null || activity == null || project == null) {
-            // We could also throw an Exception here which might be better
-            return;
-        }
-
         try {
-            timeManagementApp.deleteActivity(project, activity);
-            activityVBox.getChildren().remove(selectedActivityTab);
-            project.removeActivityTab(selectedActivityTab);
-            activities.remove(selectedActivityTab);
-            selectedActivityTab = null;
-            activity = null;
+            timeManagementApp.deleteActivity(selectedProject, selectedActivity);
+            refreshActivities(selectedProject);
         } catch (OperationNotAllowedException e) {
+            // TODO : Handle exception by showing some error to the user
+            System.out.println("TODO : HANDLE ERROR - PROJECT HAS ALREADY BEEN DELETED");
             throw new RuntimeException(e);
         }
+    }
 
+
+
+    /**
+     * Edit Buttons
+     */
+    public void editProjectName() {
+        TextInputDialog dialog = new TextInputDialog((selectedProject.getName() == null) ? "" : selectedProject.getName());
+
+        dialog.setTitle("Input");
+        dialog.setHeaderText("Enter Project Name");
+        dialog.setContentText("Name:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            selectedProject.setName(name);
+            refreshProjects();
+        });
+    }
+    public void editActivityName() {
+        TextInputDialog dialog = new TextInputDialog((selectedActivity.getActivityName() == null) ? "" : selectedActivity.getActivityName());
+
+        dialog.setTitle("Input");
+        dialog.setHeaderText("Enter Activity Name");
+        dialog.setContentText("Name:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            selectedActivity.setActivityName(name);
+            refreshActivities(selectedProject);
+        });
+    }
+    public void editActivityExpectedHours() {
+        TextInputDialog dialog = new TextInputDialog(Integer.toString(selectedActivity.getExpectedHours()));
+
+        dialog.setTitle("Input");
+        dialog.setHeaderText("Enter Expected Hours");
+        dialog.setContentText("Hours:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(hours -> {
+            selectedActivity.setExpectedHours(Integer.parseInt(hours));
+            refreshActivities(selectedProject);
+        });
     }
 }

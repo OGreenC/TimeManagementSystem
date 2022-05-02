@@ -20,6 +20,7 @@ public class Main extends Application {
 		// Load MainScene.fxml
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/dtu/timeManagement/app/fxml/MainScene.fxml"));
 		Scene scene = new Scene(loader.load());
+		scene.getStylesheets().add(getClass().getResource("/dtu/timeManagement/app/fxml/style.css").toExternalForm());
 		
 		// Set and show scene on primaryStage
 		primaryStage.setTitle("TimeManagementSystem");
