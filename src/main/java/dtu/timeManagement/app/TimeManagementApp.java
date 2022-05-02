@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TimeManagementApp {
     private final ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Project> projects = new ArrayList<>();
+    private final ArrayList<Project> projects = new ArrayList<>();
     private DateServer dateServer = new DateServer();
 
     /**
@@ -62,16 +62,15 @@ public class TimeManagementApp {
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
         }
-        project.createActivity();
-
-        // IMPROVE THIS WHEN THE TEST IS CHANGED
-        return project.getActivities().get(project.getActivities().size() - 1);
-//        return project.createActivity();
+        return project.createActivity();
     }
 
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
+        }
+        if (activity == null) {
+            throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
     }

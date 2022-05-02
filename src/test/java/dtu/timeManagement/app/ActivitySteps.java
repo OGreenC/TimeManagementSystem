@@ -10,19 +10,25 @@ import java.util.Calendar;
 import static org.junit.Assert.*;
 
 public class ActivitySteps {
-    private ProjectHelper projectHelper;
-    private ErrorMessageHolder errorMessageHolder;
-    private ActivityHelper activityHelper;
-    public ActivitySteps(ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder, ActivityHelper activityHelper) {
+    private final ProjectHelper projectHelper;
+    private final ErrorMessageHolder errorMessageHolder;
+    private final ActivityHelper activityHelper;
+    private final TimeManagementApp timeManagementApp;
+    public ActivitySteps(TimeManagementApp timeManagementApp, ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder, ActivityHelper activityHelper) {
         this.projectHelper = projectHelper;
         this.errorMessageHolder = errorMessageHolder;
         this.activityHelper = activityHelper;
+        this.timeManagementApp = timeManagementApp;
     }
 
     @When("an activity is added to the project")
     public void an_activity_is_added_to_the_project() {
-        Activity a = projectHelper.getProject().createActivity();
-        activityHelper.setActivity(a);
+        try {
+            Activity a = timeManagementApp.createActivity(projectHelper.getProject());
+            activityHelper.setActivity(a);
+        } catch (OperationNotAllowedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Then("the activity with the serial {string} is in the project")
@@ -39,7 +45,9 @@ public class ActivitySteps {
     @When("the user deletes the activity with serial {string}")
     public void the_user_deletes_the_activity_with_serial(String serialNumber) {
         try {
-            projectHelper.getProject().deleteActivity(serialNumber);
+            Project p = projectHelper.getProject();
+            Activity a = p.getActivity(serialNumber);
+            timeManagementApp.deleteActivity(p, a);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
