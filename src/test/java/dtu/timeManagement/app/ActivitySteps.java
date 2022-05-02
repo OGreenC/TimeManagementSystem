@@ -102,4 +102,15 @@ public class ActivitySteps {
     public void the_activity_with_the_serial_has_the_name(String serialNumber, String activityName) {
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getActivityName(),activityName);
     }
+
+    @Then("the activity with the serial {string} has started")
+    public void the_activity_with_the_serial_has_started(String serialNumber) {
+        assertTrue(projectHelper.getProject().getActivity(serialNumber).hasStarted());
+    }
+
+    @Then("the activity with the serial {string} has ended")
+    public void the_activity_with_the_serial_has_ended(String serialNumber) {
+        assertTrue(projectHelper.getProject().getActivity(serialNumber).hasEnded());
+    }
+
 }
