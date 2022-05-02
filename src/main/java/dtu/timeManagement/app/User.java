@@ -43,5 +43,7 @@ public class User {
     }
 
 
-
+    public boolean match(String searchText) {
+        return initial.contains(searchText);
+    }
 }
