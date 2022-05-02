@@ -53,7 +53,6 @@ public class Project {
     }
 
     public void setStartDate(int y, int mo, int d) {
-        System.out.println(y + " " + mo + " " + " " + d);
         this.calendar.set(y, mo, d);
     }
 
