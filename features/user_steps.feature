@@ -53,10 +53,13 @@ Feature: Add Employee
     When the user with initials "ABC" is removed from the activity with serial "0001"
     Then the error message "User does not exist" is given
 
-  #Scenario: Remove a user from the system
-  # Given there is a user with the initials "ABC"
-  # When the user with initials "ABC" is removed from the system
-  # Then there is no user with the initials "ABC" in the system
-  # And no project has a project leader with the initials "ABC"
-  # And no project has the user with the initials "ABC" assigned to it
-  # And no time should be assigned to the user with the initials "ABC"
+  Scenario: Remove a user from the system
+    Given a project is registered in the system
+    And an activity is added to the project
+    And there is a user in the system
+    And the user is added to the activity
+    And the user is set as project leader of the project
+    When the user is removed from the system
+    Then the user is not in the system
+    And no project has the user as project leader
+    And no activity has the user assigned to it

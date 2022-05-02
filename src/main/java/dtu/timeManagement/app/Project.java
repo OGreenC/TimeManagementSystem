@@ -100,7 +100,8 @@ public class Project {
     public void removeProjectLeader() throws OperationNotAllowedException {
         if (this.projectLeader == null) {
             throw new OperationNotAllowedException("Project leader does not exist");
+        } else {
+            this.projectLeader = null;
         }
-        this.projectLeader = null;
     }
 }

@@ -36,19 +36,19 @@ public class Activity {
         users.add(user);
     }
 
+    public void removeUser(User user) throws OperationNotAllowedException {
+        if (user == null) {
+            throw new OperationNotAllowedException("User does not exist");
+        }
+        users.remove(user);
+    }
+
     public Boolean isAssigned(User user) {
         return users.contains(user);
     }
 
     public static void resetSerial() {
         nextSerial = 1;
-    }
-
-    public void removeUser(User user) throws OperationNotAllowedException {
-        if (user == null) {
-            throw new OperationNotAllowedException("User does not exist");
-        }
-        users.remove(user);
     }
 
     public void setExpectedHours(int expectedHours) {

@@ -112,33 +112,49 @@ public class UserSteps {
     }
 
     /**
-     * Delete user from the system
+     * Remove a user from the system
      */
-//    @When("the user with initials {string} is removed from the system")
-//    public void the_user_with_initials_is_removed_from_the_system(String initials) {
-//        timeManagementApp.removeUser(initials);
-//    }
-//
-//    @Then("there is no user with the initials {string} in the system")
-//    public void there_is_no_user_with_the_initials_in_the_system(String initials) {
-//        assertNull(timeManagementApp.getUser(initials));
-//    }
-//
-//    @Then("no project has a project leader with the initials {string}")
-//    public void no_project_has_a_project_leader_with_the_initials(String string) {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
-//
-//    @Then("no project has the user with the initials {string} assigned to it")
-//    public void no_project_has_the_user_with_the_initials_assigned_to_it(String string) {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
-//
-//    @Then("no time should be assigned to the user with the initials {string}")
-//    public void no_time_should_be_assigned_to_the_user_with_the_initials(String string) {
-//        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
-//    }
+    @Given("the user is added to the activity")
+    public void the_user_is_added_to_the_activity() {
+        timeManagementApp.assignUserToActivity(userHelper.getUser(), activityHelper.getActivity());
+    }
+
+    @Given("the user is set as project leader of the project")
+    public void the_user_is_set_as_project_leader_of_the_project() throws OperationNotAllowedException {
+        projectHelper.getProject().setProjectLeader(userHelper.getUser());
+    }
+
+    @When("the user is removed from the system")
+    public void the_user_is_removed_from_the_system() {
+        timeManagementApp.removeUser(userHelper.getUser());
+    }
+
+    @Then("the user is not in the system")
+    public void the_user_is_not_in_the_system() {
+        assertNull(timeManagementApp.getUser(userHelper.getUser().getInitial()));
+    }
+
+    @Then("no project has the user as project leader")
+    public void no_project_has_the_user_as_project_leader() {
+        boolean projectLeaderFound = false;
+
+        for (Project p : timeManagementApp.getProjects()) {
+            if (p.getProjectLeader() != null) {
+                if (p.getProjectLeader().equals(userHelper.getUser())) {
+                    projectLeaderFound = true;
+                    break;
+                }
+            }
+        }
+        assertFalse(projectLeaderFound);
+    }
+
+    @Then("no activity has the user assigned to it")
+    public void no_activity_has_the_user_assigned_to_it() {
+        for (Project p : timeManagementApp.getProjects()) {
+            for (Activity a : p.getActivities()) {
+                assertFalse(a.isAssigned(userHelper.getUser()));
+            }
+        }
+    }
 }

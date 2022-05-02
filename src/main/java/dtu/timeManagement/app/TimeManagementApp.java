@@ -3,6 +3,7 @@ package dtu.timeManagement.app;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TimeManagementApp {
     private final ArrayList<User> users = new ArrayList<>();
@@ -23,6 +24,25 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
         }
         users.add(user);
+    }
+
+    public void removeUser(User user) {
+        for (Activity a : user.getActivities()) {
+            System.out.println("Run");
+            if (Objects.equals(a.getProject().getProjectLeader(), user)) {
+                try {
+                    a.getProject().removeProjectLeader();
+                } catch (OperationNotAllowedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                a.removeUser(user);
+            } catch (OperationNotAllowedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        users.remove(user);
     }
 
     public User getUser(String initials) {
@@ -73,5 +93,23 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
+    }
+
+    public void assignUserToActivity(User user, Activity activity) {
+        user.addActivity(activity);
+        try {
+            activity.assignUser(user);
+        } catch (OperationNotAllowedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeUserFromActivity(User user, Activity activity) {
+        user.removeActivity(activity);
+        try {
+            activity.removeUser(user);
+        } catch (OperationNotAllowedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

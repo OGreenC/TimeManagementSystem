@@ -4,13 +4,16 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.timeRegistration.RegistrationDay;
 import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 
 import static java.util.Calendar.*;
 
 public class User {
     private final String initial;
+    private final ArrayList<Activity> activities = new ArrayList<Activity>();
     HashMap<String, RegistrationDay> timeRegistration = new HashMap<String, RegistrationDay>();
 
 
@@ -42,6 +45,15 @@ public class User {
         return timeRegistration.get(DateServer.getDateAsString(date));
     }
 
+    public void addActivity(Activity activity) {
+        activities.add(activity);
+    }
 
+    public void removeActivity(Activity activity) {
+        activities.remove(activity);
+    }
 
+    public ArrayList<Activity> getActivities() {
+        return activities;
+    }
 }
