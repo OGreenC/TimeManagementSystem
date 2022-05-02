@@ -73,21 +73,13 @@ public class Project {
         return activity;
     }
 
-    public void deleteActivity(String serialNumber) throws OperationNotAllowedException {
-        if (getActivity(serialNumber) == null) {
-            throw new OperationNotAllowedException("Activity does not exist");
-        } else {
-            activities.remove(getActivity(serialNumber));
-        }
-    }
-
-    // TODO : Test using the actual objects instead... please
     public void deleteActivity(Activity activity) throws OperationNotAllowedException {
         if (activity == null) {
             throw new OperationNotAllowedException("Activity does not exist");
-        } else {
-            activities.remove(activity);
         }
+
+        activities.remove(activity);
+
     }
 
     public Activity getActivity(String serialNumber) {
@@ -110,19 +102,5 @@ public class Project {
             throw new OperationNotAllowedException("Project leader does not exist");
         }
         this.projectLeader = null;
-    }
-
-
-    // Methods used in UI:
-    public List<Node> getActivityTabs() {
-        return activityTabs;
-    }
-
-    public void addActivityTab(Button activityTab) {
-        activityTabs.add(activityTab);
-    }
-
-    public void removeActivityTab(Button selectedActivityTab) {
-        activityTabs.remove(selectedActivityTab);
     }
 }

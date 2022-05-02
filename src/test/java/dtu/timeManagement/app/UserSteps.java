@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UserSteps {
     private final TimeManagementApp timeManagementApp;
-    private UserHelper userHelper;
-    private ProjectHelper projectHelper;
-    private ActivityHelper activityHelper;
+    private final UserHelper userHelper;
+    private final ProjectHelper projectHelper;
+    private final ActivityHelper activityHelper;
     private final ErrorMessageHolder errorMessageHolder;
 
     public UserSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ProjectHelper projectHelper, ActivityHelper activityHelper, ErrorMessageHolder errorMessageHolder) {

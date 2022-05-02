@@ -14,7 +14,7 @@ public class ProjectSteps {
     private final TimeManagementApp timeManagementApp;
     private final ErrorMessageHolder errorMessageHolder;
     private final UserHelper userHelper;
-    private ProjectHelper projectHelper;
+    private final ProjectHelper projectHelper;
 
     public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder, UserHelper userHelper, ProjectHelper projectHelper) {
         this.timeManagementApp = timeManagementApp;
