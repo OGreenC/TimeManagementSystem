@@ -102,4 +102,9 @@ public class ActivitySteps {
     public void the_activity_with_the_serial_has_the_name(String serialNumber, String activityName) {
         assertEquals(projectHelper.getProject().getActivity(serialNumber).getActivityName(),activityName);
     }
+
+    @Then("the project of the activity with serial number {string} is the selected project")
+    public void the_project_of_the_activity_with_serial_number_is_the_selected_project(String serial) {
+        assertEquals(projectHelper.getProject(), projectHelper.getProject().getActivity(serial).getProject());
+    }
 }

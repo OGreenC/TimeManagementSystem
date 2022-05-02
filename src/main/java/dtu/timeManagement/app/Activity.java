@@ -17,13 +17,15 @@ public class Activity {
     private List<User> users = new ArrayList<>();
     private Calendar startTime;
     private Calendar endTime;
+    private Project project;
 
     /**
      * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
      */
-    public Activity() {
+    public Activity(Project project) {
         this.serialNumber = String.format("%04d", nextSerial);
         nextSerial++;
+        this.project = project;
     }
 
     public void assignUser(User user) throws OperationNotAllowedException {
@@ -95,4 +97,6 @@ public class Activity {
     }
 
     public String getActivityName() { return activityName;}
+
+    public Project getProject() { return project;}
 }

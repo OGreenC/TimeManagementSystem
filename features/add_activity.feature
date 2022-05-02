@@ -11,3 +11,4 @@ Feature: Add activity
     And there are no activities in the project
     When an activity is added to the project
     Then the activity with the serial "0001" is in the project
+    And the project of the activity with serial number "0001" is the selected project

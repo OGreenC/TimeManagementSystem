@@ -68,7 +68,7 @@ public class Project {
     }
 
     public Activity createActivity() {
-        Activity activity = new Activity();
+        Activity activity = new Activity(this);
         this.activities.add(activity);
         return activity;
     }
