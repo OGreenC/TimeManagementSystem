@@ -19,6 +19,7 @@ public class Activity {
     private Calendar endTime;
     private Project project;
 
+
     /**
      * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
      */
@@ -82,6 +83,16 @@ public class Activity {
 
     public int getExpectedHours() {
         return expectedHours;
+    }
+
+    public Boolean hasEnded() {
+        if(!Calendar.getInstance().before(endTime)){ return true; }
+        else { return false; }
+    }
+
+    public Boolean hasStarted() {
+        if(!Calendar.getInstance().before(startTime)) { return true; }
+        else { return false; }
     }
 
     public Calendar getStartTime() {
