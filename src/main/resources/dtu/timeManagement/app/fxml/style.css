@@ -32,5 +32,11 @@ http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
     -fx-font-size: 2em; /* 12 */
     -fx-font-family: "Helvetica";
     -fx-font-weight: bold;
+}
 
+.combo-box>.list-cell {
+    -fx-alignment: center;
+}
+.combo-box .arrow, .combo-box .arrow-button{
+    -fx-background-color: transparent;
 }

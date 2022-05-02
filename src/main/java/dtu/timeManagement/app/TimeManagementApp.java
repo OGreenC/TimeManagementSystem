@@ -48,6 +48,9 @@ public class TimeManagementApp {
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
     }
+    public ArrayList<User> getUsers() {
+        return users;
+    }
 
     public ArrayList<Project> getProjects() {
         return projects;
