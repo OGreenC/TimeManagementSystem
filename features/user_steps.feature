@@ -60,3 +60,4 @@ Feature: Add Employee
   # And no project has a project leader with the initials "ABC"
   # And no project has the user with the initials "ABC" assigned to it
   # And no time should be assigned to the user with the initials "ABC"
+
