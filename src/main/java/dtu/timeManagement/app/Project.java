@@ -53,7 +53,6 @@ public class Project {
     }
 
     public void setStartDate(int y, int mo, int d) {
-        System.out.println(y + " " + mo + " " + " " + d);
         this.calendar.set(y, mo, d);
     }
 
@@ -100,7 +99,8 @@ public class Project {
     public void removeProjectLeader() throws OperationNotAllowedException {
         if (this.projectLeader == null) {
             throw new OperationNotAllowedException("Project leader does not exist");
+        } else {
+            this.projectLeader = null;
         }
-        this.projectLeader = null;
     }
 }
