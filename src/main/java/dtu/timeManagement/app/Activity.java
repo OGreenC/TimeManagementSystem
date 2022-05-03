@@ -3,7 +3,6 @@ package dtu.timeManagement.app;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,6 +13,7 @@ public class Activity {
 
     private String activityName;
     private int expectedHours;
+
     private List<User> users = new ArrayList<>();
     private Calendar startTime;
     private Calendar endTime;
@@ -110,4 +110,8 @@ public class Activity {
     public String getActivityName() { return activityName;}
 
     public Project getProject() { return project;}
+
+    public List<User> getUsers() {
+        return users;
+    }
 }

@@ -8,10 +8,11 @@ import dtu.timeManagement.app.Activity;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
+import dtu.timeManagement.app.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,14 +23,18 @@ public class MainSceneController {
     private Label projectID, projectName, activitySerialNumber,
             activityName, activityExpectedHours;
     @FXML
-    private VBox projectVBox, activityVBox;
+    private VBox projectVBox, activityVBox, userVBox, userActivityVBox, activityAddedUsersVBox;
     @FXML
     private AnchorPane projectInfoPane, activityInfoPane;
     private TimeManagementApp timeManagementApp;
     private Project selectedProject;
     private Button selectedProjectBtn;
+
     private Button selectedActivityBtn;
     private Activity selectedActivity;
+
+    private Button selectedUserBtn;
+    private User selectedUser;
 
     /**
      * This function is called when the controller is initialized
@@ -38,6 +43,7 @@ public class MainSceneController {
         timeManagementApp = new TimeManagementApp();
         refreshProjects();
         activityInfoPane.setVisible(false);
+        refreshUsers();
     }
 
     /**
@@ -101,8 +107,6 @@ public class MainSceneController {
             refreshProjects();
             refreshActivities(null);
         } catch (OperationNotAllowedException e) {
-            // TODO : Handle exception by showing some error to the user
-            System.out.println("TODO : HANDLE ERROR - PROJECT HAS ALREADY BEEN DELETED");
             throw new RuntimeException(e);
         }
     }
@@ -116,6 +120,7 @@ public class MainSceneController {
         if(p != null) {
             for (Activity a : p.getActivities()) {
                 Button b = createActivityBtn(a);
+                activityVBox.getChildren().add(b);
                 if(a == selectedActivity) {
                     setSelectedActivity(b);
                     activitySerialNumber.setText(a.getSerialNumber());
@@ -123,6 +128,7 @@ public class MainSceneController {
                     activityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
                 }
             }
+            if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
             activityInfoPane.setVisible(!(selectedActivity == null));
 
             //Create new Btn
@@ -138,10 +144,6 @@ public class MainSceneController {
         Button activityBtn = new Button((a.getActivityName() == null) ? "Activity: " + a.getSerialNumber() : a.getSerialNumber() + " - " + a.getActivityName());
         activityBtn.setPrefSize(200, 50);
         activityBtn.setId("defaultTab");
-
-
-        //activities.put(ActivityBtn, a);
-        activityVBox.getChildren().add(activityBtn);
 
         activityBtn.setOnMouseClicked(mouseEvent -> { activityClicked(mouseEvent, a); });
         return activityBtn;
@@ -172,16 +174,138 @@ public class MainSceneController {
     public void deleteActivity() {
         try {
             timeManagementApp.deleteActivity(selectedProject, selectedActivity);
+            selectedActivity = null;
             refreshActivities(selectedProject);
         } catch (OperationNotAllowedException e) {
-            // TODO : Handle exception by showing some error to the user
-            System.out.println("TODO : HANDLE ERROR - PROJECT HAS ALREADY BEEN DELETED");
             throw new RuntimeException(e);
         }
+    }
+    /**
+     * Creation and handling of users added to activity ScrollPane
+     */
+    public void refreshActivityAddedUsers(Activity a) {
+        activityAddedUsersVBox.getChildren().clear();
+        for (User u : a.getUsers()) {
+            Button b = createActivityUserBtn(u);
+            activityAddedUsersVBox.getChildren().add(b);
+        }
+        if(selectedUser != null) refreshUserActivities(selectedUser);
+
+
+        //Create "Add user" choicebox.
+        ComboBox comboBox = new ComboBox();
+        for (User u: timeManagementApp.getUsers()) {
+            if(!a.isAssigned(u)) comboBox.getItems().add(u.getInitial());
+        }
+        comboBox.setId("createTab");
+        comboBox.setValue("       +");
+        comboBox.setPrefSize(200, 50);
+        comboBox.valueProperty().addListener(new ChangeListener<String>() {
+                    @Override public void changed(ObservableValue ov, String t, String t1) {
+                        addActivityUser(timeManagementApp.getUser(t1));
+                    }
+                });
+
+        activityAddedUsersVBox.getChildren().add(comboBox);
+    }
+    public Button createActivityUserBtn(User u) {
+        Button userBtn = new Button(u.getInitial());
+        userBtn.setPrefSize(200, 50);
+        userBtn.setId("defaultTab");
+
+        userBtn.setOnMouseClicked(mouseEvent -> { deleteUserClicked(mouseEvent, u); });
+        return userBtn;
+    }
+
+    public void deleteUserClicked(MouseEvent e, User u) {
+        timeManagementApp.removeUserFromActivity(u,selectedActivity);
+        refreshActivityAddedUsers(selectedActivity);
+    }
+
+    public void addActivityUser(User u) {
+        timeManagementApp.assignUserToActivity(u, selectedActivity);
+        refreshActivityAddedUsers(selectedActivity);
     }
 
 
 
+    /**
+     *
+     *
+     * User tab in GUI
+     *
+     *
+     * Creation and handling of User ScrollPane
+     */
+    public void refreshUsers() {
+        userVBox.getChildren().clear();
+        for (User u : timeManagementApp.getUsers()) {
+            Button b = createUserBtn(u);
+            if(u == selectedUser) {
+                setSelectedUser(b);
+            }
+        }
+        //Create new Btn
+        Button createBtn = new Button("+");
+        createBtn.setId("createTab");
+        createBtn.setOnMouseClicked(mouseEvent -> { createUser(); });
+        createBtn.setPrefSize(200, 50);
+        userVBox.getChildren().add(createBtn);
+        if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
+    }
+    public void refreshUserActivities(User u) {
+        userActivityVBox.getChildren().clear();
+        for (Activity a : u.getActivities()) {
+            Button b = createActivityBtn(a);
+            userActivityVBox.getChildren().add(b);
+            if(a == selectedActivity) {
+                setSelectedActivity(b);
+            }
+        }
+    }
+
+    public Button createUserBtn(User u) {
+        Button userBtn = new Button(u.getInitial());
+        userBtn.setPrefSize(200, 50);
+        userBtn.setId("defaultTab");
+
+        //activities.put(ActivityBtn, a);
+        userVBox.getChildren().add(userBtn);
+
+        userBtn.setOnMouseClicked(mouseEvent -> { userClicked(mouseEvent, u); });
+        return userBtn;
+    }
+    public void createUser() {
+        TextInputDialog dialog = new TextInputDialog();
+
+        dialog.setTitle("Input");
+        dialog.setHeaderText("Enter new user initials");
+        dialog.setContentText("Initials:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(initials -> {
+            User u = new User(initials);
+            try {
+                timeManagementApp.addUser(u);
+            } catch (OperationNotAllowedException e) {
+                throw new RuntimeException(e);
+            }
+            selectedUser = u;
+            refreshUsers();
+        });
+    }
+    public void userClicked(MouseEvent e, User u) {
+        setSelectedUser((Button) e.getSource());
+        selectedUser = u;
+        refreshUsers();
+        refreshUserActivities(u);
+    }
+    public void setSelectedUser(Button b) {
+        if(selectedUserBtn != null) selectedUserBtn.setId("defaultTab");
+        b.setId("selectedTab");
+        selectedUserBtn = b;
+    }
     /**
      * Edit Buttons
      */
@@ -227,4 +351,9 @@ public class MainSceneController {
             refreshActivities(selectedProject);
         });
     }
+
+
+
+
+
 }
