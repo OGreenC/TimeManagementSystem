@@ -9,8 +9,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 
-import static java.util.Calendar.*;
-
 public class User {
     private final String initial;
     private final ArrayList<Activity> activities = new ArrayList<Activity>();

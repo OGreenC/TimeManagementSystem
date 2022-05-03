@@ -105,7 +105,7 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Line endX="199.5" layoutX="115.0" layoutY="44.0" startX="-100.0" />
+                              <Line endX="238.5" layoutX="115.0" layoutY="44.0" startX="-100.0" />
                               <Line endX="303.5" endY="26.0" layoutX="125.0" layoutY="54.0" startX="-108.0" startY="26.0" />
                               <Button layoutX="438.0" layoutY="51.0" mnemonicParsing="false" onAction="#editActivityName" prefHeight="25.0" prefWidth="38.0" text="edit" />
                               <Line endX="40.0" endY="-179.0" layoutX="450.0" layoutY="179.0" startX="40.0" startY="223.0" />
@@ -141,24 +141,24 @@
                               <Line endX="271.5" endY="81.0" layoutX="155.0" layoutY="74.0" startX="109.0" startY="81.0" />
                               <Button layoutX="438.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="edit" />
                               <Button layoutX="204.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="edit" />
-                              <Label fx:id="activitySerialNumber" layoutX="244.0" layoutY="20.0" prefHeight="27.0" prefWidth="102.0" text="...">
+                              <Label fx:id="activitySerialNumber" layoutX="276.0" layoutY="20.0" prefHeight="27.0" prefWidth="102.0" text="...">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="activityName" layoutX="168.0" layoutY="56.0" prefHeight="27.0" prefWidth="260.0" text="...">
+                              <Label fx:id="activityName" layoutX="185.0" layoutY="55.0" prefHeight="27.0" prefWidth="260.0" text="...">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="activityExpectedHours" layoutX="188.0" layoutY="91.0" prefHeight="27.0" prefWidth="234.0" text="...">
+                              <Label fx:id="activityExpectedHours" layoutX="204.0" layoutY="91.0" prefHeight="27.0" prefWidth="234.0" text="...">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="512.0" layoutY="23.0" prefHeight="35.0" prefWidth="138.0" text="(click on user to remove)">
+                              <Label layoutX="523.0" layoutY="24.0" prefHeight="35.0" prefWidth="123.0" text="(click on user to remove)">
                                  <font>
-                                    <Font name="System Bold" size="13.0" />
+                                    <Font name="System Bold" size="10.0" />
                                  </font>
                               </Label>
                            </children>
@@ -221,7 +221,7 @@
          </font>
       </Label>
       <Line endX="993.0" layoutX="87.0" layoutY="692.0" startX="-93.0" />
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="396.0" style="-fx-font-style: Helvetica;" text="Time Management System">
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="396.0" text="Time Management System">
          <font>
             <Font size="31.0" />
          </font>

@@ -189,7 +189,8 @@ public class MainSceneController {
             Button b = createActivityUserBtn(u);
             activityAddedUsersVBox.getChildren().add(b);
         }
-        refreshUserActivities(selectedUser);
+        if(selectedUser != null) refreshUserActivities(selectedUser);
+
 
         //Create "Add user" choicebox.
         ComboBox comboBox = new ComboBox();
