@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.timeManagement.app.presentationLayer.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.timeManagement.app.presentationLayer.MainSceneController">
    <children>
       <TabPane layoutY="69.0" prefHeight="623.0" prefWidth="1080.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -185,7 +185,7 @@
                               <VBox fx:id="userVBox" prefHeight="484.0" prefWidth="214.0" />
                            </content>
                         </ScrollPane>
-                        <TextField layoutX="8.0" layoutY="68.0" prefHeight="27.0" prefWidth="199.0" />
+                        <TextField fx:id="userSearchBar" layoutX="8.0" layoutY="68.0" onKeyTyped="#refreshUsers" prefHeight="27.0" prefWidth="199.0" promptText="Initials" />
                         <Label layoutX="8.0" layoutY="40.0" prefHeight="34.0" prefWidth="153.0" text="Search for user:">
                            <font>
                               <Font name="Arial Italic" size="14.0" />

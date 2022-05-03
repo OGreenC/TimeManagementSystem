@@ -3,11 +3,13 @@ package dtu.timeManagement.app;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Objects;
 
 public class TimeManagementApp {
-    private final ArrayList<User> users = new ArrayList<>();
-    private final ArrayList<Project> projects = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
+    private final List<Project> projects = new ArrayList<>();
     private DateServer dateServer = new DateServer();
 
     /**
@@ -48,11 +50,11 @@ public class TimeManagementApp {
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
     }
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public ArrayList<Project> getProjects() {
+    public List<Project> getProjects() {
         return projects;
     }
 
@@ -79,8 +81,6 @@ public class TimeManagementApp {
         project.setProjectLeader(user);
     }
 
-    // TODO : THE TEST FOR CREATING AN ACTIVTY SHOULD CALL THIS FUNCTION!!!
-    // Please update the test
     public Activity createActivity(Project project) throws OperationNotAllowedException {
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
@@ -96,6 +96,10 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
+    }
+
+    public List<User> getUsers(String searchText) {
+        return users.stream().filter(user -> user.match(searchText)).collect(Collectors.toList());
     }
 
     public void assignUserToActivity(User user, Activity activity) {

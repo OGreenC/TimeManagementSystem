@@ -44,6 +44,8 @@ public class MainSceneController {
     @FXML
     private Spinner<Integer> hourSpinner;
 
+    @FXML
+    private TextField userSearchBar;
     private TimeManagementApp timeManagementApp;
     private Project selectedProject;
     private Button selectedProjectBtn;
@@ -103,7 +105,7 @@ public class MainSceneController {
         projectVBox.getChildren().clear();
         for (Project p : timeManagementApp.getProjects()) {
             Button b = createProjectBtn(p);
-            if(p == selectedProject) {
+            if (p == selectedProject) {
                 setSelectedProject(b);
                 projectID.setText(p.getID());
                 projectName.setText((p.getName() != null) ? p.getName() : "...");
@@ -114,7 +116,9 @@ public class MainSceneController {
         //Create new Btn
         Button createBtn = new Button("+");
         createBtn.setId("createTab");
-        createBtn.setOnMouseClicked(mouseEvent -> { createProject(); });
+        createBtn.setOnMouseClicked(mouseEvent -> {
+            createProject();
+        });
         createBtn.setPrefSize(200, 50);
         projectVBox.getChildren().add(createBtn);
     }
@@ -126,7 +130,9 @@ public class MainSceneController {
 
         projectVBox.getChildren().add(projectBtn);
 
-        projectBtn.setOnMouseClicked(mouseEvent -> { projectClicked(mouseEvent, p); });
+        projectBtn.setOnMouseClicked(mouseEvent -> {
+            projectClicked(mouseEvent, p);
+        });
         return projectBtn;
     }
 
@@ -144,7 +150,7 @@ public class MainSceneController {
     }
 
     public void setSelectedProject(Button b) {
-        if(selectedProjectBtn != null) selectedProjectBtn.setId("defaultTab");
+        if (selectedProjectBtn != null) selectedProjectBtn.setId("defaultTab");
         b.setId("selectedTab");
         selectedProjectBtn = b;
         selectedActivity = null;
@@ -167,35 +173,40 @@ public class MainSceneController {
      */
     public void refreshActivities(Project p) {
         activityVBox.getChildren().clear();
-        if(p != null) {
+        if (p != null) {
             for (Activity a : p.getActivities()) {
                 Button b = createActivityBtn(a);
                 activityVBox.getChildren().add(b);
-                if(a == selectedActivity) {
+                if (a == selectedActivity) {
                     setSelectedActivity(b);
                     activitySerialNumber.setText(a.getSerialNumber());
                     activityName.setText((a.getActivityName() != null) ? a.getActivityName() : "...");
                     activityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
                 }
             }
-            if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
+            if (selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
             activityInfoPane.setVisible(!(selectedActivity == null));
 
             //Create new Btn
             Button createBtn = new Button("+");
             createBtn.setId("createTab");
-            createBtn.setOnMouseClicked(mouseEvent -> { createActivity(); });
+            createBtn.setOnMouseClicked(mouseEvent -> {
+                createActivity();
+            });
             createBtn.setPrefSize(200, 50);
             activityVBox.getChildren().add(createBtn);
 
         }
     }
+
     public Button createActivityBtn(Activity a) {
         Button activityBtn = new Button((a.getActivityName() == null) ? "Activity: " + a.getSerialNumber() : a.getSerialNumber() + " - " + a.getActivityName());
         activityBtn.setPrefSize(200, 50);
         activityBtn.setId("defaultTab");
 
-        activityBtn.setOnMouseClicked(mouseEvent -> { activityClicked(mouseEvent, a); });
+        activityBtn.setOnMouseClicked(mouseEvent -> {
+            activityClicked(mouseEvent, a);
+        });
         return activityBtn;
     }
 
@@ -210,13 +221,13 @@ public class MainSceneController {
             Activity a = timeManagementApp.createActivity(selectedProject);
             selectedActivity = a;
             refreshActivities(selectedProject);
-        }  catch (OperationNotAllowedException e) {
+        } catch (OperationNotAllowedException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void setSelectedActivity(Button b) {
-        if(selectedActivityBtn != null) selectedActivityBtn.setId("defaultTab");
+        if (selectedActivityBtn != null) selectedActivityBtn.setId("defaultTab");
         b.setId("selectedTab");
         selectedActivityBtn = b;
     }
@@ -230,6 +241,7 @@ public class MainSceneController {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Users added to activity ScrollPane
      */
@@ -239,36 +251,40 @@ public class MainSceneController {
             Button b = createActivityUserBtn(u);
             activityAddedUsersVBox.getChildren().add(b);
         }
-        if(selectedUser != null) refreshUserActivities(selectedUser);
+        if (selectedUser != null) refreshUserActivities(selectedUser);
 
 
         //Create "Add user" choicebox.
         ComboBox<String> comboBox = new ComboBox<>();
-        for (User u: timeManagementApp.getUsers()) {
-            if(!a.isAssigned(u)) comboBox.getItems().add(u.getInitial());
+        for (User u : timeManagementApp.getUsers()) {
+            if (!a.isAssigned(u)) comboBox.getItems().add(u.getInitial());
         }
         comboBox.setId("createTab");
         comboBox.setValue("       +");
         comboBox.setPrefSize(200, 50);
         comboBox.valueProperty().addListener(new ChangeListener<String>() {
-                    @Override public void changed(ObservableValue ov, String t, String t1) {
-                        addActivityUser(timeManagementApp.getUser(t1));
-                    }
-                });
+            @Override
+            public void changed(ObservableValue ov, String t, String t1) {
+                addActivityUser(timeManagementApp.getUser(t1));
+            }
+        });
 
         activityAddedUsersVBox.getChildren().add(comboBox);
     }
+
     public Button createActivityUserBtn(User u) {
         Button userBtn = new Button(u.getInitial());
         userBtn.setPrefSize(200, 50);
         userBtn.setId("defaultTab");
 
-        userBtn.setOnMouseClicked(mouseEvent -> { deleteUserClicked(mouseEvent, u); });
+        userBtn.setOnMouseClicked(mouseEvent -> {
+            deleteUserClicked(mouseEvent, u);
+        });
         return userBtn;
     }
 
     public void deleteUserClicked(MouseEvent e, User u) {
-        timeManagementApp.removeUserFromActivity(u,selectedActivity);
+        timeManagementApp.removeUserFromActivity(u, selectedActivity);
         refreshActivityAddedUsers(selectedActivity);
     }
 
@@ -323,7 +339,6 @@ public class MainSceneController {
         });
     }
 
-
     /**
      *
      * User tab in GUI
@@ -335,20 +350,23 @@ public class MainSceneController {
      */
     public void refreshUsers() {
         userVBox.getChildren().clear();
-        for (User u : timeManagementApp.getUsers()) {
+        for (User u : timeManagementApp.getUsers(userSearchBar.getText())) {
             Button b = createUserBtn(u);
-            if(u == selectedUser) {
+            if (u == selectedUser) {
                 setSelectedUser(b);
             }
         }
         //Create new Btn
         Button createBtn = new Button("+");
         createBtn.setId("createTab");
-        createBtn.setOnMouseClicked(mouseEvent -> { createUser(); });
+        createBtn.setOnMouseClicked(mouseEvent -> {
+            createUser();
+        });
         createBtn.setPrefSize(200, 50);
         userVBox.getChildren().add(createBtn);
-        if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
+        if (selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
     }
+
     public void refreshUserActivities(User u) {
         userActivityVBox.getChildren().clear();
         for (Activity a : u.getActivities()) {
@@ -368,7 +386,9 @@ public class MainSceneController {
         //activities.put(ActivityBtn, a);
         userVBox.getChildren().add(userBtn);
 
-        userBtn.setOnMouseClicked(mouseEvent -> { userClicked(mouseEvent, u); });
+        userBtn.setOnMouseClicked(mouseEvent -> {
+            userClicked(mouseEvent, u);
+        });
         return userBtn;
     }
     public void createUser() {
@@ -402,7 +422,7 @@ public class MainSceneController {
         refreshUserActivities(u);
     }
     public void setSelectedUser(Button b) {
-        if(selectedUserBtn != null) selectedUserBtn.setId("defaultTab");
+        if (selectedUserBtn != null) selectedUserBtn.setId("defaultTab");
         b.setId("selectedTab");
         selectedUserBtn = b;
     }

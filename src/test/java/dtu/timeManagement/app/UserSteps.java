@@ -4,11 +4,11 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.mockito.internal.matchers.Null;
 
-import javax.swing.*;
-
-import java.util.concurrent.ExecutionException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +18,7 @@ public class UserSteps {
     private final ProjectHelper projectHelper;
     private final ActivityHelper activityHelper;
     private final ErrorMessageHolder errorMessageHolder;
+    private List<User> users = new ArrayList<>();
 
     public UserSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ProjectHelper projectHelper, ActivityHelper activityHelper, ErrorMessageHolder errorMessageHolder) {
         this.timeManagementApp = timeManagementApp;
@@ -110,6 +111,32 @@ public class UserSteps {
             activityHelper.getActivity().isAssigned(timeManagementApp.getUser(initials));
         }
     }
+
+    @Given("these users with initials are registered in the system")
+    public void these_users_with_initials_are_registered_in_the_system(List<List<String>> userDatatable) throws OperationNotAllowedException {
+        List<String> userInitials = userDatatable.get(0);
+        for (String userInitial : userInitials) {
+            timeManagementApp.addUser(new User(userInitial));
+        }
+    }
+    @When("I search for the text {string}")
+    public void i_search_for_the_text(String searchQuery) {
+        users = timeManagementApp.getUsers(searchQuery);
+    }
+
+    @Then("I find the users with initials")
+    public void i_find_the_users_with_initials(List<List<String>> userDatatable) {
+        // Get userInitials into a list and remove null-values
+        List<String> userInitials = userDatatable.get(0).stream().filter(Objects::nonNull).collect(Collectors.toList());
+        // Check both lists are equal in size
+        assertEquals(userInitials.size(), users.size());
+        // Gets the user field's initials and compares with the test initials
+        assertTrue(userInitials.containsAll(users.stream().map(User::getInitial).collect(Collectors.toList())));
+    }
+
+
+
+
 
     /**
      * Remove a user from the system

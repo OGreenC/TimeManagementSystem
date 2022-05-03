@@ -54,4 +54,7 @@ public class User {
     public ArrayList<Activity> getActivities() {
         return activities;
     }
+    public boolean match(String searchText) {
+        return initial.contains(searchText);
+    }
 }
