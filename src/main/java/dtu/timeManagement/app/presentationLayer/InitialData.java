@@ -98,7 +98,7 @@ public class InitialData {
         app.assignUserToActivity(app.getUser("ogc"),a);
         app.assignUserToActivity(app.getUser("nh"),a);
         app.assignUserToActivity(app.getUser("vh"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
+        app.assignUserToActivity(app.getUser("abc"),a);
         app.getUser("nh").registerTime(calendarYesterday,3,p.getID(), a.getSerialNumber());
         app.getUser("ots").registerTime(calendarYesterday,4,p.getID(), a.getSerialNumber());
         app.getUser("vh").registerTime(calendarYesterday,2,p.getID(), a.getSerialNumber());
