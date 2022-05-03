@@ -1,7 +1,8 @@
 package dtu.timeManagement.app.presentationLayer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Optional;
 
 import dtu.timeManagement.app.Activity;
@@ -9,29 +10,49 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
 import dtu.timeManagement.app.User;
+import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
+
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Integer.remainderUnsigned;
 
 public class MainSceneController {
 
     @FXML
     private Label projectID, projectName, activitySerialNumber,
-            activityName, activityExpectedHours;
+            activityName, activityExpectedHours, userActivityProjectID,
+            userActivityProjectName, userActivitySerialNumber, userActivityName,
+            userActivityExpectedHours;
+
     @FXML
-    private VBox projectVBox, activityVBox, userVBox, userActivityVBox, activityAddedUsersVBox;
+    private VBox projectVBox, activityVBox, userVBox, userActivityVBox,
+            activityAddedUsersVBox, registeredTimeOverview;
     @FXML
-    private AnchorPane projectInfoPane, activityInfoPane;
+    private AnchorPane projectInfoPane, activityInfoPane, userActivityInfoPane, userRegistrationOverview;
+
+    @FXML
+    private DatePicker dateField, registerTimeOverviewDate;
+
+    @FXML
+    private Spinner<Integer> hourSpinner;
+
     private TimeManagementApp timeManagementApp;
     private Project selectedProject;
     private Button selectedProjectBtn;
 
     private Button selectedActivityBtn;
     private Activity selectedActivity;
+
+    private Button selectedUserActivityBtn;
+    private Activity selectedUserActivity;
 
     private Button selectedUserBtn;
     private User selectedUser;
@@ -41,13 +62,42 @@ public class MainSceneController {
      */
     public void initialize() {
         timeManagementApp = new TimeManagementApp();
+
+        //Initializing data
+        try {
+            InitialData.initializeData(timeManagementApp);
+        } catch (OperationNotAllowedException e) {
+            throw new RuntimeException(e);
+        }
+
         refreshProjects();
         activityInfoPane.setVisible(false);
+        userActivityInfoPane.setVisible(false);
         refreshUsers();
+
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24,0);
+        hourSpinner.setValueFactory(valueFactory);
+
+        registerTimeOverviewDate.setValue(java.time.LocalDate.now());
+        dateField.setValue(java.time.LocalDate.now());
+
+        //Register time overview value change listener
+        registerTimeOverviewDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+            registerTimeOverviewChanged(newValue);
+        });
+
+
+
     }
 
     /**
-     * Creation and handling of project ScrollPane
+     *
+     * Project tab handling
+     *
+     */
+
+    /**
+     * Project scroll pane
      */
     public void refreshProjects() {
         projectVBox.getChildren().clear();
@@ -113,7 +163,7 @@ public class MainSceneController {
 
 
     /**
-     * Creation and handling of activity ScrollPane
+     * activity ScrollPane
      */
     public void refreshActivities(Project p) {
         activityVBox.getChildren().clear();
@@ -181,7 +231,7 @@ public class MainSceneController {
         }
     }
     /**
-     * Creation and handling of users added to activity ScrollPane
+     * Users added to activity ScrollPane
      */
     public void refreshActivityAddedUsers(Activity a) {
         activityAddedUsersVBox.getChildren().clear();
@@ -193,7 +243,7 @@ public class MainSceneController {
 
 
         //Create "Add user" choicebox.
-        ComboBox comboBox = new ComboBox();
+        ComboBox<String> comboBox = new ComboBox<>();
         for (User u: timeManagementApp.getUsers()) {
             if(!a.isAssigned(u)) comboBox.getItems().add(u.getInitial());
         }
@@ -227,87 +277,8 @@ public class MainSceneController {
         refreshActivityAddedUsers(selectedActivity);
     }
 
-
-
     /**
-     *
-     *
-     * User tab in GUI
-     *
-     *
-     * Creation and handling of User ScrollPane
-     */
-    public void refreshUsers() {
-        userVBox.getChildren().clear();
-        for (User u : timeManagementApp.getUsers()) {
-            Button b = createUserBtn(u);
-            if(u == selectedUser) {
-                setSelectedUser(b);
-            }
-        }
-        //Create new Btn
-        Button createBtn = new Button("+");
-        createBtn.setId("createTab");
-        createBtn.setOnMouseClicked(mouseEvent -> { createUser(); });
-        createBtn.setPrefSize(200, 50);
-        userVBox.getChildren().add(createBtn);
-        if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
-    }
-    public void refreshUserActivities(User u) {
-        userActivityVBox.getChildren().clear();
-        for (Activity a : u.getActivities()) {
-            Button b = createActivityBtn(a);
-            userActivityVBox.getChildren().add(b);
-            if(a == selectedActivity) {
-                setSelectedActivity(b);
-            }
-        }
-    }
-
-    public Button createUserBtn(User u) {
-        Button userBtn = new Button(u.getInitial());
-        userBtn.setPrefSize(200, 50);
-        userBtn.setId("defaultTab");
-
-        //activities.put(ActivityBtn, a);
-        userVBox.getChildren().add(userBtn);
-
-        userBtn.setOnMouseClicked(mouseEvent -> { userClicked(mouseEvent, u); });
-        return userBtn;
-    }
-    public void createUser() {
-        TextInputDialog dialog = new TextInputDialog();
-
-        dialog.setTitle("Input");
-        dialog.setHeaderText("Enter new user initials");
-        dialog.setContentText("Initials:");
-
-        Optional<String> result = dialog.showAndWait();
-
-        result.ifPresent(initials -> {
-            User u = new User(initials);
-            try {
-                timeManagementApp.addUser(u);
-            } catch (OperationNotAllowedException e) {
-                throw new RuntimeException(e);
-            }
-            selectedUser = u;
-            refreshUsers();
-        });
-    }
-    public void userClicked(MouseEvent e, User u) {
-        setSelectedUser((Button) e.getSource());
-        selectedUser = u;
-        refreshUsers();
-        refreshUserActivities(u);
-    }
-    public void setSelectedUser(Button b) {
-        if(selectedUserBtn != null) selectedUserBtn.setId("defaultTab");
-        b.setId("selectedTab");
-        selectedUserBtn = b;
-    }
-    /**
-     * Edit Buttons
+     * Edit Buttons for project pane
      */
     public void editProjectName() {
         TextInputDialog dialog = new TextInputDialog((selectedProject.getName() == null) ? "" : selectedProject.getName());
@@ -353,7 +324,166 @@ public class MainSceneController {
     }
 
 
+    /**
+     *
+     * User tab in GUI
+     *
+     */
+
+    /**
+     * User ScrollPane + activities
+     */
+    public void refreshUsers() {
+        userVBox.getChildren().clear();
+        for (User u : timeManagementApp.getUsers()) {
+            Button b = createUserBtn(u);
+            if(u == selectedUser) {
+                setSelectedUser(b);
+            }
+        }
+        //Create new Btn
+        Button createBtn = new Button("+");
+        createBtn.setId("createTab");
+        createBtn.setOnMouseClicked(mouseEvent -> { createUser(); });
+        createBtn.setPrefSize(200, 50);
+        userVBox.getChildren().add(createBtn);
+        if(selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
+    }
+    public void refreshUserActivities(User u) {
+        userActivityVBox.getChildren().clear();
+        for (Activity a : u.getActivities()) {
+            Button b = createSelectedUserActivityBtn(a);
+            userActivityVBox.getChildren().add(b);
+            if(a == selectedUserActivity) {
+                setSelectedUserActivity(b);
+            }
+        }
+    }
+
+    public Button createUserBtn(User u) {
+        Button userBtn = new Button(u.getInitial());
+        userBtn.setPrefSize(200, 50);
+        userBtn.setId("defaultTab");
+
+        //activities.put(ActivityBtn, a);
+        userVBox.getChildren().add(userBtn);
+
+        userBtn.setOnMouseClicked(mouseEvent -> { userClicked(mouseEvent, u); });
+        return userBtn;
+    }
+    public void createUser() {
+        TextInputDialog dialog = new TextInputDialog();
+
+        dialog.setTitle("Input");
+        dialog.setHeaderText("Enter new user initials");
+        dialog.setContentText("Initials:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(initials -> {
+            User u = new User(initials);
+            try {
+                timeManagementApp.addUser(u);
+            } catch (OperationNotAllowedException e) {
+                throw new RuntimeException(e);
+            }
+            selectedUser = u;
+            refreshUsers();
+        });
+    }
+    public void userClicked(MouseEvent e, User u) {
+        setSelectedUser((Button) e.getSource());
+        selectedUser = u;
+        refreshUsers();
+        selectedUserActivity = null;
+        userActivityInfoPane.setVisible(false);
+        userRegistrationOverview.setVisible(true);
+        registerTimeOverviewChanged(registerTimeOverviewDate.getValue());
+        refreshUserActivities(u);
+    }
+    public void setSelectedUser(Button b) {
+        if(selectedUserBtn != null) selectedUserBtn.setId("defaultTab");
+        b.setId("selectedTab");
+        selectedUserBtn = b;
+    }
+    public void setSelectedUserActivity(Button b) {
+        if(selectedUserActivityBtn != null) selectedUserActivityBtn.setId("defaultTab");
+        b.setId("selectedTab");
+        selectedUserActivityBtn = b;
+    }
+    public Button createSelectedUserActivityBtn(Activity a) {
+        Button activityBtn = new Button((a.getActivityName() == null) ? "Activity: " + a.getSerialNumber() : a.getSerialNumber() + " - " + a.getActivityName());
+        activityBtn.setPrefSize(200, 50);
+        activityBtn.setId("defaultTab");
+
+        activityBtn.setOnMouseClicked(mouseEvent -> { selectedUserActivity(mouseEvent, a); });
+        return activityBtn;
+    }
+    public void selectedUserActivity(MouseEvent e, Activity a) {
+        setSelectedUserActivity((Button) e.getSource());
+        selectedUserActivity = a;
+        refreshUserActivities(selectedUser);
+
+        userActivityProjectID.setText(a.getProject().getID());
+        userActivityProjectName.setText(a.getProject().getName());
+        userActivitySerialNumber.setText(a.getSerialNumber());
+        userActivityName.setText(a.getActivityName());
+        userActivityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
+        userActivityInfoPane.setVisible(true);
+        userRegistrationOverview.setVisible(false);
+    }
+
+    /**
+     * Button for registering time
+     */
+    public void registerTimeClicked() {
+        LocalDate localDate = dateField.getValue(); //Null if non chosen
+        Calendar calendarDate = new GregorianCalendar.Builder()
+                .setDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()).build();
+
+        int hours = hourSpinner.getValue();
+
+        try {
+            selectedUser.registerTime(calendarDate, hours, selectedUserActivity.getProject().getID(), selectedUserActivity.getSerialNumber());
+        } catch (OperationNotAllowedException e) {
+            throw new RuntimeException(e);
+        }
+        //System.out.println(selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnit(selectedUserActivity.getProject().getID(), selectedUserActivity.getSerialNumber()).getHours());
+    }
+
+    public void registerTimeOverviewChanged(LocalDate localDate) {
+        registeredTimeOverview.getChildren().clear();
+        Calendar calendarDate = new GregorianCalendar.Builder()
+                .setDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()).build();
+        if(selectedUser.getTimeRegistrationDay(calendarDate) != null) { //TODO Change in business logic Oli G
+            for (RegistrationUnit ru : selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnits()) {
+
+                Project p = timeManagementApp.getProject(ru.getProjectID());
+                Activity a = p.getActivity(ru.getActivitySerial());
+                String projectInfo = ((p.getName() != null) ? p.getName() : p.getID());
+                String activityInfo = ((a != null && a.getActivityName() != null) ? a.getActivityName() : ru.getActivitySerial());
+                String l1 = projectInfo + "  " + activityInfo;
+                String l2 = "Hours registered: " + ru.getHours();
 
 
+                Button timeBtn = new Button(l1 + "\n" + l2 + "\n" + "Click to delete entry");
+                timeBtn.setPrefHeight(75);
+                timeBtn.setMaxWidth(MAX_VALUE);
+                timeBtn.setId("defaultTab");
+                timeBtn.setTextAlignment(TextAlignment.CENTER);
+
+                //activities.put(ActivityBtn, a);
+                registeredTimeOverview.getChildren().add(timeBtn);
+
+                timeBtn.setOnMouseClicked(mouseEvent -> {
+                    removeTimeRegistration(calendarDate,ru);
+                });
+            }
+        }
+    }
+    public void removeTimeRegistration(Calendar date, RegistrationUnit registrationUnit) {
+        selectedUser.getTimeRegistrationDay(date).removeRegistrationUnit(registrationUnit.getProjectID(), registrationUnit.getActivitySerial());
+        registerTimeOverviewChanged(registerTimeOverviewDate.getValue());
+    }
 
 }
