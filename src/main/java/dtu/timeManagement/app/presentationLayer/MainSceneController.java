@@ -10,11 +10,10 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
 import dtu.timeManagement.app.User;
-import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
+import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
 import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Integer.remainderUnsigned;
 
 public class MainSceneController {
 
@@ -476,7 +474,7 @@ public class MainSceneController {
         Calendar calendarDate = new GregorianCalendar.Builder()
                 .setDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()).build();
         if(selectedUser.getTimeRegistrationDay(calendarDate) != null) { //TODO Change in business logic Oli G
-            for (RegistrationUnit ru : selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnits()) {
+            for (RegistrationInstance ru : selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnits()) {
 
                 Project p = timeManagementApp.getProject(ru.getProjectID());
                 Activity a = p.getActivity(ru.getActivitySerial());
@@ -501,8 +499,8 @@ public class MainSceneController {
             }
         }
     }
-    public void removeTimeRegistration(Calendar date, RegistrationUnit registrationUnit) {
-        selectedUser.getTimeRegistrationDay(date).removeRegistrationUnit(registrationUnit.getProjectID(), registrationUnit.getActivitySerial());
+    public void removeTimeRegistration(Calendar date, RegistrationInstance registrationInstance) {
+        selectedUser.getTimeRegistrationDay(date).removeRegistrationUnit(registrationInstance.getProjectID(), registrationInstance.getActivitySerial());
         registerTimeOverviewChanged(registerTimeOverviewDate.getValue());
     }
 

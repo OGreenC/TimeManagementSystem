@@ -1,8 +1,7 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
-import io.cucumber.java.en.Given;
+import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -47,7 +46,7 @@ public class TimeRegistrationSteps {
         date.set(y, mo, d);
         String projectID = projectHelper.getProject().getID();
         String activitySerial = activityHelper.getActivity().getSerialNumber();
-        RegistrationUnit u = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnit(projectID,activitySerial);
+        RegistrationInstance u = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnit(projectID,activitySerial);
         assertNotNull(u);
         assertEquals(u.getHours(), hours);
     }
@@ -67,7 +66,7 @@ public class TimeRegistrationSteps {
         date.set(y, mo, d);
         String projectID = projectHelper.getProject().getID();
         String activitySerial = activityHelper.getActivity().getSerialNumber();
-        RegistrationUnit u = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnit(projectID,activitySerial);
+        RegistrationInstance u = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnit(projectID,activitySerial);
         assertNull(u);
     }
 
@@ -75,7 +74,7 @@ public class TimeRegistrationSteps {
     public void thereIsTimeRegistrationsOnYearMonthDate(int registrations, int y, int mo, int d) {
         Calendar date = Calendar.getInstance();
         date.set(y, mo, d);
-        ArrayList<RegistrationUnit> units = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnits();
+        ArrayList<RegistrationInstance> units = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnits();
         assertEquals(units.size(),registrations);
     }
 }
