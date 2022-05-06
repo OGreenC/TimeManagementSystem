@@ -61,7 +61,7 @@ public class UserSteps {
 
     /**
      * Assign user to activity
-     * - Includes assigning a non-existing user
+     * - Includes assigning a non-existing user and assigning a user twice
      */
     @Given("an activity with serial {string} is added to the project with ID {string}")
     public void an_activity_with_serial_is_added_to_the_project_with_id(String serialNumber, String ID) {
@@ -87,6 +87,20 @@ public class UserSteps {
             if (activityHelper.getActivity().getSerialNumber().equals(serialNumber)) {
                 assertTrue(activityHelper.getActivity().isAssigned(timeManagementApp.getUser(initials)));
             }
+        }
+    }
+
+    @Given("the user with initials {string} is assigned to this activity")
+    public void the_user_with_initials_is_assigned_to_this_activity(String initials) throws OperationNotAllowedException {
+        activityHelper.getActivity().assignUser(timeManagementApp.getUser(initials));
+    }
+
+    @When("the user with initials {string} is assigned to the activity")
+    public void the_user_with_initials_is_assigned_to_the_activity(String initials) {
+        try {
+            activityHelper.getActivity().assignUser(timeManagementApp.getUser(initials));
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
         }
     }
 
