@@ -32,6 +32,8 @@ public class Activity {
     public void assignUser(User user) throws OperationNotAllowedException {
         if (user == null) {
             throw new OperationNotAllowedException("User does not exist");
+        } else if (isAssigned(user)) {
+            throw new OperationNotAllowedException("User is already assigned to this activity");
         }
         users.add(user);
     }
