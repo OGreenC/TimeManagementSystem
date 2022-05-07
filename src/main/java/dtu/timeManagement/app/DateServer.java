@@ -20,7 +20,7 @@ public class DateServer {
     }
 
     public static String getDateAsString(Calendar c) {
-        return "" + c.get(Calendar.YEAR) + "-" + c.get(Calendar.MONTH) + "-" + c.get(Calendar.DAY_OF_MONTH);
+        return "" + c.get(Calendar.YEAR) + ":" + c.get(Calendar.MONTH) + ":" + c.get(Calendar.DAY_OF_MONTH);
     }
 
 }
