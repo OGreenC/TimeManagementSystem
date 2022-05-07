@@ -29,15 +29,23 @@ public class UserSteps {
     }
 
     @Given("there is a user with the initials {string}")
-    public void thereIsAUserWithTheInitials(String initials) throws OperationNotAllowedException {
+    public void thereIsAUserWithTheInitials(String initials) {
         userHelper.setUser(new User(initials));
-        timeManagementApp.addUser(userHelper.getUser());
+        try {
+            timeManagementApp.addUser(userHelper.getUser());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Given("there is a user in the system")
-    public void thereIsAUserInTheSystem() throws OperationNotAllowedException {
+    public void thereIsAUserInTheSystem() {
         userHelper.setUser(new User("ABC"));
-        timeManagementApp.addUser(userHelper.getUser());
+        try {
+            timeManagementApp.addUser(userHelper.getUser());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @When("the user is added to the system")

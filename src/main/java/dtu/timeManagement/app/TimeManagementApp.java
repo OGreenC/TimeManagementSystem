@@ -22,8 +22,11 @@ public class TimeManagementApp {
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
+
         if (getUser(user.getInitial()) != null) {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
+        } else if (user.getInitial().length() > 4) {
+            throw new OperationNotAllowedException("The users initials are too long");
         }
         users.add(user);
     }
