@@ -113,13 +113,15 @@ public class TimeManagementApp {
     }
 
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
+        assert project != null && project.getActivities().contains(activity);
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
         }
-        if (activity == null) {
+        if (!project.getActivities().contains(activity)) {
             throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
+        assert(!project.getActivities().contains(activity));
     }
 
     public void assignUserToActivity(User user, Activity activity) {
