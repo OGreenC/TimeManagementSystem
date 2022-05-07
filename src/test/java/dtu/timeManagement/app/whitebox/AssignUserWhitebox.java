@@ -2,7 +2,6 @@ package dtu.timeManagement.app.whitebox;
 
 import dtu.timeManagement.app.*;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import io.cucumber.java.bs.A;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -15,25 +14,24 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @see Activity
  * @author Victor Hyltoft (s214964)
  */
-public class assignUserWhitebox {
+public class AssignUserWhitebox {
     private final ErrorMessageHolder errorMessageHolder = new ErrorMessageHolder();
-    private final UserHelper userHelper = new UserHelper();
-    private final ActivityHelper activityHelper = new ActivityHelper();
+    private final Activity activity;
 
-    public assignUserWhitebox() {
+    public AssignUserWhitebox() {
         // Create project with activity
         Project project = new Project(Calendar.getInstance());
-        activityHelper.setActivity(project.createActivity());
+        activity = project.createActivity();
     }
 
     @Test
     public void testInputDataSetA() {
         //Initializing data set:
-        userHelper.setUser(null);
+        User user = null;
 
         //Running method:
         try {
-            activityHelper.getActivity().assignUser(userHelper.getUser());
+            activity.assignUser(user);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -42,23 +40,25 @@ public class assignUserWhitebox {
         // Check exception happened
         assertEquals(errorMessageHolder.getErrorMessage(), "User does not exist");
         // Make sure the user was not assigned anyway
-        assertEquals(activityHelper.getActivity().getUsers().size(), 0);
+        assertEquals(activity.getUsers().size(), 0);
     }
 
     @Test
     public void testInputDataSetB() {
         //Initializing data set:
-        userHelper.setUser(new User("VIHY"));
+        User user = new User("VIHY");
+
         try {
-            activityHelper.getActivity().assignUser(userHelper.getUser());
+            activity.assignUser(user);
         } catch (OperationNotAllowedException e) {
             // No exception should happen here
             fail();
         }
+        assertEquals(activity.getUsers().size(), 1);
 
         //Running method:
         try {
-            activityHelper.getActivity().assignUser(userHelper.getUser());
+            activity.assignUser(user);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -67,16 +67,16 @@ public class assignUserWhitebox {
         // Check exception happened
         assertEquals(errorMessageHolder.getErrorMessage(), "User is already assigned to this activity");
         // Make sure the user was not assigned anyway
-        assertEquals(activityHelper.getActivity().getUsers().size(), 1);
+        assertEquals(activity.getUsers().size(), 1);
     }
     @Test
     public void testInputDataSetC() {
         //Initializing data set:
-        userHelper.setUser(new User("VIHY"));
+        User user = new User("VIHY");
 
         //Running method:
         try {
-            activityHelper.getActivity().assignUser(userHelper.getUser());
+            activity.assignUser(user);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -85,6 +85,6 @@ public class assignUserWhitebox {
         // Check (no) exception happened
         assertEquals(errorMessageHolder.getErrorMessage(), "");
         // Make sure the user was assigned
-        assertEquals(activityHelper.getActivity().getUsers().size(), 1);
+        assertEquals(activity.getUsers().size(), 1);
     }
 }
