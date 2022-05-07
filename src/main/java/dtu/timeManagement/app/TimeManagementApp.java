@@ -1,6 +1,7 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,12 +13,14 @@ public class TimeManagementApp {
     private DateServer dateServer = new DateServer();
 
     /**
+     * Create project and add it to the system
+     *
      * @return the created project
      */
     public Project createProject() {
-        Project p = new Project(dateServer.getDate());
-        projects.add(p);
-        return p;
+        Project project = new Project(dateServer.getDate());
+        projects.add(project);
+        return project;
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
@@ -50,8 +53,13 @@ public class TimeManagementApp {
     public User getUser(String initials) {
         return users.stream().filter(u -> u.getInitial().equals(initials.toUpperCase())).findAny().orElse(null);
     }
+
     public List<User> getUsers() {
         return users;
+    }
+
+    public List<User> getUsers(String searchText) {
+        return users.stream().filter(user -> user.match(searchText.toUpperCase())).collect(Collectors.toList());
     }
 
     public List<Project> getProjects() {
@@ -62,8 +70,17 @@ public class TimeManagementApp {
         return projects.stream().filter(p -> p.getID().equals(ID)).findAny().orElse(null);
     }
 
-    public boolean deleteProject(Project p) throws OperationNotAllowedException {
-        if (this.projects.remove(p)) {
+    public Project getProject(Project project) {
+        return projects.stream().filter(p -> p.equals(project)).findAny().orElse(null);
+    }
+
+    /**
+     * Delete a project
+     * @param project declares the project to be deleted
+     * @return true if project was found and deleted
+     */
+    public boolean deleteProject(Project project) throws OperationNotAllowedException {
+        if (this.projects.remove(project)) {
             return true;
         }
         throw new OperationNotAllowedException("Project does not exist");
@@ -80,6 +97,9 @@ public class TimeManagementApp {
     public void setProjectLeader(Project project, User user) throws OperationNotAllowedException {
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
+        }
+        if (user == null) {
+            throw new OperationNotAllowedException("User does not exist");
         }
         project.setProjectLeader(user);
     }
@@ -99,10 +119,6 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
-    }
-
-    public List<User> getUsers(String searchText) {
-        return users.stream().filter(user -> user.match(searchText.toUpperCase())).collect(Collectors.toList());
     }
 
     public void assignUserToActivity(User user, Activity activity) {

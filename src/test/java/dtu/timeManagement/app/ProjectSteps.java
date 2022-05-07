@@ -13,13 +13,11 @@ import static org.junit.Assert.*;
 public class ProjectSteps {
     private final TimeManagementApp timeManagementApp;
     private final ErrorMessageHolder errorMessageHolder;
-    private final UserHelper userHelper;
     private final ProjectHelper projectHelper;
 
-    public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder, UserHelper userHelper, ProjectHelper projectHelper) {
+    public ProjectSteps(TimeManagementApp timeManagementApp, ErrorMessageHolder errorMessageHolder, ProjectHelper projectHelper) {
         this.timeManagementApp = timeManagementApp;
         this.errorMessageHolder = errorMessageHolder;
-        this.userHelper = userHelper;
         this.projectHelper = projectHelper;
     }
 
@@ -76,6 +74,7 @@ public class ProjectSteps {
     public void the_project_is_deleted() {
         try {
             assertTrue(timeManagementApp.deleteProject(this.projectHelper.getProject()));
+            this.projectHelper.setProject(null);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -83,7 +82,7 @@ public class ProjectSteps {
 
     @Then("the project does not exist")
     public void the_project_does_not_exist() {
-        assertNull(timeManagementApp.getProject(this.projectHelper.getProject().getID()));
+        assertNull(timeManagementApp.getProject(this.projectHelper.getProject()));
     }
 
 
@@ -100,9 +99,9 @@ public class ProjectSteps {
 
     @When("the user {string} is assigned as project leader to the project")
     public void the_user_is_assigned_as_project_leader_to_the_project(String projectLeaderInitials) {
-        assertEquals(this.userHelper.getUser().getInitial(), projectLeaderInitials.toUpperCase());
+        User user = timeManagementApp.getUser(projectLeaderInitials.toUpperCase());
         try {
-            timeManagementApp.setProjectLeader(this.projectHelper.getProject(), userHelper.getUser());
+            timeManagementApp.setProjectLeader(this.projectHelper.getProject(), user);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }

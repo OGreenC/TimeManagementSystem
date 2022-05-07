@@ -1,3 +1,5 @@
+# Author: Victor Hyltoft (s214964)
+
 Feature: Edit Project Leader Properties
   Description: Edit project leader properties
   Actor: User
@@ -10,6 +12,16 @@ Feature: Edit Project Leader Properties
   Scenario: Successfully add project leader to project
     When the user "HUBU" is assigned as project leader to the project
     Then the project has the project leader "HUBU" assigned
+
+  Scenario: Add non-existing user as project leader to project
+    Given the user "HUBU" is removed from the system
+    When the user "HUBU" is assigned as project leader to the project
+    Then the error message "User does not exist" is given
+
+  Scenario: Add project leader to non-existing project
+    Given the project is deleted
+    When the user "HUBU" is assigned as project leader to the project
+    Then the error message "Project does not exist" is given
 
   Scenario: Successfully replace project leader
     Given the user "HUBU" is assigned as project leader to the project

@@ -174,6 +174,12 @@ public class UserSteps {
         timeManagementApp.removeUser(userHelper.getUser());
     }
 
+    @Given("the user {string} is removed from the system")
+    public void the_user_is_removed_from_the_system(String initials) {
+        timeManagementApp.removeUser(timeManagementApp.getUser(initials));
+        assertNull(timeManagementApp.getUser(initials));
+    }
+
     @Then("the user is not in the system")
     public void the_user_is_not_in_the_system() {
         assertNull(timeManagementApp.getUser(userHelper.getUser().getInitial()));
