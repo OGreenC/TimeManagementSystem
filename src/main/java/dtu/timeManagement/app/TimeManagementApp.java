@@ -24,12 +24,20 @@ public class TimeManagementApp {
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
+        //Precondition
+        assert user != null;
+
+        //Implicit preconditions
         if (getUser(user.getInitial()) != null) {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
-        } else if (user.getInitial().length() > 4) {
+        }
+        if (user.getInitial().length() > 4) {
             throw new OperationNotAllowedException("The users initials are too long");
         }
         users.add(user);
+
+        //Postcondition
+        assert Objects.equals(getUser(user.getInitial()),user);
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
@@ -96,6 +104,7 @@ public class TimeManagementApp {
         project.setProjectLeader(user);
     }
 
+
     public Activity createActivity(Project project) throws OperationNotAllowedException {
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
@@ -132,6 +141,9 @@ public class TimeManagementApp {
     }
 
     public void removeProjectLeader(Project project) throws OperationNotAllowedException {
+        if (project == null) {
+            throw new OperationNotAllowedException("Project does not exist");
+        }
         project.removeProjectLeader();
     }
 }

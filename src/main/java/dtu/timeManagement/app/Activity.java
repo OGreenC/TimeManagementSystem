@@ -19,23 +19,21 @@ public class Activity {
     private Calendar endTime;
     private final Project project;
 
-
-    /**
-     * Activity is constructed by giving it a name, the name therefore works as an 'ID' for the activity
-     */
     public Activity(Project project) {
         this.serialNumber = String.format("%04d", nextSerial);
         nextSerial++;
         this.project = project;
     }
 
+    // White-box test for assignUser
     public void assignUser(User user) throws OperationNotAllowedException {
-        if (user == null) {
-            throw new OperationNotAllowedException("User does not exist");
-        } else if (isAssigned(user)) {
-            throw new OperationNotAllowedException("User is already assigned to this activity");
+        if (user == null) {                                                                         // 1
+            throw new OperationNotAllowedException("User does not exist");                          // 2
         }
-        users.add(user);
+        if (isAssigned(user)) {                                                                     // 3
+            throw new OperationNotAllowedException("User is already assigned to this activity");    // 4
+        }
+        users.add(user);                                                                            // 5
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
@@ -107,9 +105,13 @@ public class Activity {
         return serialNumber;
     }
 
-    public String getActivityName() { return activityName;}
+    public String getActivityName() {
+        return activityName;
+    }
 
-    public Project getProject() { return project;}
+    public Project getProject() {
+        return project;
+    }
 
     public List<User> getUsers() {
         return users;

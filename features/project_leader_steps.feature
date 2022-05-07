@@ -42,3 +42,10 @@ Feature: Edit Project Leader Properties
     When the project leader is removed from the project
     And the project leader is removed from the project
     Then the error message "Project leader does not exist" is given
+
+  Scenario: Remove a project leader from a non-existing project
+    Given the user "HUBU" is assigned as project leader to the project
+    And the project has the project leader "HUBU" assigned
+    When the project is deleted
+    And the project leader is removed from the project
+    Then the error message "Project does not exist" is given

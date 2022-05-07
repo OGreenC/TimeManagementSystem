@@ -85,7 +85,7 @@ public class Project {
         return activities.stream().filter(a -> a.getSerialNumber().equals(serialNumber)).findAny().orElse(null);
     }
 
-    public void setProjectLeader(User projectLeader) throws OperationNotAllowedException {
+    public void setProjectLeader(User projectLeader) {
         this.projectLeader = projectLeader;
     }
 
@@ -96,8 +96,8 @@ public class Project {
     public void removeProjectLeader() throws OperationNotAllowedException {
         if (this.projectLeader == null) {
             throw new OperationNotAllowedException("Project leader does not exist");
-        } else {
-            this.projectLeader = null;
         }
+
+        this.projectLeader = null;
     }
 }
