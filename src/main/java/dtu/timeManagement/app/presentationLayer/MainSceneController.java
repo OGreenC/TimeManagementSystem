@@ -353,7 +353,7 @@ public class MainSceneController {
                 Alert alert = new Alert(Alert.AlertType.NONE, "Start date must be before end date!",ButtonType.CLOSE);
                 alert.show();
             }
-            startDatePicker.getEditor().clear();
+            startDatePicker.setValue(null);
 
         }
     }
@@ -370,7 +370,7 @@ public class MainSceneController {
                 Alert alert = new Alert(Alert.AlertType.NONE, "End date must be after start date!",ButtonType.CLOSE);
                 alert.show();
             }
-            finishDatePicker.getEditor().clear();
+            finishDatePicker.setValue(null);
             }
     }
     /**
