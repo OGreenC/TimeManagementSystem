@@ -170,7 +170,7 @@ public class UserSteps {
     }
 
     @When("the user is removed from the system")
-    public void the_user_is_removed_from_the_system() {
+    public void the_user_is_removed_from_the_system() throws OperationNotAllowedException {
         timeManagementApp.removeUser(userHelper.getUser());
     }
 

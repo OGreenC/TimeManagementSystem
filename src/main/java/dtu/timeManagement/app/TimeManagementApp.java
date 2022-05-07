@@ -29,20 +29,12 @@ public class TimeManagementApp {
         users.add(user);
     }
 
-    public void removeUser(User user) {
+    public void removeUser(User user) throws OperationNotAllowedException {
         for (Activity a : user.getActivities()) {
             if (Objects.equals(a.getProject().getProjectLeader(), user)) {
-                try {
-                    a.getProject().removeProjectLeader();
-                } catch (OperationNotAllowedException e) {
-                    throw new RuntimeException(e);
-                }
+                a.getProject().removeProjectLeader();
             }
-            try {
-                a.removeUser(user);
-            } catch (OperationNotAllowedException e) {
-                throw new RuntimeException(e);
-            }
+            a.removeUser(user);
         }
         users.remove(user);
     }
