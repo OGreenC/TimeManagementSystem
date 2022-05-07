@@ -31,7 +31,6 @@ public class TimeManagementApp {
 
     public void removeUser(User user) {
         for (Activity a : user.getActivities()) {
-            System.out.println("Run");
             if (Objects.equals(a.getProject().getProjectLeader(), user)) {
                 try {
                     a.getProject().removeProjectLeader();
