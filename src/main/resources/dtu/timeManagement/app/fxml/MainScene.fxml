@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.timeManagement.app.presentationLayer.MainSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.timeManagement.app.presentationLayer.MainSceneController">
    <children>
       <TabPane layoutY="69.0" prefHeight="623.0" prefWidth="1080.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -126,20 +134,19 @@
                               </Label>
                               <Line endX="293.5" endY="52.0" layoutX="135.0" layoutY="64.0" startX="-118.0" startY="52.0" />
                               <Button layoutX="438.0" layoutY="88.0" mnemonicParsing="false" onAction="#editActivityExpectedHours" prefHeight="25.0" prefWidth="38.0" text="edit" />
-                              <Label layoutX="17.0" layoutY="126.0" prefHeight="35.0" prefWidth="187.0" text="Start date:">
+                              <Label layoutX="17.0" layoutY="126.0" prefHeight="35.0" prefWidth="104.0" text="Start date:">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
                               <Line endX="51.5" endY="81.0" layoutX="145.0" layoutY="74.0" startX="-128.0" startY="81.0" />
-                              <Label layoutX="264.0" layoutY="126.0" prefHeight="35.0" prefWidth="126.0" text="End date:">
+                              <Label layoutX="264.0" layoutY="126.0" prefHeight="35.0" prefWidth="95.0" text="End date:">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
-                              <Line endX="271.5" endY="81.0" layoutX="155.0" layoutY="74.0" startX="109.0" startY="81.0" />
-                              <Button layoutX="438.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="edit" />
-                              <Button layoutX="204.0" layoutY="126.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="38.0" text="edit" />
+                              <Button layoutX="398.0" layoutY="160.0" mnemonicParsing="false" onAction="#editActivityFinishDate" prefHeight="25.0" prefWidth="38.0" text="Set" />
+                              <Button layoutX="151.0" layoutY="160.0" mnemonicParsing="false" onAction="#editActivityStartDate" prefHeight="25.0" prefWidth="38.0" text="Set" />
                               <Label fx:id="activitySerialNumber" layoutX="276.0" layoutY="20.0" prefHeight="27.0" prefWidth="102.0" text="...">
                                  <font>
                                     <Font size="18.0" />
@@ -160,6 +167,19 @@
                                     <Font name="System Bold" size="10.0" />
                                  </font>
                               </Label>
+                              <DatePicker fx:id="startDatePicker" layoutX="17.0" layoutY="160.0" prefHeight="19.0" prefWidth="134.0" />
+                              <DatePicker fx:id="finishDatePicker" layoutX="264.0" layoutY="160.0" prefHeight="19.0" prefWidth="134.0" />
+                              <Label fx:id="activityStartDate" layoutX="120.0" layoutY="130.0" prefHeight="27.0" prefWidth="112.0" text="...">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="activityFinishDate" layoutX="359.0" layoutY="130.0" prefHeight="27.0" prefWidth="118.0" text="...">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="51.5" endY="81.0" layoutX="393.0" layoutY="73.0" startX="-128.0" startY="81.0" />
                            </children>
                         </AnchorPane>
                      </children>

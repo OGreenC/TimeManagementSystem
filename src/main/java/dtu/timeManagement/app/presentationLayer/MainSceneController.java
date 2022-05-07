@@ -1,6 +1,7 @@
 package dtu.timeManagement.app.presentationLayer;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -27,7 +29,7 @@ public class MainSceneController {
     private Label projectID, projectName, activitySerialNumber, projectLeader,
             activityName, activityExpectedHours, userActivityProjectID,
             userActivityProjectName, userActivitySerialNumber, userActivityName,
-            userActivityExpectedHours;
+            userActivityExpectedHours, activityStartDate, activityFinishDate;
 
     @FXML
     private VBox projectVBox, activityVBox, userVBox, userActivityVBox,
@@ -36,7 +38,7 @@ public class MainSceneController {
     private AnchorPane projectInfoPane, activityInfoPane, userActivityInfoPane, userRegistrationOverview;
 
     @FXML
-    private DatePicker dateField, registerTimeOverviewDate;
+    private DatePicker dateField, registerTimeOverviewDate, startDatePicker, finishDatePicker;
 
     @FXML
     private Spinner<Integer> hourSpinner;
@@ -180,6 +182,10 @@ public class MainSceneController {
                     activitySerialNumber.setText(a.getSerialNumber());
                     activityName.setText((a.getActivityName() != null) ? a.getActivityName() : "...");
                     activityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
+                    activityStartDate.setText((a.getStartTime() != null) ? a.getStartTime().get(Calendar.YEAR) +"-"+
+                            a.getStartTime().get(Calendar.MONTH) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "...");
+                    activityFinishDate.setText((a.getEndTime() != null) ? a.getEndTime().get(Calendar.YEAR) +"-"+
+                            a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "...");
                 }
             }
             if (selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
@@ -328,7 +334,6 @@ public class MainSceneController {
         dialog.setTitle("Input");
         dialog.setHeaderText("Enter Expected Hours");
         dialog.setContentText("Hours:");
-
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(hours -> {
@@ -337,6 +342,37 @@ public class MainSceneController {
         });
     }
 
+    public void editActivityStartDate() {
+        LocalDate localDate = startDatePicker.getValue(); //Null if non chosen
+        if (localDate != null) {
+            try {
+                selectedActivity.setStartTime(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                activityStartDate.setText((selectedActivity.getStartTime() != null) ? selectedActivity.getStartTime().get(Calendar.YEAR) + "-" +
+                        selectedActivity.getStartTime().get(Calendar.MONTH) + "-" + selectedActivity.getStartTime().get(Calendar.DAY_OF_MONTH) : "...");
+            } catch (OperationNotAllowedException e) {
+                Alert alert = new Alert(Alert.AlertType.NONE, "Start date must be before end date!",ButtonType.CLOSE);
+                alert.show();
+            }
+            startDatePicker.getEditor().clear();
+
+        }
+    }
+
+    public void editActivityFinishDate() {
+        LocalDate localDate = finishDatePicker.getValue(); //Null if non chosen
+        if (localDate != null) {
+            try {
+                selectedActivity.setEndTime(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                activityFinishDate.setText((selectedActivity.getEndTime() != null) ? selectedActivity.getEndTime().get(Calendar.YEAR) + "-" +
+                        selectedActivity.getEndTime().get(Calendar.MONTH) + "-" + selectedActivity.getEndTime().get(Calendar.DAY_OF_MONTH) : "...");
+
+            } catch (OperationNotAllowedException e) {
+                Alert alert = new Alert(Alert.AlertType.NONE, "End date must be after start date!",ButtonType.CLOSE);
+                alert.show();
+            }
+            finishDatePicker.getEditor().clear();
+            }
+    }
     /**
      *
      * User tab in GUI
