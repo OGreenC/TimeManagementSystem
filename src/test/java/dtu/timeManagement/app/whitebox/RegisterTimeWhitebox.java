@@ -1,6 +1,9 @@
-package dtu.timeManagement.app;
+package dtu.timeManagement.app.whitebox;
 
+import dtu.timeManagement.app.ErrorMessageHolder;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import dtu.timeManagement.app.User;
+import dtu.timeManagement.app.UserHelper;
 import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 import org.junit.Test;
 
