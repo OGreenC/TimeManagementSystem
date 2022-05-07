@@ -6,9 +6,8 @@ import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
 import dtu.timeManagement.app.User;
 import dtu.timeManagement.app.timeRegistration.RegistrationDay;
-import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
+import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -24,8 +23,6 @@ public class InitialData {
     private static User u;
     private static Project p;
     private static Activity a;
-    private static RegistrationDay registrationDay;
-    private static RegistrationUnit registrationUnit;
 
     public static void initializeData(TimeManagementApp app) throws OperationNotAllowedException {
         //Get Calendar object for today

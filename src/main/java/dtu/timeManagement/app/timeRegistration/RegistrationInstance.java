@@ -1,14 +1,20 @@
 package dtu.timeManagement.app.timeRegistration;
 
-import java.util.Calendar;
+/**
+ * Class written by:
+ * s204470 - Oliver Grønborg Christensen
+ *
+ * RegistrationInstance objects hold all data relating to a single instance of a
+ * time registration - eg. dedicated hours and project/activity identification ID's
+ */
 
-public class RegistrationUnit {
+public class RegistrationInstance {
 
     private int hours;
     private String projectID;
     private String activitySerial;
 
-    public RegistrationUnit(int hours, String projectID, String activitySerial) {
+    public RegistrationInstance(int hours, String projectID, String activitySerial) {
         this.hours = hours;
         this.projectID = projectID;
         this.activitySerial = activitySerial;

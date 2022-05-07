@@ -2,12 +2,13 @@ package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.timeRegistration.RegistrationDay;
-import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
+import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
+
+
 
 public class User {
     private final String initial;
@@ -23,10 +24,18 @@ public class User {
         return initial;
     }
 
+    /**
+     *
+     * Method written and used in report by:
+     * s204479 - Oliver Grønborg Christensen
+     *
+     * @param date
+     * @param hours
+     * @param projectID
+     * @param activitySerial
+     * @throws OperationNotAllowedException
+     */
     public void registerTime(Calendar date, int hours, String projectID, String activitySerial) throws OperationNotAllowedException {
-        //Create Time registration unit:
-        RegistrationUnit timeUnit = new RegistrationUnit(hours,projectID,activitySerial);
-
         //Get (or create if not existing) time registration day object from map.
         String dateString = DateServer.getDateAsString(date);
         RegistrationDay day = timeRegistration.get(dateString);
@@ -35,8 +44,9 @@ public class User {
             timeRegistration.put(dateString, day);
         }
 
-        //Add unit to day.
-        day.addRegistrationUnit(timeUnit);
+        //create and add registration instance
+        RegistrationInstance registrationInstance = new RegistrationInstance(hours,projectID,activitySerial);
+        day.addRegistrationUnit(registrationInstance); //Throws OperationNotAllowedException, if combined hours on day surpasses above 24 hours.
     }
 
     public RegistrationDay getTimeRegistrationDay(Calendar date) {
