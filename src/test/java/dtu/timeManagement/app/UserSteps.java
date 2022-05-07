@@ -7,7 +7,6 @@ import io.cucumber.java.en.When;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -60,7 +59,7 @@ public class UserSteps {
 
     @Then("there is a user in the system with the initials {string}")
     public void thereIsAUserInTheSystemWithTheInitials(String initials) {
-        assertEquals(timeManagementApp.getUser(initials).getInitial(), initials.toLowerCase(Locale.ROOT));
+        assertEquals(timeManagementApp.getUser(initials).getInitial(), initials);
     }
 
     @Then("the error message {string} is given")
@@ -156,10 +155,6 @@ public class UserSteps {
         // Gets the user field's initials and compares with the test initials
         assertTrue(userInitials.containsAll(users.stream().map(User::getInitial).collect(Collectors.toList())));
     }
-
-
-
-
 
     /**
      * Remove a user from the system

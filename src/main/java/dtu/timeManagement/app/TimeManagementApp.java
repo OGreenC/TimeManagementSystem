@@ -1,10 +1,8 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
@@ -51,7 +49,7 @@ public class TimeManagementApp {
     }
 
     public User getUser(String initials) {
-        return users.stream().filter(u -> u.getInitial().equals(initials.toLowerCase(Locale.ROOT))).findAny().orElse(null);
+        return users.stream().filter(u -> u.getInitial().equals(initials.toUpperCase())).findAny().orElse(null);
     }
     public List<User> getUsers() {
         return users;
@@ -105,7 +103,7 @@ public class TimeManagementApp {
     }
 
     public List<User> getUsers(String searchText) {
-        return users.stream().filter(user -> user.match(searchText)).collect(Collectors.toList());
+        return users.stream().filter(user -> user.match(searchText.toUpperCase())).collect(Collectors.toList());
     }
 
     public void assignUserToActivity(User user, Activity activity) {

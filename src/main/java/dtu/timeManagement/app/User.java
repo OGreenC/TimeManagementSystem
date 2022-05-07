@@ -17,11 +17,11 @@ public class User {
 
 
     public User(String initial) {
-        this.initial = initial;
+        this.initial = initial.toUpperCase();
     }
 
     public String getInitial() {
-        return initial.toLowerCase(Locale.ROOT);
+        return initial;
     }
 
     /**
