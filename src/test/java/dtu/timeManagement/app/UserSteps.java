@@ -156,10 +156,6 @@ public class UserSteps {
         assertTrue(userInitials.containsAll(users.stream().map(User::getInitial).collect(Collectors.toList())));
     }
 
-
-
-
-
     /**
      * Remove a user from the system
      */
