@@ -1,9 +1,8 @@
 package dtu.timeManagement.app.presentationLayer;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import dtu.timeManagement.app.Activity;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
@@ -14,7 +13,6 @@ import dtu.timeManagement.app.timeRegistration.RegistrationUnit;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,12 +20,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
 import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Integer.remainderUnsigned;
 
 public class MainSceneController {
 
     @FXML
-    private Label projectID, projectName, activitySerialNumber,
+    private Label projectID, projectName, activitySerialNumber, projectLeader,
             activityName, activityExpectedHours, userActivityProjectID,
             userActivityProjectName, userActivitySerialNumber, userActivityName,
             userActivityExpectedHours;
@@ -109,6 +106,7 @@ public class MainSceneController {
                 setSelectedProject(b);
                 projectID.setText(p.getID());
                 projectName.setText((p.getName() != null) ? p.getName() : "...");
+                projectLeader.setText((p.getProjectLeader() != null ? p.getProjectLeader().getInitial() : "..."));
             }
         }
         projectInfoPane.setVisible(!(selectedProject == null));
@@ -506,4 +504,36 @@ public class MainSceneController {
         registerTimeOverviewChanged(registerTimeOverviewDate.getValue());
     }
 
+    /**
+     * Edit project leader in project pane
+     */
+    public void editProjectLeader() {
+        String remove = "REMOVE";
+
+        List<String> initials = timeManagementApp.getUsers().stream().map(User::getInitial).sorted().collect(Collectors.toList());
+        initials.add(0, remove);
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Select user", initials);
+        dialog.setTitle("Select a project leader");
+        dialog.setHeaderText("Select a project leader");
+        dialog.setContentText("User:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            try {
+                if (name.equals(remove)) {
+                    timeManagementApp.removeProjectLeader(selectedProject);
+                    return;
+                }
+                //
+                timeManagementApp.setProjectLeader(selectedProject, timeManagementApp.getUser(name));
+            } catch (OperationNotAllowedException e) {
+                // TODO ???
+                throw new RuntimeException(e);
+            } finally {
+                refreshProjects();
+            }
+        });
+    }
 }

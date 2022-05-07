@@ -78,6 +78,9 @@ public class TimeManagementApp {
     }
 
     public void setProjectLeader(Project project, User user) throws OperationNotAllowedException {
+        if (project == null) {
+            throw new OperationNotAllowedException("Project does not exist");
+        }
         project.setProjectLeader(user);
     }
 
@@ -118,5 +121,9 @@ public class TimeManagementApp {
         } catch (OperationNotAllowedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void removeProjectLeader(Project project) throws OperationNotAllowedException {
+        project.removeProjectLeader();
     }
 }

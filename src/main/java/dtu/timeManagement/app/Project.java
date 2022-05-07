@@ -86,9 +86,6 @@ public class Project {
     }
 
     public void setProjectLeader(User projectLeader) throws OperationNotAllowedException {
-        if (this.projectLeader != null) {
-            throw new OperationNotAllowedException("Only one project leader can be assigned per project");
-        }
         this.projectLeader = projectLeader;
     }
 
