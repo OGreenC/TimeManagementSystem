@@ -68,7 +68,7 @@ public class MainSceneController {
         try {
             InitialData.initializeData(timeManagementApp);
         } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
 
         refreshProjects();
@@ -163,7 +163,7 @@ public class MainSceneController {
             refreshProjects();
             refreshActivities(null);
         } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
     }
 
@@ -226,7 +226,7 @@ public class MainSceneController {
             selectedActivity = a;
             refreshActivities(selectedProject);
         } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
     }
 
@@ -242,7 +242,7 @@ public class MainSceneController {
             selectedActivity = null;
             refreshActivities(selectedProject);
         } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
     }
 
@@ -350,8 +350,7 @@ public class MainSceneController {
                 activityStartDate.setText((selectedActivity.getStartTime() != null) ? selectedActivity.getStartTime().get(Calendar.YEAR) + "-" +
                         selectedActivity.getStartTime().get(Calendar.MONTH) + "-" + selectedActivity.getStartTime().get(Calendar.DAY_OF_MONTH) : "...");
             } catch (OperationNotAllowedException e) {
-                Alert alert = new Alert(Alert.AlertType.NONE, "Start date must be before end date!",ButtonType.CLOSE);
-                alert.show();
+                showAlert(e.getMessage());
             }
             startDatePicker.setValue(null);
 
@@ -367,8 +366,7 @@ public class MainSceneController {
                         selectedActivity.getEndTime().get(Calendar.MONTH) + "-" + selectedActivity.getEndTime().get(Calendar.DAY_OF_MONTH) : "...");
 
             } catch (OperationNotAllowedException e) {
-                Alert alert = new Alert(Alert.AlertType.NONE, "End date must be after start date!",ButtonType.CLOSE);
-                alert.show();
+                showAlert(e.getMessage());
             }
             finishDatePicker.setValue(null);
             }
@@ -439,7 +437,7 @@ public class MainSceneController {
             try {
                 timeManagementApp.addUser(u);
             } catch (OperationNotAllowedException e) {
-                throw new RuntimeException(e);
+                showAlert(e.getMessage());
             }
             selectedUser = u;
             refreshUsers();
@@ -500,7 +498,7 @@ public class MainSceneController {
         try {
             selectedUser.registerTime(calendarDate, hours, selectedUserActivity.getProject().getID(), selectedUserActivity.getSerialNumber());
         } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
         //System.out.println(selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnit(selectedUserActivity.getProject().getID(), selectedUserActivity.getSerialNumber()).getHours());
     }
@@ -565,11 +563,15 @@ public class MainSceneController {
                 //
                 timeManagementApp.setProjectLeader(selectedProject, timeManagementApp.getUser(name));
             } catch (OperationNotAllowedException e) {
-                // TODO ???
-                throw new RuntimeException(e);
+                showAlert(e.getMessage());
             } finally {
                 refreshProjects();
             }
         });
+    }
+
+    public static void showAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.NONE, errorMessage, ButtonType.CLOSE);
+        alert.show();
     }
 }
