@@ -37,7 +37,17 @@ public class TimeRegistrationSteps {
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
-
+    }
+    @When("the user registers {int} hours on the activity")
+    public void theUserRegistersHoursOnTheActivity(int hours) {
+        Calendar date = Calendar.getInstance();
+        String projectID = projectHelper.getProject().getID();
+        String activitySerial = activityHelper.getActivity().getSerialNumber();
+        try {
+            userHelper.getUser().registerTime(date,hours,projectID,activitySerial);
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Then("the user has registered {int} hours on the activity on year {int} month {int} date {int}")
@@ -77,4 +87,6 @@ public class TimeRegistrationSteps {
         ArrayList<RegistrationInstance> units = userHelper.getUser().getTimeRegistrationDay(date).getRegistrationUnits();
         assertEquals(units.size(),registrations);
     }
+
+
 }

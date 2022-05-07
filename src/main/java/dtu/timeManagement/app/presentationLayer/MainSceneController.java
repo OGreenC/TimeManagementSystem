@@ -75,7 +75,7 @@ public class MainSceneController {
         userActivityInfoPane.setVisible(false);
         refreshUsers();
 
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24,0);
+        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 24,1);
         hourSpinner.setValueFactory(valueFactory);
 
         registerTimeOverviewDate.setValue(java.time.LocalDate.now());

@@ -36,11 +36,7 @@ public class RegistrationDay {
         return null;
     }
 
-    public void addRegistrationUnit(RegistrationInstance u) throws OperationNotAllowedException{
-        if(getTotalHoursOnDay() + u.getHours() > 24) {
-            throw new OperationNotAllowedException("Can't register more than 24 hours a day");
-        }
-
+    public void addRegistrationUnit(RegistrationInstance u) {
         RegistrationInstance existingRegistration = getRegistrationUnit(u.getProjectID(),u.getActivitySerial());
 
         if(existingRegistration != null) {
