@@ -4,6 +4,7 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
@@ -22,7 +23,6 @@ public class TimeManagementApp {
     }
 
     public void addUser(User user) throws OperationNotAllowedException {
-
         if (getUser(user.getInitial()) != null) {
             throw new OperationNotAllowedException("The user with the given initials is already in the system");
         } else if (user.getInitial().length() > 4) {
@@ -51,7 +51,7 @@ public class TimeManagementApp {
     }
 
     public User getUser(String initials) {
-        return users.stream().filter(u -> u.getInitial().equals(initials)).findAny().orElse(null);
+        return users.stream().filter(u -> u.getInitial().equals(initials.toLowerCase(Locale.ROOT))).findAny().orElse(null);
     }
     public List<User> getUsers() {
         return users;

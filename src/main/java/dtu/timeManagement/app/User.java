@@ -7,7 +7,7 @@ import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-
+import java.util.Locale;
 
 
 public class User {
@@ -21,7 +21,7 @@ public class User {
     }
 
     public String getInitial() {
-        return initial;
+        return initial.toLowerCase(Locale.ROOT);
     }
 
     /**

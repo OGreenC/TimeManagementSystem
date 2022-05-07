@@ -16,6 +16,14 @@ Feature: Add Employee
     When the user is added to the system
     Then the error message "The user with the given initials is already in the system" is given
 
+  Scenario: Add the same user but with different case initials letters
+    Given there is a user with the initials "ABC"
+    And the user is added to the system
+    And there is a user with the initials "abc"
+    When the user is added to the system
+    Then the error message "The user with the given initials is already in the system" is given
+    
+
   Scenario: Assign a user to an activity
     Given there is a user with the initials "ABC"
     And the year is "2022"
