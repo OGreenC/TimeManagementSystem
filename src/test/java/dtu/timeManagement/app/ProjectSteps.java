@@ -98,8 +98,8 @@ public class ProjectSteps {
     }
 
 
-    @When("the project leader {string} is assigned to the project")
-    public void the_project_leader_is_assigned_to_the_project(String projectLeaderInitials) {
+    @When("the user {string} is assigned as project leader to the project")
+    public void the_user_is_assigned_as_project_leader_to_the_project(String projectLeaderInitials) {
         assertEquals(this.userHelper.getUser().getInitial(), projectLeaderInitials);
         try {
             timeManagementApp.setProjectLeader(this.projectHelper.getProject(), userHelper.getUser());
@@ -116,7 +116,7 @@ public class ProjectSteps {
     @When("the project leader is removed from the project")
     public void the_project_leader_is_removed_from_the_project() {
         try {
-            this.projectHelper.getProject().removeProjectLeader();
+            timeManagementApp.removeProjectLeader(this.projectHelper.getProject());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
