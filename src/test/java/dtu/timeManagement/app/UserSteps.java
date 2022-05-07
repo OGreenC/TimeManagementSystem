@@ -175,7 +175,7 @@ public class UserSteps {
     }
 
     @Given("the user {string} is removed from the system")
-    public void the_user_is_removed_from_the_system(String initials) {
+    public void the_user_is_removed_from_the_system(String initials) throws OperationNotAllowedException {
         timeManagementApp.removeUser(timeManagementApp.getUser(initials));
         assertNull(timeManagementApp.getUser(initials));
     }
