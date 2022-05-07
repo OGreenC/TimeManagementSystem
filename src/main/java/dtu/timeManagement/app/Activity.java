@@ -9,15 +9,15 @@ import java.util.List;
 public class Activity {
 
     private static int nextSerial = 1;
-    private String serialNumber;
+    private final String serialNumber;
 
     private String activityName;
     private int expectedHours;
 
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
     private Calendar startTime;
     private Calendar endTime;
-    private Project project;
+    private final Project project;
 
 
     /**
@@ -88,13 +88,11 @@ public class Activity {
     }
 
     public Boolean hasEnded() {
-        if(!Calendar.getInstance().before(endTime)){ return true; }
-        else { return false; }
+        return !Calendar.getInstance().before(endTime);
     }
 
     public Boolean hasStarted() {
-        if(!Calendar.getInstance().before(startTime)) { return true; }
-        else { return false; }
+        return !Calendar.getInstance().before(startTime);
     }
 
     public Calendar getStartTime() {
