@@ -1,3 +1,5 @@
+# Author: Victor Hyltoft (s214964)
+
 Feature: Search for a user
 
   Background: There are users in the system
