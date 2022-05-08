@@ -49,6 +49,16 @@ Feature: Add Employee
     When the user with initials "ABC" is assigned to the activity with serial "0001"
     Then the error message "User does not exist" is given
 
+  Scenario: Assign a user to a non-existing activity
+    Given the year is "2022"
+    And no projects have been created
+    And a project is registered in the system
+    And there is a project with ID "220001"
+    And there are no activities in the project
+    And there is a user with the initials "ABC"
+    When the user with initials "ABC" is assigned to the activity with serial "0001"
+    Then the error message "Activity does not exist" is given
+
   Scenario: Assign a user to an activity that is already assigned to the activity
     Given there is a user with the initials "ABC"
     And a project is registered in the system

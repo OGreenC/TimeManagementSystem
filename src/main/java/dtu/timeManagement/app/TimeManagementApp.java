@@ -114,7 +114,8 @@ public class TimeManagementApp {
     }
 
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
-        assert project != null && project.getActivities().contains(activity);
+        // TODO : MIKKEL KIG PÅ DET HER IGEN...
+//        assert project != null && project.getActivities().contains(activity);
         if (project == null) {
             throw new OperationNotAllowedException("Project does not exist");
         }
@@ -126,6 +127,9 @@ public class TimeManagementApp {
     }
 
     public void assignUserToActivity(User user, Activity activity) throws OperationNotAllowedException {
+        // Pre-conditions
+        // assert user != null && activity != null && !activity.isAssigned(user);
+
         // Implicit pre-conditions
         if (user == null) {
             throw new OperationNotAllowedException("User does not exist");
