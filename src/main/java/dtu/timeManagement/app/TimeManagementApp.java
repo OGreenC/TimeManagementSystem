@@ -133,9 +133,6 @@ public class TimeManagementApp {
         //If statement functions as a pre-condition, exceptions that our tests are reliant on are not thrown if assert is uncommented.
         //Whitebox pre-condition:
         //assert project != null && project.getActivities().contains(activity);
-        if (project == null) {
-            throw new OperationNotAllowedException("Project does not exist");
-        }
         if (!project.getActivities().contains(activity)) {
             throw new OperationNotAllowedException("Activity does not exist");
         }

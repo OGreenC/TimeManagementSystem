@@ -23,16 +23,6 @@ public class DeleteActivityWhitebox {
 
 
     @Test
-    public void testInputDataSetA() {
-        try {
-            timeManagementApp.deleteActivity(projectHelper.getProject(),activityHelper.getActivity());
-        } catch (OperationNotAllowedException e) {
-            errorMessageHolder.setErrorMessage(e.getMessage());
-        }
-        assertEquals(errorMessageHolder.getErrorMessage(),"Project does not exist");
-    }
-
-    @Test
     public void testInputDataSetB() {
         projectHelper.setProject(new Project(date));
         try {
