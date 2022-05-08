@@ -210,15 +210,15 @@ public class UserSteps {
 
     @Then("no activity has the user assigned to it")
     public void no_activity_has_the_user_assigned_to_it() {
-        for (Project p : timeManagementApp.getProjects()) {
-            for (Activity a : p.getActivities()) {
-                assertFalse(a.isAssigned(userHelper.getUser()));
+        for (Project project : timeManagementApp.getProjects()) {
+            for (Activity activity : project.getActivities()) {
+                assertFalse(activity.isAssigned(userHelper.getUser()));
             }
         }
     }
 
-    @Given("there is no user in the system")
-    public void there_is_no_user_in_the_system() throws OperationNotAllowedException {
+    @Given("there is no users in the system")
+    public void there_is_no_users_in_the_system() throws OperationNotAllowedException {
         timeManagementApp.removeAllUsers();
     }
 
