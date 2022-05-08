@@ -24,6 +24,17 @@ http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
     -fx-font-family: "Helvetica";
     -fx-font-weight: bold;
 }
+#timeEndedBtn {
+    -fx-background-color:
+            linear-gradient(#d49d9d, #c27676),
+            radial-gradient(center 50% -40%, radius 200%, #d49d9d 45%, #c27676 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+}
 #createTab {
     -fx-border-color: transparent;
     -fx-border-width: 0;

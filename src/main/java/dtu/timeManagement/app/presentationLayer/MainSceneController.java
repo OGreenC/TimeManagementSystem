@@ -16,6 +16,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.DatePickerSkin;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -194,6 +195,11 @@ public class MainSceneController {
                             a.getStartTime().get(Calendar.MONTH) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "...");
                     activityFinishDate.setText((a.getEndTime() != null) ? a.getEndTime().get(Calendar.YEAR) +"-"+
                             a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "...");
+                } else {
+                    if(a.getEndTime() != null && a.hasEnded()) {
+
+                        b.setId("timeEndedBtn");
+                    }
                 }
             }
             if (selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
@@ -458,15 +464,27 @@ public class MainSceneController {
     }
 
     public Button createUserBtn(User u) {
-        Button userBtn = new Button(u.getInitial());
+        Button userBtn = new Button(u.getInitial() + "\n (right click to remove)");
         userBtn.setPrefSize(200, 50);
         userBtn.setId("defaultTab");
-
-        //activities.put(ActivityBtn, a);
+        userBtn.setTextAlignment(TextAlignment.CENTER);
         userVBox.getChildren().add(userBtn);
 
         userBtn.setOnMouseClicked(mouseEvent -> {
-            userClicked(mouseEvent, u);
+            if(mouseEvent.getButton() == MouseButton.SECONDARY) {
+                try {
+                    timeManagementApp.removeUser(u);
+                } catch (OperationNotAllowedException e) {
+                    showAlert(e.getMessage());
+                }
+                refreshUsers();
+                selectedUserActivity = null;
+                selectedUser = null;
+                userActivityInfoPane.setVisible(false);
+                userRegistrationOverview.setVisible(false);
+            } else {
+                userClicked(mouseEvent, u);
+            }
         });
         return userBtn;
     }

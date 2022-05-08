@@ -47,9 +47,6 @@ public class ActivitySteps {
     public void the_user_deletes_the_activity_with_serial(String serialNumber) {
         try {
             Project p = projectHelper.getProject();
-            if (p == null) {
-                throw new OperationNotAllowedException("Project does not exist");
-            }
 
             Activity a = p.getActivity(serialNumber);
             timeManagementApp.deleteActivity(p, a);
