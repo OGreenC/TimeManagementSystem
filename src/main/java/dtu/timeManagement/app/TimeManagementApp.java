@@ -140,11 +140,16 @@ public class TimeManagementApp {
         assert (!project.getActivities().contains(activity));
     }
 
+    /**
+     * Assign a user to an activity and add the activity to the user.
+     * Whitebox test has been implemented for this method
+     * Victor Hyltoft (s214964)
+     */
     public void assignUserToActivity(User user, Activity activity) throws OperationNotAllowedException {
-        // Pre-conditions
+        // Preconditions using assert
         // assert user != null && activity != null && !activity.isAssigned(user);
 
-        // Implicit pre-conditions
+        // "Implicit" preconditions
         if (user == null) {
             throw new OperationNotAllowedException("User does not exist");
         }
@@ -154,15 +159,15 @@ public class TimeManagementApp {
         if (activity.isAssigned(user)) {
             throw new OperationNotAllowedException("User is already assigned to this activity");
         }
-        // Pre-condition
-        assert !user.getActivities().contains(activity);
+        // Another precondition
+        assert !user.hasActivity(activity);
 
         // Assign user to activity, and add activity to user
         activity.assignUser(user);
         user.addActivity(activity);
 
         // Post-conditions
-        assert user.getActivities().contains(activity);
+        assert user.hasActivity(activity);
         assert activity.isAssigned(user);
     }
 
