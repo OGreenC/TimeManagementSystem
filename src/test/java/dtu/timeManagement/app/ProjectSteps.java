@@ -10,6 +10,9 @@ import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Hovedansvarlig Victor Hyltoft (s214964)
+ */
 public class ProjectSteps {
     private final TimeManagementApp timeManagementApp;
     private final ErrorMessageHolder errorMessageHolder;
@@ -33,13 +36,18 @@ public class ProjectSteps {
         this.projectHelper.setProject(timeManagementApp.createProject());
     }
 
+    /**
+     * Oliver Tobias Siggaard (s204450)
+     */
     @Then("there is a project with ID {string}")
     public void there_is_a_project_with_id(String id) {
-        // Get the project by id from TimeManagementApp
         this.projectHelper.setProject(timeManagementApp.getProject(id));
         assertEquals(id, projectHelper.getProject().getID());
     }
 
+    /**
+     * Oliver Tobias Siggaard (s204450)
+     */
     @Then("there are no activities in the project")
     public void there_are_no_activities_in_the_project() {
         projectHelper.getProject().deleteAllActivities();
@@ -47,16 +55,25 @@ public class ProjectSteps {
 
     }
 
+    /**
+     * Oliver Grønborg Christensen (s204479)
+     */
     @When("the project is renamed to {string}")
     public void the_project_is_renamed_to(String name) {
         projectHelper.getProject().setName(name);
     }
 
+    /**
+     * Oliver Grønborg Christensen (s204479)
+     */
     @Then("the project has the name {string}")
     public void the_project_has_the_name(String name) {
         assertEquals(name, projectHelper.getProject().getName());
     }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     @When("the startDate is set to year {int} month {int} date {int}")
     public void the_start_date_is_set_to_year_month_date(int y, int mo, int d) {
         try {
@@ -66,6 +83,9 @@ public class ProjectSteps {
         }
     }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     @Then("the startDate is year {int} month {int} date {int}")
     public void the_start_date_is_year_month_date(int y, int mo, int d) {
         assertEquals(projectHelper.getProject().getStartDate().get(Calendar.YEAR), y);
@@ -73,6 +93,9 @@ public class ProjectSteps {
         assertEquals(projectHelper.getProject().getStartDate().get(Calendar.DATE), d);
     }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     @When("the finishDate is set to year {int} month {int} date {int}")
     public void the_finish_date_is_set_to_year_month_date(int y, int mo, int d) {
         try {
@@ -81,6 +104,10 @@ public class ProjectSteps {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
     }
+
+    /**
+     * Niels Thormann (s216160)
+     */
     @Then("the finishDate is year {int} month {int} date {int}")
     public void the_finish_date_is_year_month_date(int y, int mo, int d) {
         assertEquals(projectHelper.getProject().getEndDate().get(Calendar.YEAR), y);

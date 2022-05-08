@@ -10,15 +10,16 @@ import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Oliver Grønborg Christensen (s204479)
+ */
 public class TimeRegistrationSteps {
-    private final TimeManagementApp timeManagementApp;
     private final ErrorMessageHolder errorMessageHolder;
-    private UserHelper userHelper;
-    private ProjectHelper projectHelper;
-    private ActivityHelper activityHelper;
+    private final UserHelper userHelper;
+    private final ProjectHelper projectHelper;
+    private final ActivityHelper activityHelper;
 
-    public TimeRegistrationSteps(TimeManagementApp timeManagementApp, UserHelper userHelper, ProjectHelper projectHelper, ActivityHelper activityHelper, ErrorMessageHolder errorMessageHolder) {
-        this.timeManagementApp = timeManagementApp;
+    public TimeRegistrationSteps(UserHelper userHelper, ProjectHelper projectHelper, ActivityHelper activityHelper, ErrorMessageHolder errorMessageHolder) {
         this.userHelper = userHelper;
         this.projectHelper = projectHelper;
         this.errorMessageHolder = errorMessageHolder;

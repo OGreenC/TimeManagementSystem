@@ -10,6 +10,9 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * @author Mikkel Allermand (s214953)
+ */
 public class DeleteActivityWhitebox {
     private final ErrorMessageHolder errorMessageHolder = new ErrorMessageHolder();
 

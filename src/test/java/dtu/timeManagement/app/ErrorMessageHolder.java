@@ -1,5 +1,8 @@
 package dtu.timeManagement.app;
 
+/**
+ * @author Niels Thormann (s216160)
+ */
 public class ErrorMessageHolder {
     private String errorMessage ="";
 

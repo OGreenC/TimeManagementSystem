@@ -9,6 +9,9 @@ import java.util.Calendar;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * @author Oliver Tobias Siggaard (s204450)
+ */
 public class RemoveUserWhiteBox {
     private final TimeManagementApp timeManagementApp = new TimeManagementApp();
     private final UserHelper userHelper = new UserHelper();

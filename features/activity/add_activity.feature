@@ -1,3 +1,5 @@
+# Author: Oliver Tobias Siggaard (s204450)
+
 Feature: Add activity
   Description: Add a new activity to a project
   Actor: User

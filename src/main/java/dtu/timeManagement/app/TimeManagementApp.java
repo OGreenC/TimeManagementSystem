@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
+/**
+ * @author Generelt alle med meget crossover i alle metoder,
+ * men hovedansvarlig Victor Hyltoft (s214964)
+ */
 public class TimeManagementApp {
     private final List<User> users = new ArrayList<>();
     private final List<Project> projects = new ArrayList<>();
@@ -14,7 +18,6 @@ public class TimeManagementApp {
 
     /**
      * Create project and add it to the system
-     *
      * @return the created project
      */
     public Project createProject() {
@@ -23,6 +26,9 @@ public class TimeManagementApp {
         return project;
     }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     public void addUser(User user) throws OperationNotAllowedException {
         //Precondition
         assert user != null;
@@ -40,6 +46,9 @@ public class TimeManagementApp {
         assert Objects.equals(getUser(user.getInitial()), user);
     }
 
+    /**
+     * Oliver Tobias Siggaard (s204450)
+     */
     public void removeUser(User user) throws OperationNotAllowedException {
         // Precondition:
         assert user != null;
@@ -95,7 +104,6 @@ public class TimeManagementApp {
 
     /**
      * Delete a project
-     *
      * @param project declares the project to be deleted
      * @return true if project was found and deleted
      */
@@ -129,6 +137,9 @@ public class TimeManagementApp {
         return project.createActivity();
     }
 
+    /**
+     * Mikkel Allermand (s214953)
+     */
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
         //If statement functions as a pre-condition, exceptions that our tests are reliant on are not thrown if assert is uncommented.
         //Whitebox pre-condition:
@@ -173,6 +184,9 @@ public class TimeManagementApp {
     }
 
 
+    /**
+     * Oliver Tobias Siggaard (s204450)
+     */
     public void removeUserFromActivity(User user, Activity activity) throws OperationNotAllowedException {
         user.removeActivity(activity);
         activity.removeUser(user);
@@ -185,7 +199,7 @@ public class TimeManagementApp {
         project.removeProjectLeader();
     }
 
-    public void removeAllUsers() throws OperationNotAllowedException {
+    public void removeAllUsers() {
         users.clear();
     }
 }

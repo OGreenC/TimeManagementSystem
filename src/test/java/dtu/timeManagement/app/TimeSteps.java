@@ -5,6 +5,9 @@ import io.cucumber.java.en.When;
 
 import java.util.Calendar;
 
+/**
+ * @author Victor Hyltoft (s214964)
+ */
 public class TimeSteps {
     MockDateHolder dateHolder;
 

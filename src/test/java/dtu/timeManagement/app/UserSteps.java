@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Hovedansvarlig Oliver Tobias Siggaard (s204450)
+ */
 public class UserSteps {
     private final TimeManagementApp timeManagementApp;
     private final UserHelper userHelper;
@@ -101,7 +104,7 @@ public class UserSteps {
     }
 
     @Given("the user with initials {string} is assigned to this activity")
-    public void the_user_with_initials_is_assigned_to_this_activity(String initials) throws OperationNotAllowedException {
+    public void the_user_with_initials_is_assigned_to_this_activity(String initials) {
         activityHelper.getActivity().assignUser(timeManagementApp.getUser(initials));
     }
 
@@ -121,7 +124,7 @@ public class UserSteps {
     @When("the user is removed from the activity")
     public void the_user_is_removed_from_the_activity() {
         try {
-                timeManagementApp.removeUserFromActivity(userHelper.getUser(),activityHelper.getActivity());
+            timeManagementApp.removeUserFromActivity(userHelper.getUser(), activityHelper.getActivity());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -134,6 +137,9 @@ public class UserSteps {
         }
     }
 
+    /**
+     * Victor Hyltoft (s214964)
+     */
     @Given("these users with initials are registered in the system")
     public void these_users_with_initials_are_registered_in_the_system(List<List<String>> userDatatable) throws OperationNotAllowedException {
         List<String> userInitials = userDatatable.get(0);
@@ -141,11 +147,18 @@ public class UserSteps {
             timeManagementApp.addUser(new User(userInitial));
         }
     }
+
+    /**
+     * Victor Hyltoft (s214964)
+     */
     @When("I search for the text {string}")
     public void i_search_for_the_text(String searchQuery) {
         users = timeManagementApp.getUsers(searchQuery);
     }
 
+    /**
+     * Victor Hyltoft (s214964)
+     */
     @Then("I find the users with initials")
     public void i_find_the_users_with_initials(List<List<String>> userDatatable) {
         // Get userInitials into a list and remove null-values
@@ -169,7 +182,7 @@ public class UserSteps {
     }
 
     @Given("the user is set as project leader of the project")
-    public void the_user_is_set_as_project_leader_of_the_project() throws OperationNotAllowedException {
+    public void the_user_is_set_as_project_leader_of_the_project() {
         projectHelper.getProject().setProjectLeader(userHelper.getUser());
     }
 
@@ -182,6 +195,9 @@ public class UserSteps {
         }
     }
 
+    /**
+     * Victor Hyltoft (s214964)
+     */
     @Given("the user {string} is removed from the system")
     public void the_user_is_removed_from_the_system(String initials) throws OperationNotAllowedException {
         timeManagementApp.removeUser(timeManagementApp.getUser(initials));
@@ -218,12 +234,12 @@ public class UserSteps {
     }
 
     @Given("there is no users in the system")
-    public void there_is_no_users_in_the_system() throws OperationNotAllowedException {
+    public void there_is_no_users_in_the_system() {
         timeManagementApp.removeAllUsers();
     }
 
     @Then("there is {int} users in the system")
     public void thereIsUsersInTheSystem(int n) {
-        assertEquals(timeManagementApp.getUsers().size(),2);
+        assertEquals(timeManagementApp.getUsers().size(), n);
     }
 }

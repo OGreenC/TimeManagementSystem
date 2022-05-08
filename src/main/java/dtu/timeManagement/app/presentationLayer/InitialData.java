@@ -5,8 +5,6 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
 import dtu.timeManagement.app.User;
-import dtu.timeManagement.app.timeRegistration.RegistrationDay;
-import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -17,14 +15,10 @@ import java.util.GregorianCalendar;
  * start of application, so the application has some initial data on startup.
  *
  * There is no tests for this class, as it only temporary data initialization, replacing an eventual database.
- *
+ * @author Oliver Grønborg Christensen (s204479)
  */
 
 public class InitialData {
-
-    private static User u;
-    private static Project p;
-    private static Activity a;
 
     public static void initializeData(TimeManagementApp app) throws OperationNotAllowedException {
         //Get Calendar object for today
@@ -43,65 +37,50 @@ public class InitialData {
         app.addUser(new User("vh"));
         app.addUser(new User("nh"));
         app.addUser(new User("ma"));
-//        app.addUser(new User("ma1"));
-//        app.addUser(new User("ma2"));
-//        app.addUser(new User("ma3"));
-//        app.addUser(new User("ma4"));
-//        app.addUser(new User("ma5"));
-//        app.addUser(new User("ma6"));
-//        app.addUser(new User("ma7"));
-//        app.addUser(new User("ma8"));
-//        app.addUser(new User("ma9"));
-//        app.addUser(new User("ma10"));
-//        app.addUser(new User("ma11"));
-//        app.addUser(new User("ma12"));
-//        app.addUser(new User("ma13"));
-//        app.addUser(new User("ma14"));
-//        app.addUser(new User("ma15"));
 
-        p = app.createProject();
+        Project p = app.createProject();
         p.setName("Software Project");
         p.setProjectLeader(app.getUser("huba"));
-        a = p.createActivity();
+        Activity a = p.createActivity();
         a.setActivityName("Make JUnit Tests");
         a.setExpectedHours(18);
-        app.assignUserToActivity(app.getUser("huba"),a);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.getUser("huba").registerTime(calendarNow,5,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarNow,2,p.getID(), a.getSerialNumber());
-        app.getUser("nh").registerTime(calendarNow,3,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("huba"), a);
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.getUser("huba").registerTime(calendarNow,5, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarNow,2, p.getID(), a.getSerialNumber());
+        app.getUser("nh").registerTime(calendarNow,3, p.getID(), a.getSerialNumber());
         a = p.createActivity();
         a.setActivityName("Create business logic");
         a.setExpectedHours(4);
-        app.assignUserToActivity(app.getUser("abc"),a);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.getUser("abc").registerTime(calendarNow,7,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarNow,3,p.getID(), a.getSerialNumber());
-        app.getUser("nh").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("abc"), a);
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.getUser("abc").registerTime(calendarNow,7, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarNow,3, p.getID(), a.getSerialNumber());
+        app.getUser("nh").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
         a = p.createActivity();
         a.setActivityName("Fix bugs");
         a.setExpectedHours(100);
-        app.assignUserToActivity(app.getUser("ma"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.getUser("ma").registerTime(calendarNow,7,p.getID(), a.getSerialNumber());
-        app.getUser("nh").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
-        app.getUser("vh").registerTime(calendarNow,4,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("ma"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.getUser("ma").registerTime(calendarNow,7, p.getID(), a.getSerialNumber());
+        app.getUser("nh").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
+        app.getUser("vh").registerTime(calendarNow,4, p.getID(), a.getSerialNumber());
         a = p.createActivity();
         a.setActivityName("Presentation of product");
         a.setExpectedHours(1);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.assignUserToActivity(app.getUser("ots"),a);
-        app.assignUserToActivity(app.getUser("ma"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.getUser("ots").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
-        app.getUser("nh").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
-        app.getUser("vh").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
-        app.getUser("ma").registerTime(calendarNow,1,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.assignUserToActivity(app.getUser("ots"), a);
+        app.assignUserToActivity(app.getUser("ma"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.getUser("ots").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
+        app.getUser("nh").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
+        app.getUser("vh").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
+        app.getUser("ma").registerTime(calendarNow,1, p.getID(), a.getSerialNumber());
 
         p = app.createProject();
         p.setName("Math exam");
@@ -109,33 +88,33 @@ public class InitialData {
         a = p.createActivity();
         a.setActivityName("Make math report");
         a.setExpectedHours(21);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.assignUserToActivity(app.getUser("abc"),a);
-        app.getUser("nh").registerTime(calendarYesterday,3,p.getID(), a.getSerialNumber());
-        app.getUser("ots").registerTime(calendarYesterday,4,p.getID(), a.getSerialNumber());
-        app.getUser("vh").registerTime(calendarYesterday,2,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarYesterday,7,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.assignUserToActivity(app.getUser("abc"), a);
+        app.getUser("nh").registerTime(calendarYesterday,3, p.getID(), a.getSerialNumber());
+        app.getUser("ots").registerTime(calendarYesterday,4, p.getID(), a.getSerialNumber());
+        app.getUser("vh").registerTime(calendarYesterday,2, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarYesterday,7, p.getID(), a.getSerialNumber());
         a = p.createActivity();
         a.setActivityName("Prepare for examination");
         a.setExpectedHours(7);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.getUser("ots").registerTime(calendarYesterday,2,p.getID(), a.getSerialNumber());
-        app.getUser("vh").registerTime(calendarYesterday,2,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarYesterday,3,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.getUser("ots").registerTime(calendarYesterday,2, p.getID(), a.getSerialNumber());
+        app.getUser("vh").registerTime(calendarYesterday,2, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarYesterday,3, p.getID(), a.getSerialNumber());
         a = p.createActivity();
         a.setActivityName("Do presentation");
         a.setExpectedHours(21);
-        app.assignUserToActivity(app.getUser("ogc"),a);
-        app.assignUserToActivity(app.getUser("nh"),a);
-        app.assignUserToActivity(app.getUser("vh"),a);
-        app.getUser("nh").registerTime(calendarYesterday,1,p.getID(), a.getSerialNumber());
-        app.getUser("ots").registerTime(calendarYesterday,1,p.getID(), a.getSerialNumber());
-        app.getUser("vh").registerTime(calendarYesterday,1,p.getID(), a.getSerialNumber());
-        app.getUser("ogc").registerTime(calendarYesterday,1,p.getID(), a.getSerialNumber());
+        app.assignUserToActivity(app.getUser("ogc"), a);
+        app.assignUserToActivity(app.getUser("nh"), a);
+        app.assignUserToActivity(app.getUser("vh"), a);
+        app.getUser("nh").registerTime(calendarYesterday,1, p.getID(), a.getSerialNumber());
+        app.getUser("ots").registerTime(calendarYesterday,1, p.getID(), a.getSerialNumber());
+        app.getUser("vh").registerTime(calendarYesterday,1, p.getID(), a.getSerialNumber());
+        app.getUser("ogc").registerTime(calendarYesterday,1, p.getID(), a.getSerialNumber());
     }
 
 

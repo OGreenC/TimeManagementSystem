@@ -4,10 +4,11 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Class written by:
- * s204470 - Oliver Grønborg Christensen
+ * @author s204470 - Oliver Grønborg Christensen
  *
  * RegistrationDay objects hold all registration instances on a given date, for each user.
  * Each user has its own RegistrationDay object, for each day.
@@ -15,12 +16,9 @@ import java.util.Calendar;
 
 public class RegistrationDay {
 
-    private Calendar date;
-
-    private ArrayList<RegistrationInstance> registrationInstances = new ArrayList<>();
+    private final ArrayList<RegistrationInstance> registrationInstances = new ArrayList<>();
 
     public RegistrationDay(Calendar date) {
-        this.date = date;
     }
 
     public ArrayList<RegistrationInstance> getRegistrationUnits() {
@@ -29,7 +27,7 @@ public class RegistrationDay {
 
     public RegistrationInstance getRegistrationUnit(String projectID, String activitySerial) {
         for (RegistrationInstance u: registrationInstances) {
-            if(u.getProjectID() == projectID && u.getActivitySerial() == activitySerial) {
+            if(Objects.equals(u.getProjectID(), projectID) && Objects.equals(u.getActivitySerial(), activitySerial)) {
                 return u;
             }
         }

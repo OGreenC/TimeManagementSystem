@@ -1,3 +1,5 @@
+# Author: Oliver Grønborg Christensen (s204479)
+
 Feature: Register time
   Description: Register time for an activity
   Actor: User

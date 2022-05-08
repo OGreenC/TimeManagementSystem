@@ -1,3 +1,5 @@
+# Author: Oliver Tobias Siggaard (s204450)
+
 Feature: Add Employee
 
   Scenario: Add a user
@@ -11,9 +13,9 @@ Feature: Add Employee
     Then there is a user in the system with the initials "ABC"
 
   Scenario: Adding multiple users to the system
-    Given there is a user with the initials "abc"
+    Given there is a user with the initials "ABC"
     When the user is added to the system
-    And there is a user with the initials "cba"
+    And there is a user with the initials "CBA"
     And the user is added to the system
     Then there is 2 users in the system
 

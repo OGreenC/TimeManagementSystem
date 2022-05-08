@@ -1,26 +1,23 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * @author Mikkel Allermand (s214953)
+ */
 public class Project {
     private static int nextSerial = 1;
     private final String projectID;
     private String name;
-    private final Calendar calendar = Calendar.getInstance();
     private final Calendar dateOfCreation;
     private Calendar startTime;
     private Calendar endTime;
     private final List<Activity> activities = new ArrayList<>();
     private User projectLeader;
-
-    // Used for the UI
-    private final List<Node> activityTabs = new ArrayList<>();
 
     public Project(Calendar date) {
         this.dateOfCreation = date;
@@ -55,6 +52,9 @@ public class Project {
     }
     public Calendar getEndDate() { return endTime; }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     public void setStartDate(int y, int mo, int d) throws OperationNotAllowedException {
         this.startTime = Calendar.getInstance();
         Calendar tempStartTime = Calendar.getInstance();
@@ -74,6 +74,9 @@ public class Project {
         }
     }
 
+    /**
+     * Niels Thormann (s216160)
+     */
     public void setEndDate(int y, int mo, int d) throws OperationNotAllowedException {
         this.endTime = Calendar.getInstance();
         Calendar tempFinishDate = Calendar.getInstance();
@@ -109,7 +112,7 @@ public class Project {
         return activity;
     }
 
-    public void deleteActivity(Activity activity) throws OperationNotAllowedException {
+    public void deleteActivity(Activity activity) {
         activities.remove(activity);
 
     }

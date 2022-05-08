@@ -5,6 +5,10 @@ import java.util.GregorianCalendar;
 
 // The DateServer has not 100% code coverage, as it basically replaced immediately by the
 // mock date server for testing.
+
+/**
+ * @author Victor Hyltoft (s214964) with inspiration from the library-app provided as an example from the course
+ */
 public class DateServer {
 
     /**

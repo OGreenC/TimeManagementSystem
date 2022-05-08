@@ -7,10 +7,13 @@ import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 import java.util.*;
 
 
+/**
+ * @author Oliver Tobias Siggaard (s204450)
+ */
 public class User {
     private final String initial;
-    private final ArrayList<Activity> activities = new ArrayList<Activity>();
-    HashMap<String, RegistrationDay> timeRegistration = new HashMap<String, RegistrationDay>();
+    private final List<Activity> activities = new ArrayList<>();
+    HashMap<String, RegistrationDay> timeRegistration = new HashMap<>();
 
 
     public User(String initial) {
@@ -24,12 +27,6 @@ public class User {
     /**
      * Method written and used in report by:
      * s204479 - Oliver Grønborg Christensen
-     *
-     * @param date
-     * @param hours
-     * @param projectID
-     * @param activitySerial
-     * @throws OperationNotAllowedException
      */
     public void registerTime(Calendar date, int hours, String projectID, String activitySerial) throws OperationNotAllowedException {
 
@@ -75,7 +72,7 @@ public class User {
         activities.remove(activity);
     }
 
-    public ArrayList<Activity> getActivities() {
+    public List<Activity> getActivities() {
         return activities;
     }
 

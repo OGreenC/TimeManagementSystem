@@ -1,5 +1,8 @@
 package dtu.timeManagement.app;
 
+/**
+ * @author Oliver Tobias Siggaard (s204450)
+ */
 public class ProjectHelper {
 
     private Project project;

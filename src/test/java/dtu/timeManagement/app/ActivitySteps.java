@@ -10,11 +10,15 @@ import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Hovedansvarlig Niels Thormann (s216160)
+ */
 public class ActivitySteps {
     private final ProjectHelper projectHelper;
     private final ErrorMessageHolder errorMessageHolder;
     private final ActivityHelper activityHelper;
     private final TimeManagementApp timeManagementApp;
+
     public ActivitySteps(TimeManagementApp timeManagementApp, ProjectHelper projectHelper, ErrorMessageHolder errorMessageHolder, ActivityHelper activityHelper) {
         this.projectHelper = projectHelper;
         this.errorMessageHolder = errorMessageHolder;
@@ -37,17 +41,22 @@ public class ActivitySteps {
         assertNotNull(projectHelper.getProject().getActivity(serialNumber));
     }
 
+    /**
+     * Mikkel Allermand (s214953)
+     */
     @Given("there is an activity in the project with serial {string}")
     public void there_is_an_activity_in_the_project_with_serial(String serialNumber) {
         projectHelper.getProject().createActivity();
         assertNotNull(projectHelper.getProject().getActivity(serialNumber));
     }
 
+    /**
+     * Mikkel Allermand (s214953)
+     */
     @When("the user deletes the activity with serial {string}")
     public void the_user_deletes_the_activity_with_serial(String serialNumber) {
         try {
             Project p = projectHelper.getProject();
-
             Activity a = p.getActivity(serialNumber);
             timeManagementApp.deleteActivity(p, a);
         } catch (OperationNotAllowedException e) {
@@ -55,6 +64,9 @@ public class ActivitySteps {
         }
     }
 
+    /**
+     * Mikkel Allermand (s214953)
+     */
     @Then("the activity with serial {string} is deleted")
     public void the_activity_with_serial_is_deleted(String serialNumber) {
         assertNull(projectHelper.getProject().getActivity(serialNumber));
@@ -67,7 +79,7 @@ public class ActivitySteps {
 
     @Then("the activity with serial {string} is expected to take {string} hours")
     public void the_activity_with_serial_is_expected_to_take_hours(String serialNumber, String hours) {
-        assertEquals(projectHelper.getProject().getActivity(serialNumber).getExpectedHours(),Integer.parseInt(hours));
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getExpectedHours(), Integer.parseInt(hours));
     }
 
     @When("the activity with the serial {string} startDate is set to year {int} month {int} date {int}")
@@ -110,9 +122,12 @@ public class ActivitySteps {
 
     @Then("the activity with the serial {string} has the name {string}")
     public void the_activity_with_the_serial_has_the_name(String serialNumber, String activityName) {
-        assertEquals(projectHelper.getProject().getActivity(serialNumber).getActivityName(),activityName);
+        assertEquals(projectHelper.getProject().getActivity(serialNumber).getActivityName(), activityName);
     }
 
+    /**
+     * Mikkel Allermand (s214953)
+     */
     @Then("the project of the activity with serial number {string} is the selected project")
     public void the_project_of_the_activity_with_serial_number_is_the_selected_project(String serial) {
         assertEquals(projectHelper.getProject(), projectHelper.getProject().getActivity(serial).getProject());

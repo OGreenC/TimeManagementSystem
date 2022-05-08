@@ -5,10 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/*
- * As of writing this comment this class sole purpose is to run the GUI
- */
+import java.util.Objects;
 
+/**
+ * @author Oliver Tobias Siggaard (s204450)
+ */
 public class Main extends Application {
 
 	public static void main(String[] args) {
@@ -20,7 +21,7 @@ public class Main extends Application {
 		// Load MainScene.fxml
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/dtu/timeManagement/app/fxml/MainScene.fxml"));
 		Scene scene = new Scene(loader.load());
-		scene.getStylesheets().add(getClass().getResource("/dtu/timeManagement/app/fxml/style.css").toExternalForm());
+		scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/dtu/timeManagement/app/fxml/style.css")).toExternalForm());
 		
 		// Set and show scene on primaryStage
 		primaryStage.setTitle("TimeManagementSystem");

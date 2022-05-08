@@ -1,5 +1,8 @@
 package dtu.timeManagement.app;
 
+/**
+ * @author Victor Hyltoft (s214964)
+ */
 public class UserHelper {
     private User user;
 

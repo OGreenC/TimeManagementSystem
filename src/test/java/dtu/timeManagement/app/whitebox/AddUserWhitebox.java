@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Assertions;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Niels Thormann (s216160)
+ */
 public class AddUserWhitebox {
     private final TimeManagementApp timeManagementApp = new TimeManagementApp();
     private final ErrorMessageHolder errorMessageHolder = new ErrorMessageHolder();

@@ -1,7 +1,6 @@
 package dtu.timeManagement.app.presentationLayer;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,11 +10,8 @@ import dtu.timeManagement.app.Project;
 import dtu.timeManagement.app.TimeManagementApp;
 import dtu.timeManagement.app.User;
 import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +20,10 @@ import javafx.scene.text.TextAlignment;
 
 import static java.lang.Integer.MAX_VALUE;
 
+/**
+ * @author Generelt alle med meget crossover i alle metoder,
+ * men hovedansvarlig Oliver Grønborg Christensen (s204479)
+ */
 public class MainSceneController {
 
     @FXML
@@ -88,16 +88,9 @@ public class MainSceneController {
         dateField.setValue(java.time.LocalDate.now());
 
         //Register time overview value change listener
-        registerTimeOverviewDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-            registerTimeOverviewChanged(newValue);
-        });
+        registerTimeOverviewDate.valueProperty().addListener((ov, oldValue, newValue) -> registerTimeOverviewChanged(newValue));
     }
 
-    /**
-     *
-     * Project tab handling
-     *
-     */
 
     /**
      * Project scroll pane
@@ -122,9 +115,7 @@ public class MainSceneController {
         //Create new Btn
         Button createBtn = new Button("+");
         createBtn.setId("createTab");
-        createBtn.setOnMouseClicked(mouseEvent -> {
-            createProject();
-        });
+        createBtn.setOnMouseClicked(mouseEvent -> createProject());
         createBtn.setPrefSize(200, 50);
         projectVBox.getChildren().add(createBtn);
     }
@@ -136,9 +127,7 @@ public class MainSceneController {
 
         projectVBox.getChildren().add(projectBtn);
 
-        projectBtn.setOnMouseClicked(mouseEvent -> {
-            projectClicked(mouseEvent, p);
-        });
+        projectBtn.setOnMouseClicked(mouseEvent -> projectClicked(mouseEvent, p));
         return projectBtn;
     }
 
@@ -205,9 +194,7 @@ public class MainSceneController {
             //Create new Btn
             Button createBtn = new Button("+");
             createBtn.setId("createTab");
-            createBtn.setOnMouseClicked(mouseEvent -> {
-                createActivity();
-            });
+            createBtn.setOnMouseClicked(mouseEvent -> createActivity());
             createBtn.setPrefSize(200, 50);
             activityVBox.getChildren().add(createBtn);
 
@@ -219,9 +206,7 @@ public class MainSceneController {
         activityBtn.setPrefSize(200, 50);
         activityBtn.setId("defaultTab");
 
-        activityBtn.setOnMouseClicked(mouseEvent -> {
-            activityClicked(mouseEvent, a);
-        });
+        activityBtn.setOnMouseClicked(mouseEvent -> activityClicked(mouseEvent, a));
         return activityBtn;
     }
 
@@ -233,8 +218,7 @@ public class MainSceneController {
 
     public void createActivity() {
         try {
-            Activity a = timeManagementApp.createActivity(selectedProject);
-            selectedActivity = a;
+            selectedActivity = timeManagementApp.createActivity(selectedProject);
             refreshActivities(selectedProject);
         } catch (OperationNotAllowedException e) {
             showAlert(e.getMessage());
@@ -277,12 +261,7 @@ public class MainSceneController {
         comboBox.setId("createTab");
         comboBox.setValue("       +");
         comboBox.setPrefSize(200, 50);
-        comboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue ov, String t, String t1) {
-                addActivityUser(timeManagementApp.getUser(t1));
-            }
-        });
+        comboBox.valueProperty().addListener((ov, t, t1) -> addActivityUser(timeManagementApp.getUser(t1)));
 
         activityAddedUsersVBox.getChildren().add(comboBox);
     }
@@ -292,13 +271,11 @@ public class MainSceneController {
         userBtn.setPrefSize(200, 50);
         userBtn.setId("defaultTab");
 
-        userBtn.setOnMouseClicked(mouseEvent -> {
-            deleteUserClicked(mouseEvent, u);
-        });
+        userBtn.setOnMouseClicked(mouseEvent -> deleteUserClicked(u));
         return userBtn;
     }
 
-    public void deleteUserClicked(MouseEvent e, User u) {
+    public void deleteUserClicked(User u) {
         try {
             timeManagementApp.removeUserFromActivity(u, selectedActivity);
         } catch (OperationNotAllowedException err) {
@@ -421,7 +398,7 @@ public class MainSceneController {
 
         }
     }
-    /**
+    /*
      *
      * User tab in GUI
      *
@@ -441,9 +418,7 @@ public class MainSceneController {
         //Create new Btn
         Button createBtn = new Button("+");
         createBtn.setId("createTab");
-        createBtn.setOnMouseClicked(mouseEvent -> {
-            createUser();
-        });
+        createBtn.setOnMouseClicked(mouseEvent -> createUser());
         createBtn.setPrefSize(200, 50);
         userVBox.getChildren().add(createBtn);
         if (selectedActivity != null) refreshActivityAddedUsers(selectedActivity);
@@ -530,7 +505,7 @@ public class MainSceneController {
         activityBtn.setPrefSize(200, 50);
         activityBtn.setId("defaultTab");
 
-        activityBtn.setOnMouseClicked(mouseEvent -> { selectedUserActivity(mouseEvent, a); });
+        activityBtn.setOnMouseClicked(mouseEvent -> selectedUserActivity(mouseEvent, a));
         return activityBtn;
     }
     public void selectedUserActivity(MouseEvent e, Activity a) {
@@ -597,9 +572,7 @@ public class MainSceneController {
                 //activities.put(ActivityBtn, a);
                 registeredTimeOverview.getChildren().add(timeBtn);
 
-                timeBtn.setOnMouseClicked(mouseEvent -> {
-                    removeTimeRegistration(calendarDate,ru);
-                });
+                timeBtn.setOnMouseClicked(mouseEvent -> removeTimeRegistration(calendarDate,ru));
             }
         }
     }
@@ -610,6 +583,7 @@ public class MainSceneController {
 
     /**
      * Edit project leader in project pane
+     * Victor Hyltoft
      */
     public void editProjectLeader() {
         String remove = "REMOVE";

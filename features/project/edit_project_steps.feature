@@ -1,3 +1,5 @@
+# Niels Thormann (s216160)
+
 Feature: Edit Project Properties
   Description: Edit project properties
   Actor: User

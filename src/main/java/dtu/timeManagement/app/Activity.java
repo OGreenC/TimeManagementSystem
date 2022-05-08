@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * @author Niels Thormann (s216160)
+ */
 public class Activity {
 
     private static int nextSerial = 1;

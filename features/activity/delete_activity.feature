@@ -1,3 +1,5 @@
+# Author: Mikkel Allermand (s214953)
+
 Feature: Delete activity
   Description: Delete an activity from a project
   Actor: User
