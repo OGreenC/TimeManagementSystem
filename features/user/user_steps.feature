@@ -10,6 +10,13 @@ Feature: Add Employee
     When the user is added to the system
     Then there is a user in the system with the initials "ABC"
 
+  Scenario: Adding multiple users to the system
+    Given there is a user with the initials "abc"
+    When the user is added to the system
+    And there is a user with the initials "cba"
+    And the user is added to the system
+    Then there is 2 users in the system
+
   Scenario: Add a user with more initials than 4
     Given there is a user with the initials "ABCDE"
     When the user is added to the system
@@ -38,6 +45,7 @@ Feature: Add Employee
     And an activity with serial "0001" is added to the project with ID "220001"
     When the user with initials "ABC" is assigned to the activity with serial "0001"
     Then the activity with serial "0001" in the project with ID "220001" has the user with initials "ABC" assigned
+    And there is 1 user added to the activity
 
   Scenario: Assign a non-existing user to an activity
     Given the year is "2022"
@@ -75,18 +83,8 @@ Feature: Add Employee
     And there is a project with ID "220001"
     And there are no activities in the project
     And an activity with serial "0001" is added to the project with ID "220001"
-    When the user with initials "ABC" is removed from the activity with serial "0001"
+    When the user is removed from the activity
     Then the activity with serial "0001" in the project with ID "220001" does not have the user with initials "ABC" assigned
-
-  Scenario: Remove a non-existing user from an activity
-    Given the year is "2022"
-    And no projects have been created
-    And a project is registered in the system
-    And there is a project with ID "220001"
-    And there are no activities in the project
-    And an activity with serial "0001" is added to the project with ID "220001"
-    When the user with initials "ABC" is removed from the activity with serial "0001"
-    Then the error message "User does not exist" is given
 
   Scenario: Remove a user from the system
     Given a project is registered in the system

@@ -113,16 +113,13 @@ public class TimeManagementApp {
 
 
     public Activity createActivity(Project project) throws OperationNotAllowedException {
-        if (project == null) {
-            throw new OperationNotAllowedException("Project does not exist");
-        }
         return project.createActivity();
     }
 
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
         // TODO : MIKKEL KIG PÅ DET HER IGEN...
-//        assert project != null && project.getActivities().contains(activity);
-        if (project == null) {
+        //assert project != null && project.getActivities().contains(activity);
+        if (project == null) { //TODO Bør ikke være relevant at tjekke for - Bør fanges allerede i "getProject" delen, i en anden test.
             throw new OperationNotAllowedException("Project does not exist");
         }
         if (!project.getActivities().contains(activity)) {
@@ -159,13 +156,9 @@ public class TimeManagementApp {
     }
 
 
-    public void removeUserFromActivity(User user, Activity activity) {
+    public void removeUserFromActivity(User user, Activity activity) throws OperationNotAllowedException {
         user.removeActivity(activity);
-        try {
-            activity.removeUser(user);
-        } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
-        }
+        activity.removeUser(user);
     }
 
     public void removeProjectLeader(Project project) throws OperationNotAllowedException {

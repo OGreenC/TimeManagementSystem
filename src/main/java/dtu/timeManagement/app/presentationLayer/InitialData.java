@@ -16,6 +16,8 @@ import java.util.GregorianCalendar;
  * This class is only purpose, is to enable us to initialize data on
  * start of application, so the application has some initial data on startup.
  *
+ * There is no tests for this class, as it only temporary data initialization, replacing an eventual database.
+ *
  */
 
 public class InitialData {

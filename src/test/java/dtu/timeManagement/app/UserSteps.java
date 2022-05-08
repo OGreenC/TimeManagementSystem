@@ -118,12 +118,10 @@ public class UserSteps {
      * Remove user from an activity
      * - Includes removing a non-existing user
      */
-    @When("the user with initials {string} is removed from the activity with serial {string}")
-    public void the_user_with_initials_is_removed_from_the_activity_with_serial(String initials, String serial) {
+    @When("the user is removed from the activity")
+    public void the_user_is_removed_from_the_activity() {
         try {
-            if (activityHelper.getActivity().getSerialNumber().equals(serial)) {
-                activityHelper.getActivity().removeUser(timeManagementApp.getUser(initials));
-            }
+                timeManagementApp.removeUserFromActivity(userHelper.getUser(),activityHelper.getActivity());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -222,5 +220,10 @@ public class UserSteps {
     @Given("there is no user in the system")
     public void there_is_no_user_in_the_system() throws OperationNotAllowedException {
         timeManagementApp.removeAllUsers();
+    }
+
+    @Then("there is {int} users in the system")
+    public void thereIsUsersInTheSystem(int n) {
+        assertEquals(timeManagementApp.getUsers().size(),2);
     }
 }

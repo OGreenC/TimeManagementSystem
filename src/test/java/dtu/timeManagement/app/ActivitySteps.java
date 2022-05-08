@@ -1,6 +1,7 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -129,5 +130,10 @@ public class ActivitySteps {
     @Then("the activity with the serial {string} has ended")
     public void the_activity_with_the_serial_has_ended(String serialNumber) {
         assertTrue(projectHelper.getProject().getActivity(serialNumber).hasEnded());
+    }
+
+    @And("there is {int} user added to the activity")
+    public void thereIsUserAddedToTheActivity(int n) {
+        assertEquals(activityHelper.getActivity().getUsers().size(), n);
     }
 }

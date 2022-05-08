@@ -35,10 +35,7 @@ public class Activity {
         assert users.contains(user);
     }
 
-    public void removeUser(User user) throws OperationNotAllowedException {
-        if (user == null) {
-            throw new OperationNotAllowedException("User does not exist");
-        }
+    public void removeUser(User user) {
         users.remove(user);
     }
 

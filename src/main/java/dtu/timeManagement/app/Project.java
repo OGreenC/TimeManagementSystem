@@ -73,10 +73,6 @@ public class Project {
     }
 
     public void deleteActivity(Activity activity) throws OperationNotAllowedException {
-        if (activity == null) {
-            throw new OperationNotAllowedException("Activity does not exist");
-        }
-
         activities.remove(activity);
 
     }

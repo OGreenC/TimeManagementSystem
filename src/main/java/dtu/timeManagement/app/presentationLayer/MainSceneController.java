@@ -288,7 +288,11 @@ public class MainSceneController {
     }
 
     public void deleteUserClicked(MouseEvent e, User u) {
-        timeManagementApp.removeUserFromActivity(u, selectedActivity);
+        try {
+            timeManagementApp.removeUserFromActivity(u, selectedActivity);
+        } catch (OperationNotAllowedException err) {
+            showAlert(err.getMessage());
+        }
         refreshActivityAddedUsers(selectedActivity);
     }
 

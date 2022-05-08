@@ -4,10 +4,7 @@ import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 import dtu.timeManagement.app.timeRegistration.RegistrationDay;
 import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 
 public class User {
@@ -36,7 +33,11 @@ public class User {
      * @throws OperationNotAllowedException
      */
     public void registerTime(Calendar date, int hours, String projectID, String activitySerial) throws OperationNotAllowedException {
-        if(hours <= 0) {                                                                                                //1
+
+        //Pre-conditions:
+        assert date != null && projectID != null && activitySerial != null;
+
+        if(hours <= 0) {    //implicit pre-condition                                                                    //1
             throw new OperationNotAllowedException("Can't register 0 or negative hours on activity");                   //2
         } else {
             //Get (or create if not existing) time registration day object from map.
@@ -47,7 +48,7 @@ public class User {
                 timeRegistration.put(dateString, registrationDay);                                                      //7
             }
 
-            if(registrationDay.getTotalHoursOnDay() + hours <= 24) {                                                    //8
+            if(registrationDay.getTotalHoursOnDay() + hours <= 24) {    //implicit pre-condition                        //8
                 //create and add registration instance
                 RegistrationInstance registrationInstance = new RegistrationInstance(hours,projectID,activitySerial);   //9
                 registrationDay.addRegistrationUnit(registrationInstance);                                              //10
@@ -55,6 +56,12 @@ public class User {
                 throw new OperationNotAllowedException("Can't register more than 24 hours a day");                      //11
             }
         }
+
+        //Post-conditions (Only ran, if all pre-conditions is satisfied (including implicit pre-conditions))
+        RegistrationInstance registerInstance = timeRegistration.get(DateServer.getDateAsString(date)).getRegistrationUnit(projectID, activitySerial);
+        assert Objects.equals(registerInstance.getProjectID(), projectID);
+        assert Objects.equals(registerInstance.getActivitySerial(), activitySerial);
+        assert registerInstance.getHours() == hours;
     }
 
     public RegistrationDay getTimeRegistrationDay(Calendar date) {
