@@ -55,8 +55,13 @@ public class Activity {
         this.startTime = Calendar.getInstance();
         Calendar tempStartTime = Calendar.getInstance();
         tempStartTime.set(y, mo, d);
-        if (tempStartTime.before(endTime) || endTime == null) {
+        if (tempStartTime.before(endTime) || endTime == null &&
+                (tempStartTime.after(getProject().getStartDate())|| getProject().getStartDate()==null) &&
+                (tempStartTime.before(getProject().getEndDate())|| getProject().getEndDate()==null)) {
             this.startTime.set(y, mo, d);
+        } else if(tempStartTime.before(getProject().getStartDate()) ||
+                tempStartTime.after(getProject().getEndDate())) {
+            throw new OperationNotAllowedException("The start date is not in the interval of the projects dates");
         } else {
             throw new OperationNotAllowedException("The finish date is before the start date");
         }
@@ -66,8 +71,13 @@ public class Activity {
         this.endTime = Calendar.getInstance();
         Calendar tempFinishDate = Calendar.getInstance();
         tempFinishDate.set(y, mo, d);
-        if (tempFinishDate.after(startTime) || startTime == null) {
+        if (tempFinishDate.after(startTime) || startTime == null &&
+                (tempFinishDate.after(getProject().getStartDate())|| getProject().getStartDate()==null) &&
+                (tempFinishDate.before(getProject().getEndDate())|| getProject().getEndDate()==null)) {
             this.endTime.set(y, mo, d);
+        } else if(tempFinishDate.before(getProject().getStartDate()) ||
+                tempFinishDate.after(getProject().getEndDate())) {
+            throw new OperationNotAllowedException("The finish date is not in the interval of the projects dates");
         } else {
             throw new OperationNotAllowedException("The finish date is before the start date");
         }

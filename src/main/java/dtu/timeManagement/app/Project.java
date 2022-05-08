@@ -60,6 +60,14 @@ public class Project {
         Calendar tempStartTime = Calendar.getInstance();
         tempStartTime.set(y, mo, d);
         if (tempStartTime.before(endTime) || endTime == null) {
+            if(!activities.isEmpty()) {
+                for (int x = 0; x <= activities.size()-1; x++) {
+                    if (tempStartTime.after(activities.get(x).getStartTime()) || tempStartTime.after(activities.get(x).getEndTime())) {
+                        throw new OperationNotAllowedException("There is an activity with start" +
+                                " or finish date outside the interval of the projects dates");
+                    }
+                }
+            }
             this.startTime.set(y, mo, d);
         } else {
             throw new OperationNotAllowedException("The finish date is before the start date");
@@ -71,6 +79,14 @@ public class Project {
         Calendar tempFinishDate = Calendar.getInstance();
         tempFinishDate.set(y, mo, d);
         if (tempFinishDate.after(startTime) || startTime == null) {
+            if(!activities.isEmpty()) {
+                for (int x = 0; x <= activities.size()-1; x++) {
+                    if (tempFinishDate.before(activities.get(x).getStartTime()) || tempFinishDate.before(activities.get(x).getEndTime())) {
+                        throw new OperationNotAllowedException("There is an activity with start" +
+                                " or finish date outside the interval of the projects dates");
+                    }
+                }
+            }
             this.endTime.set(y, mo, d);
         } else {
             throw new OperationNotAllowedException("The finish date is before the start date");
