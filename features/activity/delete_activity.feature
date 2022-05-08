@@ -3,8 +3,7 @@ Feature: Delete activity
   Actor: User
 
   Scenario: Successfully delete an existing activity from a project
-    Given the year is "2022"
-    And no projects have been created
+    Given no projects have been created
     And a project is registered in the system
     And there is a project with ID "220001"
     And there are no activities in the project
@@ -13,9 +12,7 @@ Feature: Delete activity
     Then the activity with serial "0001" is deleted
 
   Scenario: Attempt to delete a non-existing activity from a project
-    Given there is a user with the initials "ABC"
-    And the year is "2022"
-    And no projects have been created
+    Given no projects have been created
     And a project is registered in the system
     And there is a project with ID "220001"
     And there are no activities in the project
