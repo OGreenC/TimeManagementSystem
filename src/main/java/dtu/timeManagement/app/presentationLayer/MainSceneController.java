@@ -178,9 +178,9 @@ public class MainSceneController {
                     activityName.setText((a.getActivityName() != null) ? a.getActivityName() : "...");
                     activityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
                     activityStartDate.setText((a.getStartTime() != null) ? a.getStartTime().get(Calendar.YEAR) +"-"+
-                            a.getStartTime().get(Calendar.MONTH) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "...");
+                            (a.getStartTime().get(Calendar.MONTH)+1) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "...");
                     activityFinishDate.setText((a.getEndTime() != null) ? a.getEndTime().get(Calendar.YEAR) +"-"+
-                            a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "...");
+                            (a.getEndTime().get(Calendar.MONTH)+1) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "...");
                 } else {
                     if(a.getEndTime() != null && a.hasEnded()) {
 
@@ -343,14 +343,13 @@ public class MainSceneController {
         LocalDate localDate = startDatePicker.getValue(); //Null if non chosen
         if (localDate != null) {
             try {
-                selectedActivity.setStartTime(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                selectedActivity.setStartTime(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
                 activityStartDate.setText((selectedActivity.getStartTime() != null) ? selectedActivity.getStartTime().get(Calendar.YEAR) + "-" +
-                        selectedActivity.getStartTime().get(Calendar.MONTH) + "-" + selectedActivity.getStartTime().get(Calendar.DAY_OF_MONTH) : "...");
+                        (selectedActivity.getStartTime().get(Calendar.MONTH)+1) + "-" + selectedActivity.getStartTime().get(Calendar.DAY_OF_MONTH) : "...");
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
             }
             startDatePicker.setValue(null);
-
         }
     }
 
@@ -358,9 +357,9 @@ public class MainSceneController {
         LocalDate localDate = finishDatePicker.getValue(); //Null if non chosen
         if (localDate != null) {
             try {
-                selectedActivity.setEndTime(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                selectedActivity.setEndTime(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
                 activityFinishDate.setText((selectedActivity.getEndTime() != null) ? selectedActivity.getEndTime().get(Calendar.YEAR) + "-" +
-                        selectedActivity.getEndTime().get(Calendar.MONTH) + "-" + selectedActivity.getEndTime().get(Calendar.DAY_OF_MONTH) : "...");
+                        (selectedActivity.getEndTime().get(Calendar.MONTH)+1) + "-" + selectedActivity.getEndTime().get(Calendar.DAY_OF_MONTH) : "...");
 
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
@@ -373,9 +372,9 @@ public class MainSceneController {
         LocalDate localDate = projectStartDatePicker.getValue(); //Null if non chosen
         if (localDate != null) {
             try {
-                selectedProject.setStartDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                selectedProject.setStartDate(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
                 projectStartDate.setText((selectedProject.getStartDate() != null) ? selectedProject.getStartDate().get(Calendar.YEAR) + "-" +
-                        selectedProject.getStartDate().get(Calendar.MONTH) + "-" + selectedProject.getStartDate().get(Calendar.DAY_OF_MONTH) : "...");
+                        (selectedProject.getStartDate().get(Calendar.MONTH)+1) + "-" + selectedProject.getStartDate().get(Calendar.DAY_OF_MONTH) : "...");
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
             }
@@ -388,9 +387,9 @@ public class MainSceneController {
         LocalDate localDate = projectFinishDatePicker.getValue(); //Null if non chosen
         if (localDate != null) {
             try {
-                selectedProject.setEndDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                selectedProject.setEndDate(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth());
                 projectFinishDate.setText((selectedProject.getEndDate() != null) ? selectedProject.getEndDate().get(Calendar.YEAR) + "-" +
-                        selectedProject.getEndDate().get(Calendar.MONTH) + "-" + selectedProject.getEndDate().get(Calendar.DAY_OF_MONTH) : "...");
+                        (selectedProject.getEndDate().get(Calendar.MONTH)+1) + "-" + selectedProject.getEndDate().get(Calendar.DAY_OF_MONTH) : "...");
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
             }
@@ -521,13 +520,13 @@ public class MainSceneController {
         userActivityInfoPane.setVisible(true);
         userRegistrationOverview.setVisible(false);
         activityStartDateInfo.setText((a.getStartTime() != null) ? "Start date: "+ a.getStartTime().get(Calendar.YEAR) +"-"+
-                a.getStartTime().get(Calendar.MONTH) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "Start date:");
+                (a.getStartTime().get(Calendar.MONTH)+1) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "Start date:");
         activityFinishDateInfo.setText((a.getEndTime() != null) ? "End date: "+ a.getEndTime().get(Calendar.YEAR) +"-"+
-                a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "End date:");
+                (a.getEndTime().get(Calendar.MONTH)+1) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "End date:");
         projectStartDateInfo.setText((a.getProject().getStartDate() != null) ? "Start date: "+ a.getProject().getStartDate().get(Calendar.YEAR) +"-"+
-                a.getProject().getStartDate().get(Calendar.MONTH) +"-"+ a.getProject().getStartDate().get(Calendar.DAY_OF_MONTH)  : "Start date:");
+                (a.getProject().getStartDate().get(Calendar.MONTH)+1) +"-"+ a.getProject().getStartDate().get(Calendar.DAY_OF_MONTH)  : "Start date:");
         projectFinishDateInfo.setText((a.getProject().getEndDate() != null) ? "End date: "+ a.getProject().getEndDate().get(Calendar.YEAR) +"-"+
-                a.getProject().getEndDate().get(Calendar.MONTH) +"-"+ a.getProject().getEndDate().get(Calendar.DAY_OF_MONTH)  : "End date:");
+                (a.getProject().getEndDate().get(Calendar.MONTH)+1) +"-"+ a.getProject().getEndDate().get(Calendar.DAY_OF_MONTH)  : "End date:");
     }
 
     /**
