@@ -22,12 +22,11 @@ public class DeleteActivityWhitebox {
 
     private final TimeManagementApp timeManagementApp = new TimeManagementApp();
 
-    private final Calendar date = Calendar.getInstance();
 
 
     @Test
     public void testInputDataSetB() {
-        projectHelper.setProject(new Project(date));
+        projectHelper.setProject(timeManagementApp.createProject());
         try {
             timeManagementApp.deleteActivity(projectHelper.getProject(),activityHelper.getActivity());
         } catch (OperationNotAllowedException e) {
@@ -38,7 +37,7 @@ public class DeleteActivityWhitebox {
 
     @Test
     public void testInputDataSetC() {
-        projectHelper.setProject(new Project(date));
+        projectHelper.setProject(timeManagementApp.createProject());
         projectHelper.getProject().createActivity();
         try {
             timeManagementApp.deleteActivity(projectHelper.getProject(),projectHelper.getProject().getActivity("0001"));
