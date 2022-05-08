@@ -143,11 +143,11 @@ public class TimeManagementApp {
     public void deleteActivity(Project project, Activity activity) throws OperationNotAllowedException {
         //If statement functions as a pre-condition, exceptions that our tests are reliant on are not thrown if assert is uncommented.
         //Whitebox pre-condition:
-        //assert project != null && project.getActivities().contains(activity);
-        if (!project.getActivities().contains(activity)) {
-            throw new OperationNotAllowedException("Activity does not exist");
+        //assert project.getActivities().contains(activity);
+        if (!project.getActivities().contains(activity)) {      //1
+            throw new OperationNotAllowedException("Activity does not exist");      //2
         }
-        project.deleteActivity(activity);
+        project.deleteActivity(activity);       //3
         //Whitebox post-condition:
         assert (!project.getActivities().contains(activity));
     }
