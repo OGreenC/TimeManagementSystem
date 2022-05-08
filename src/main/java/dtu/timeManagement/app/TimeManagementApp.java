@@ -41,19 +41,30 @@ public class TimeManagementApp {
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
-        if (user == null) {                                                                 // 1
-            throw new OperationNotAllowedException("User does not exist");
+        // Implicit pre-condition
+        if (!users.contains(user)) {                                                        // 1
+            throw new OperationNotAllowedException("User is not in the system");
         }
-        for (Activity a : user.getActivities()) {                                           // 2
-            if (Objects.equals(a.getProject().getProjectLeader(), user)) {                  // 3
-                // Remove user as project leader
-                a.getProject().removeProjectLeader();
+
+        for (Activity activity : user.getActivities()) {                                    // 2
+            if (Objects.equals(activity.getProject().getProjectLeader(), user)) {           // 3
+                // Remove the user as project leader
+                activity.getProject().removeProjectLeader();
             }
-            // Remove user from activity
-            a.removeUser(user);
+            // Remove the user from the activity
+            activity.removeUser(user);
         }
-        // Remove user from system
+        // Remove the user from the system
         users.remove(user);
+
+        // Post-conditions
+        assert !users.contains(user);
+        assert projects.stream().filter(p -> p.getProjectLeader() != null).noneMatch(p -> p.getProjectLeader().equals(user));
+        for (Project project : projects) {
+            for (Activity activity : project.getActivities()) {
+                assert !activity.isAssigned(user);
+            }
+        }
     }
 
     public User getUser(String initials) {

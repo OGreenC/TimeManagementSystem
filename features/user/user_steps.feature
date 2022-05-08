@@ -97,7 +97,7 @@ Feature: Add Employee
     And no project has the user as project leader
     And no activity has the user assigned to it
     
-  Scenario: Remove a non-existing user from the system
+  Scenario: Remove a user from the system that is not in the system
     Given there is no user in the system
     When the user is removed from the system
-    Then the error message "User does not exist" is given
+    Then the error message "User is not in the system" is given
