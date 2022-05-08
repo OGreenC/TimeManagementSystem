@@ -554,7 +554,7 @@ public class MainSceneController {
                 a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "End date:");
         projectStartDateInfo.setText((a.getProject().getStartDate() != null) ? "Start date: "+ a.getProject().getStartDate().get(Calendar.YEAR) +"-"+
                 a.getProject().getStartDate().get(Calendar.MONTH) +"-"+ a.getProject().getStartDate().get(Calendar.DAY_OF_MONTH)  : "Start date:");
-        projectFinishDateInfo.setText((a.getProject().getEndDate() != null) ? "Start date: "+ a.getProject().getEndDate().get(Calendar.YEAR) +"-"+
+        projectFinishDateInfo.setText((a.getProject().getEndDate() != null) ? "End date: "+ a.getProject().getEndDate().get(Calendar.YEAR) +"-"+
                 a.getProject().getEndDate().get(Calendar.MONTH) +"-"+ a.getProject().getEndDate().get(Calendar.DAY_OF_MONTH)  : "End date:");
     }
 
