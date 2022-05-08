@@ -293,7 +293,12 @@ public class MainSceneController {
     }
 
     public void addActivityUser(User u) {
-        timeManagementApp.assignUserToActivity(u, selectedActivity);
+        try {
+            timeManagementApp.assignUserToActivity(u, selectedActivity);
+        } catch (OperationNotAllowedException e) {
+            // TODO
+            throw new RuntimeException(e);
+        }
         refreshActivityAddedUsers(selectedActivity);
     }
 

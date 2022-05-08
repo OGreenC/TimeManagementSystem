@@ -37,7 +37,7 @@ public class TimeManagementApp {
         users.add(user);
 
         //Postcondition
-        assert Objects.equals(getUser(user.getInitial()),user);
+        assert Objects.equals(getUser(user.getInitial()), user);
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
@@ -76,6 +76,7 @@ public class TimeManagementApp {
 
     /**
      * Delete a project
+     *
      * @param project declares the project to be deleted
      * @return true if project was found and deleted
      */
@@ -121,17 +122,32 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("Activity does not exist");
         }
         project.deleteActivity(activity);
-        assert(!project.getActivities().contains(activity));
+        assert (!project.getActivities().contains(activity));
     }
 
-    public void assignUserToActivity(User user, Activity activity) {
-        user.addActivity(activity);
-        try {
-            activity.assignUser(user);
-        } catch (OperationNotAllowedException e) {
-            throw new RuntimeException(e);
+    public void assignUserToActivity(User user, Activity activity) throws OperationNotAllowedException {
+        // Implicit pre-conditions
+        if (user == null) {
+            throw new OperationNotAllowedException("User does not exist");
         }
+        if (activity == null) {
+            throw new OperationNotAllowedException("Activity does not exist");
+        }
+        if (activity.isAssigned(user)) {
+            throw new OperationNotAllowedException("User is already assigned to this activity");
+        }
+        // Pre-condition
+        assert !user.getActivities().contains(activity);
+
+        // Assign user to activity, and add activity to user
+        activity.assignUser(user);
+        user.addActivity(activity);
+
+        // Post-conditions
+        assert user.getActivities().contains(activity);
+        assert activity.isAssigned(user);
     }
+
 
     public void removeUserFromActivity(User user, Activity activity) {
         user.removeActivity(activity);

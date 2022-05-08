@@ -25,15 +25,14 @@ public class Activity {
         this.project = project;
     }
 
-    // White-box test for assignUser
-    public void assignUser(User user) throws OperationNotAllowedException {
-        if (user == null) {                                                                         // 1
-            throw new OperationNotAllowedException("User does not exist");                          // 2
-        }
-        if (isAssigned(user)) {                                                                     // 3
-            throw new OperationNotAllowedException("User is already assigned to this activity");    // 4
-        }
-        users.add(user);                                                                            // 5
+    public void assignUser(User user) {
+
+        assert user != null && !isAssigned(user);
+
+        users.add(user);
+
+        // Post-condition
+        assert users.contains(user);
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {

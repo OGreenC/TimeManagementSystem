@@ -82,8 +82,10 @@ public class UserSteps {
 
     @When("the user with initials {string} is assigned to the activity with serial {string}")
     public void the_user_with_initials_is_assigned_to_the_activity_with_serial(String initials, String serial) {
+        User user = timeManagementApp.getUser(initials);
+        Activity activity = projectHelper.getProject().getActivity(serial);
         try {
-            projectHelper.getProject().getActivity(serial).assignUser(timeManagementApp.getUser(initials));
+            timeManagementApp.assignUserToActivity(user, activity);
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -106,7 +108,7 @@ public class UserSteps {
     @When("the user with initials {string} is assigned to the activity")
     public void the_user_with_initials_is_assigned_to_the_activity(String initials) {
         try {
-            activityHelper.getActivity().assignUser(timeManagementApp.getUser(initials));
+            timeManagementApp.assignUserToActivity(timeManagementApp.getUser(initials), activityHelper.getActivity());
         } catch (OperationNotAllowedException e) {
             errorMessageHolder.setErrorMessage(e.getMessage());
         }
@@ -161,7 +163,11 @@ public class UserSteps {
      */
     @Given("the user is added to the activity")
     public void the_user_is_added_to_the_activity() {
-        timeManagementApp.assignUserToActivity(userHelper.getUser(), activityHelper.getActivity());
+        try {
+            timeManagementApp.assignUserToActivity(userHelper.getUser(), activityHelper.getActivity());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Given("the user is set as project leader of the project")
