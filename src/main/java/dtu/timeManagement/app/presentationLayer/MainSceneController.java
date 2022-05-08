@@ -91,9 +91,6 @@ public class MainSceneController {
         registerTimeOverviewDate.valueProperty().addListener((ov, oldValue, newValue) -> {
             registerTimeOverviewChanged(newValue);
         });
-
-
-
     }
 
     /**
@@ -631,14 +628,14 @@ public class MainSceneController {
             try {
                 if (name.equals(remove)) {
                     timeManagementApp.removeProjectLeader(selectedProject);
+                    projectLeader.setText("...");
                     return;
                 }
                 //
                 timeManagementApp.setProjectLeader(selectedProject, timeManagementApp.getUser(name));
+                projectLeader.setText(name);
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
-            } finally {
-                refreshProjects();
             }
         });
     }
