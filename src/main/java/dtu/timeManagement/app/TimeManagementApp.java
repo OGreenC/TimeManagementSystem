@@ -41,12 +41,18 @@ public class TimeManagementApp {
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
-        for (Activity a : user.getActivities()) {
-            if (Objects.equals(a.getProject().getProjectLeader(), user)) {
+        if (user == null) {                                                                 // 1
+            throw new OperationNotAllowedException("User does not exist");
+        }
+        for (Activity a : user.getActivities()) {                                           // 2
+            if (Objects.equals(a.getProject().getProjectLeader(), user)) {                  // 3
+                // Remove user as project leader
                 a.getProject().removeProjectLeader();
             }
+            // Remove user from activity
             a.removeUser(user);
         }
+        // Remove user from system
         users.remove(user);
     }
 
@@ -167,5 +173,9 @@ public class TimeManagementApp {
             throw new OperationNotAllowedException("Project does not exist");
         }
         project.removeProjectLeader();
+    }
+
+    public void removeAllUsers() throws OperationNotAllowedException {
+        users.clear();
     }
 }

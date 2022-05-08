@@ -176,8 +176,12 @@ public class UserSteps {
     }
 
     @When("the user is removed from the system")
-    public void the_user_is_removed_from_the_system() throws OperationNotAllowedException {
-        timeManagementApp.removeUser(userHelper.getUser());
+    public void the_user_is_removed_from_the_system() {
+        try {
+            timeManagementApp.removeUser(userHelper.getUser());
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Given("the user {string} is removed from the system")
@@ -213,5 +217,10 @@ public class UserSteps {
                 assertFalse(a.isAssigned(userHelper.getUser()));
             }
         }
+    }
+
+    @Given("there is no user in the system")
+    public void there_is_no_user_in_the_system() throws OperationNotAllowedException {
+        timeManagementApp.removeAllUsers();
     }
 }
