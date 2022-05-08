@@ -47,6 +47,7 @@ public class ActivitySteps {
     public void the_user_deletes_the_activity_with_serial(String serialNumber) {
         try {
             Project p = projectHelper.getProject();
+
             Activity a = p.getActivity(serialNumber);
             timeManagementApp.deleteActivity(p, a);
         } catch (OperationNotAllowedException e) {

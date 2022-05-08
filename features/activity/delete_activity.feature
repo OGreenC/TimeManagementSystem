@@ -21,4 +21,3 @@ Feature: Delete activity
     And there are no activities in the project
     When the user deletes the activity with serial "0001"
     Then the error message "Activity does not exist" is given
-
