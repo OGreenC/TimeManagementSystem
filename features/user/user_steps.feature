@@ -98,6 +98,7 @@ Feature: Add Employee
     And no activity has the user assigned to it
     
   Scenario: Remove a user from the system that is not in the system
-    Given there is no user in the system
+    Given there is a user with the initials "ABC"
+    And there is no users in the system
     When the user is removed from the system
     Then the error message "User is not in the system" is given

@@ -41,6 +41,8 @@ public class TimeManagementApp {
     }
 
     public void removeUser(User user) throws OperationNotAllowedException {
+        // Pre condition:
+        assert user != null;
         // Implicit pre-condition
         if (!users.contains(user)) {                                                        // 1
             throw new OperationNotAllowedException("User is not in the system");
@@ -57,7 +59,7 @@ public class TimeManagementApp {
         // Remove the user from the system
         users.remove(user);
 
-        // Post-conditions
+        // Post-conditions:
         assert !users.contains(user);
         assert projects.stream().filter(p -> p.getProjectLeader() != null).noneMatch(p -> p.getProjectLeader().equals(user));
         for (Project project : projects) {
