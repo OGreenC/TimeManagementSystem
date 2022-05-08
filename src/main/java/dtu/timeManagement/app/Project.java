@@ -14,6 +14,8 @@ public class Project {
     private String name;
     private final Calendar calendar = Calendar.getInstance();
     private final Calendar dateOfCreation;
+    private Calendar startTime;
+    private Calendar endTime;
     private final List<Activity> activities = new ArrayList<>();
     private User projectLeader;
 
@@ -49,11 +51,30 @@ public class Project {
     }
 
     public Calendar getStartDate() {
-        return calendar;
+        return startTime;
+    }
+    public Calendar getEndDate() { return endTime; }
+
+    public void setStartDate(int y, int mo, int d) throws OperationNotAllowedException {
+        this.startTime = Calendar.getInstance();
+        Calendar tempStartTime = Calendar.getInstance();
+        tempStartTime.set(y, mo, d);
+        if (tempStartTime.before(endTime) || endTime == null) {
+            this.startTime.set(y, mo, d);
+        } else {
+            throw new OperationNotAllowedException("The finish date is before the start date");
+        }
     }
 
-    public void setStartDate(int y, int mo, int d) {
-        this.calendar.set(y, mo, d);
+    public void setEndDate(int y, int mo, int d) throws OperationNotAllowedException {
+        this.endTime = Calendar.getInstance();
+        Calendar tempFinishDate = Calendar.getInstance();
+        tempFinishDate.set(y, mo, d);
+        if (tempFinishDate.after(startTime) || startTime == null) {
+            this.endTime.set(y, mo, d);
+        } else {
+            throw new OperationNotAllowedException("The finish date is before the start date");
+        }
     }
 
     public static int resetSerial() {

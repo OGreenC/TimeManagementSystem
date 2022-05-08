@@ -217,8 +217,8 @@ public class UserSteps {
         }
     }
 
-    @Given("there is no user in the system")
-    public void there_is_no_user_in_the_system() throws OperationNotAllowedException {
+    @Given("there is no users in the system")
+    public void there_is_no_users_in_the_system() throws OperationNotAllowedException {
         timeManagementApp.removeAllUsers();
     }
 

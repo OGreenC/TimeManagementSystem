@@ -59,7 +59,11 @@ public class ProjectSteps {
 
     @When("the startDate is set to year {int} month {int} date {int}")
     public void the_start_date_is_set_to_year_month_date(int y, int mo, int d) {
-        projectHelper.getProject().setStartDate(y, mo, d);
+        try {
+            projectHelper.getProject().setStartDate(y, mo, d);
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
     }
 
     @Then("the startDate is year {int} month {int} date {int}")
@@ -69,6 +73,20 @@ public class ProjectSteps {
         assertEquals(projectHelper.getProject().getStartDate().get(Calendar.DATE), d);
     }
 
+    @When("the finishDate is set to year {int} month {int} date {int}")
+    public void the_finish_date_is_set_to_year_month_date(int y, int mo, int d) {
+        try {
+            projectHelper.getProject().setEndDate(y, mo, d);
+        } catch (OperationNotAllowedException e) {
+            errorMessageHolder.setErrorMessage(e.getMessage());
+        }
+    }
+    @Then("the finishDate is year {int} month {int} date {int}")
+    public void the_finish_date_is_year_month_date(int y, int mo, int d) {
+        assertEquals(projectHelper.getProject().getEndDate().get(Calendar.YEAR), y);
+        assertEquals(projectHelper.getProject().getEndDate().get(Calendar.MONTH), mo);
+        assertEquals(projectHelper.getProject().getEndDate().get(Calendar.DATE), d);
+    }
 
     @When("the project is deleted")
     public void the_project_is_deleted() {
