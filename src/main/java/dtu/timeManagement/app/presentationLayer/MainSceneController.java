@@ -29,7 +29,9 @@ public class MainSceneController {
     private Label projectID, projectName, activitySerialNumber, projectLeader,
             activityName, activityExpectedHours, userActivityProjectID,
             userActivityProjectName, userActivitySerialNumber, userActivityName,
-            userActivityExpectedHours, activityStartDate, activityFinishDate;
+            userActivityExpectedHours, activityStartDate, activityFinishDate,
+            projectFinishDate, projectStartDate, activityStartDateInfo, activityFinishDateInfo,
+            projectStartDateInfo, projectFinishDateInfo;
 
     @FXML
     private VBox projectVBox, activityVBox, userVBox, userActivityVBox,
@@ -38,7 +40,9 @@ public class MainSceneController {
     private AnchorPane projectInfoPane, activityInfoPane, userActivityInfoPane, userRegistrationOverview;
 
     @FXML
-    private DatePicker dateField, registerTimeOverviewDate, startDatePicker, finishDatePicker;
+    private DatePicker dateField, registerTimeOverviewDate,
+            startDatePicker, finishDatePicker,
+            projectStartDatePicker, projectFinishDatePicker;
 
     @FXML
     private Spinner<Integer> hourSpinner;
@@ -109,6 +113,10 @@ public class MainSceneController {
                 projectID.setText(p.getID());
                 projectName.setText((p.getName() != null) ? p.getName() : "...");
                 projectLeader.setText((p.getProjectLeader() != null ? p.getProjectLeader().getInitial() : "..."));
+                projectStartDate.setText((selectedProject.getStartDate() != null) ? selectedProject.getStartDate().get(Calendar.YEAR) + "-" +
+                        selectedProject.getStartDate().get(Calendar.MONTH) + "-" + selectedProject.getStartDate().get(Calendar.DAY_OF_MONTH) : "...");
+                projectFinishDate.setText((selectedProject.getEndDate() != null) ? selectedProject.getEndDate().get(Calendar.YEAR) + "-" +
+                        selectedProject.getEndDate().get(Calendar.MONTH) + "-" + selectedProject.getEndDate().get(Calendar.DAY_OF_MONTH) : "...");
             }
         }
         projectInfoPane.setVisible(!(selectedProject == null));
@@ -380,6 +388,36 @@ public class MainSceneController {
             finishDatePicker.setValue(null);
             }
     }
+
+    public void editProjectStartDate() {
+        LocalDate localDate = projectStartDatePicker.getValue(); //Null if non chosen
+        if (localDate != null) {
+            try {
+                selectedProject.setStartDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                projectStartDate.setText((selectedProject.getStartDate() != null) ? selectedProject.getStartDate().get(Calendar.YEAR) + "-" +
+                        selectedProject.getStartDate().get(Calendar.MONTH) + "-" + selectedProject.getStartDate().get(Calendar.DAY_OF_MONTH) : "...");
+            } catch (OperationNotAllowedException e) {
+                showAlert(e.getMessage());
+            }
+            projectStartDatePicker.setValue(null);
+
+        }
+    }
+
+    public void editProjectFinishDate() {
+        LocalDate localDate = projectFinishDatePicker.getValue(); //Null if non chosen
+        if (localDate != null) {
+            try {
+                selectedProject.setEndDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+                projectFinishDate.setText((selectedProject.getEndDate() != null) ? selectedProject.getEndDate().get(Calendar.YEAR) + "-" +
+                        selectedProject.getEndDate().get(Calendar.MONTH) + "-" + selectedProject.getEndDate().get(Calendar.DAY_OF_MONTH) : "...");
+            } catch (OperationNotAllowedException e) {
+                showAlert(e.getMessage());
+            }
+            projectFinishDatePicker.setValue(null);
+
+        }
+    }
     /**
      *
      * User tab in GUI
@@ -492,6 +530,14 @@ public class MainSceneController {
         userActivityExpectedHours.setText(Integer.toString(a.getExpectedHours()));
         userActivityInfoPane.setVisible(true);
         userRegistrationOverview.setVisible(false);
+        activityStartDateInfo.setText((a.getStartTime() != null) ? "Start date: "+ a.getStartTime().get(Calendar.YEAR) +"-"+
+                a.getStartTime().get(Calendar.MONTH) +"-"+ a.getStartTime().get(Calendar.DAY_OF_MONTH)  : "Start date:");
+        activityFinishDateInfo.setText((a.getEndTime() != null) ? "End date: "+ a.getEndTime().get(Calendar.YEAR) +"-"+
+                a.getEndTime().get(Calendar.MONTH) +"-"+ a.getEndTime().get(Calendar.DAY_OF_MONTH)  : "End date:");
+        projectStartDateInfo.setText((a.getProject().getStartDate() != null) ? "Start date: "+ a.getProject().getStartDate().get(Calendar.YEAR) +"-"+
+                a.getProject().getStartDate().get(Calendar.MONTH) +"-"+ a.getProject().getStartDate().get(Calendar.DAY_OF_MONTH)  : "Start date:");
+        projectFinishDateInfo.setText((a.getProject().getEndDate() != null) ? "Start date: "+ a.getProject().getEndDate().get(Calendar.YEAR) +"-"+
+                a.getProject().getEndDate().get(Calendar.MONTH) +"-"+ a.getProject().getEndDate().get(Calendar.DAY_OF_MONTH)  : "End date:");
     }
 
     /**
