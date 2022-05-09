@@ -155,6 +155,8 @@ public class MainSceneController {
         try {
             timeManagementApp.deleteProject(selectedProject);
             selectedProject = null;
+            selectedActivity = null;
+            activityInfoPane.setVisible(false);
             refreshProjects();
             refreshActivities(null);
         } catch (OperationNotAllowedException e) {
@@ -288,8 +290,7 @@ public class MainSceneController {
         try {
             timeManagementApp.assignUserToActivity(u, selectedActivity);
         } catch (OperationNotAllowedException e) {
-            // TODO
-            throw new RuntimeException(e);
+            showAlert(e.getMessage());
         }
         refreshActivityAddedUsers(selectedActivity);
     }
