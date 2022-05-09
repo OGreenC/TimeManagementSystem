@@ -1,5 +1,7 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.domains.Project;
+
 /**
  * @author Oliver Tobias Siggaard (s204450)
  */

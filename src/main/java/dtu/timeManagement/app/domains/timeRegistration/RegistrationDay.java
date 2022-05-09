@@ -1,6 +1,4 @@
-package dtu.timeManagement.app.timeRegistration;
-
-import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+package dtu.timeManagement.app.domains.timeRegistration;
 
 import java.util.ArrayList;
 import java.util.Calendar;

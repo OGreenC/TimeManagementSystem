@@ -9,4 +9,8 @@ module dtu.timeManagement.app {
     opens dtu.timeManagement.app.presentationLayer to javafx.fxml;
     exports dtu.timeManagement.app.Exceptions;
     opens dtu.timeManagement.app.Exceptions to javafx.fxml;
+    exports dtu.timeManagement.app.domains;
+    opens dtu.timeManagement.app.domains to javafx.fxml;
+    exports dtu.timeManagement.app.domains.timeRegistration;
+    opens dtu.timeManagement.app.domains.timeRegistration to javafx.fxml;
 }

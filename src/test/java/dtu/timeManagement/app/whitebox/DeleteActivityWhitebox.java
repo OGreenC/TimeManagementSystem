@@ -2,10 +2,8 @@ package dtu.timeManagement.app.whitebox;
 
 import dtu.timeManagement.app.*;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import jdk.dynalink.Operation;
+import dtu.timeManagement.app.domains.TimeManagementApp;
 import org.junit.Test;
-
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

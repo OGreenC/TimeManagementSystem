@@ -1,4 +1,4 @@
-package dtu.timeManagement.app;
+package dtu.timeManagement.app.domains;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
 

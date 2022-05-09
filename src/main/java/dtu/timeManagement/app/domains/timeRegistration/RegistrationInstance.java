@@ -1,4 +1,4 @@
-package dtu.timeManagement.app.timeRegistration;
+package dtu.timeManagement.app.domains.timeRegistration;
 
 /**
  * Class written by:

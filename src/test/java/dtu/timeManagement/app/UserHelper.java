@@ -1,5 +1,7 @@
 package dtu.timeManagement.app;
 
+import dtu.timeManagement.app.domains.User;
+
 /**
  * @author Victor Hyltoft (s214964)
  */

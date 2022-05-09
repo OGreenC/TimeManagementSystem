@@ -2,6 +2,10 @@ package dtu.timeManagement.app.whitebox;
 
 import dtu.timeManagement.app.*;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import dtu.timeManagement.app.domains.Activity;
+import dtu.timeManagement.app.domains.Project;
+import dtu.timeManagement.app.domains.TimeManagementApp;
+import dtu.timeManagement.app.domains.User;
 import org.junit.Test;
 
 import java.util.Calendar;

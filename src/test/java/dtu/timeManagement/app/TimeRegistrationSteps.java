@@ -1,7 +1,7 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
+import dtu.timeManagement.app.domains.timeRegistration.RegistrationInstance;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 

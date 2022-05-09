@@ -1,10 +1,10 @@
 package dtu.timeManagement.app.presentationLayer;
 
-import dtu.timeManagement.app.Activity;
+import dtu.timeManagement.app.domains.Activity;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import dtu.timeManagement.app.Project;
-import dtu.timeManagement.app.TimeManagementApp;
-import dtu.timeManagement.app.User;
+import dtu.timeManagement.app.domains.Project;
+import dtu.timeManagement.app.domains.TimeManagementApp;
+import dtu.timeManagement.app.domains.User;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

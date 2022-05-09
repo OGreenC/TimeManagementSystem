@@ -2,8 +2,8 @@ package dtu.timeManagement.app.whitebox;
 
 import dtu.timeManagement.app.ErrorMessageHolder;
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import dtu.timeManagement.app.TimeManagementApp;
-import dtu.timeManagement.app.User;
+import dtu.timeManagement.app.domains.TimeManagementApp;
+import dtu.timeManagement.app.domains.User;
 import dtu.timeManagement.app.UserHelper;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

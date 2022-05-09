@@ -1,6 +1,9 @@
 package dtu.timeManagement.app;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
+import dtu.timeManagement.app.domains.Project;
+import dtu.timeManagement.app.domains.TimeManagementApp;
+import dtu.timeManagement.app.domains.User;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

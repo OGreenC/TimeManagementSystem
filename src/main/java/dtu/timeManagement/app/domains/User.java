@@ -1,8 +1,8 @@
-package dtu.timeManagement.app;
+package dtu.timeManagement.app.domains;
 
 import dtu.timeManagement.app.Exceptions.OperationNotAllowedException;
-import dtu.timeManagement.app.timeRegistration.RegistrationDay;
-import dtu.timeManagement.app.timeRegistration.RegistrationInstance;
+import dtu.timeManagement.app.domains.timeRegistration.RegistrationDay;
+import dtu.timeManagement.app.domains.timeRegistration.RegistrationInstance;
 
 import java.util.*;
 

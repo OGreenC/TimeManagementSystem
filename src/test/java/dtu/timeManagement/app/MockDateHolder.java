@@ -1,6 +1,9 @@
 package dtu.timeManagement.app;
 
 
+import dtu.timeManagement.app.domains.DateServer;
+import dtu.timeManagement.app.domains.TimeManagementApp;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 

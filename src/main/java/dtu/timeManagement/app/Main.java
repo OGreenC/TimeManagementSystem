@@ -1,4 +1,4 @@
-package dtu.timeManagement.app.presentationLayer;
+package dtu.timeManagement.app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
