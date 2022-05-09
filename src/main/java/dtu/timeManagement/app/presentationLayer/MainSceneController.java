@@ -472,11 +472,14 @@ public class MainSceneController {
             User u = new User(initials);
             try {
                 timeManagementApp.addUser(u);
+                selectedUser = u;
+                refreshUsers();
+                refreshUserActivities(u);
+                userRegistrationOverview.setVisible(false);
+                userActivityInfoPane.setVisible(false);
             } catch (OperationNotAllowedException e) {
                 showAlert(e.getMessage());
             }
-            selectedUser = u;
-            refreshUsers();
         });
     }
     public void userClicked(MouseEvent e, User u) {
