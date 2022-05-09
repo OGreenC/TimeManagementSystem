@@ -33,23 +33,23 @@ public class User {
         //Pre-conditions:
         assert date != null && projectID != null && activitySerial != null;
 
-        if (hours <= 0) {    //implicit pre-condition                                                                    //1
+        if (hours <= 0) {    //implicit pre-condition                                                                   //1
             throw new OperationNotAllowedException("Can't register 0 or negative hours on activity");                   //2
         } else {
             //Get (or create if not existing) time registration day object from map.
             String dateString = DateServer.getDateAsString(date);                                                       //3
-            RegistrationDay registrationDay = timeRegistration.get(dateString);                                         //4
-            if (registrationDay == null) {                                                                               //5
-                registrationDay = new RegistrationDay(date);                                                            //6
-                timeRegistration.put(dateString, registrationDay);                                                      //7
+            RegistrationDay registrationDay = timeRegistration.get(dateString);
+            if (registrationDay == null) {                                                                              //4
+                registrationDay = new RegistrationDay(date);                                                            //5
+                timeRegistration.put(dateString, registrationDay);
             }
 
-            if (registrationDay.getTotalHoursOnDay() + hours <= 24) {    //implicit pre-condition                        //8
+            if (registrationDay.getTotalHoursOnDay() + hours <= 24) {    //implicit pre-condition                       //6
                 //create and add registration instance
-                RegistrationInstance registrationInstance = new RegistrationInstance(hours, projectID, activitySerial);   //9
-                registrationDay.addRegistrationUnit(registrationInstance);                                              //10
+                RegistrationInstance registrationInstance = new RegistrationInstance(hours, projectID, activitySerial); //7
+                registrationDay.addRegistrationUnit(registrationInstance);
             } else {
-                throw new OperationNotAllowedException("Can't register more than 24 hours a day");                      //11
+                throw new OperationNotAllowedException("Can't register more than 24 hours a day");                      //8
             }
         }
 

@@ -24,7 +24,7 @@ http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
     -fx-font-family: "Helvetica";
     -fx-font-weight: bold;
 }
-#timeEndedBtn {
+#redBtn {
     -fx-background-color:
             linear-gradient(#d49d9d, #c27676),
             radial-gradient(center 50% -40%, radius 200%, #d49d9d 45%, #c27676 50%);
