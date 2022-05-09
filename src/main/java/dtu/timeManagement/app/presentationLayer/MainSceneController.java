@@ -155,7 +155,6 @@ public class MainSceneController {
         try {
             timeManagementApp.deleteProject(selectedProject);
             selectedProject = null;
-            selectedActivity = null;
             activityInfoPane.setVisible(false);
             refreshProjects();
             refreshActivities(null);
@@ -552,10 +551,10 @@ public class MainSceneController {
         registeredTimeOverview.getChildren().clear();
         Calendar calendarDate = new GregorianCalendar.Builder()
                 .setDate(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()).build();
-        if(selectedUser.getTimeRegistrationDay(calendarDate) != null) { //TODO Change in business logic Oli G
+        if(selectedUser.getTimeRegistrationDay(calendarDate) != null) {
             for (RegistrationInstance ru : selectedUser.getTimeRegistrationDay(calendarDate).getRegistrationUnits()) {
-
                 Project p = timeManagementApp.getProject(ru.getProjectID());
+                if(p == null) continue;
                 Activity a = p.getActivity(ru.getActivitySerial());
                 String projectInfo = ((p.getName() != null) ? p.getName() : p.getID());
                 String activityInfo = ((a != null && a.getActivityName() != null) ? a.getActivityName() : ru.getActivitySerial());
