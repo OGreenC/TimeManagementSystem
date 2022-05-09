@@ -26,6 +26,7 @@ public class Main extends Application {
 		// Set and show scene on primaryStage
 		primaryStage.setTitle("TimeManagementSystem");
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
